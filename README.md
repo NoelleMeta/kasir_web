@@ -7,27 +7,60 @@
 <a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
 </p>
 
-## About Laravel
+## Kasir Web
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+Aplikasi laporan transaksi untuk kasir, terintegrasi dengan aplikasi Flutter.
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+### Fitur
+- Dashboard metrik: total transaksi, pendapatan, item terjual, top-5 produk.
+- Laporan Ringkas dan Detail.
+- Filter periode: Hari ini, Minggu ini, Bulan ini, dan Rentang Tanggal.
+- Auto-apply filter dan auto-refresh list (polling 10 detik).
+- Export Excel dan PDF mengikuti filter aktif.
+- Nama file export menyertakan timestamp unduhan.
+- Styling export: Excel autosize + border + format angka, pewarnaan selang-seling per transaksi; PDF layout rapi dengan harga rata kanan.
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+### Endpoints Web
+- `/dashboard`
+- `/laporan/ringkas`
+- `/laporan/detail`
+- Export: `/laporan/ringkas/excel|pdf`, `/laporan/detail/excel|pdf`
+
+### API
+- `POST /api/v1/transaksi` — menyimpan transaksi beserta itemnya.
+
+Contoh payload:
+```json
+{
+  "nomorTransaksi": "TRX09092501",
+  "waktuTransaksi": "2025-09-09 12:34:00",
+  "subtotal": 100000,
+  "ppnJumlah": 10000,
+  "grandTotal": 110000,
+  "metodePembayaran": "Cash",
+  "lokasiMeja": "Lantai 1",
+  "nomorMeja": "A1",
+  "items": [
+    { "namaProduk": "Ayam Goreng + Nasi", "kuantitas": 1, "hargaSatuan": 25000 },
+    { "namaProduk": "Es Teh", "kuantitas": 1, "hargaSatuan": 5000 }
+  ]
+}
+```
+
+### Instalasi Cepat
+```
+composer install
+cp .env.example .env
+php artisan key:generate
+php artisan migrate
+php artisan serve
+```
+
+Jika menggunakan Laragon, pastikan base URL yang dipakai Flutter sesuai domain/port Laragon.
 
 ## Learning Laravel
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
-
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
-
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+Butuh referensi framework? Lihat [Dokumentasi Laravel](https://laravel.com/docs) atau [Laracasts](https://laracasts.com).
 
 ## Laravel Sponsors
 
@@ -46,7 +79,7 @@ We would like to extend our thanks to the following sponsors for funding Laravel
 
 ## Contributing
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+Saran/kontribusi dipersilakan. Ikuti panduan kontribusi di [docs Laravel](https://laravel.com/docs/contributions).
 
 ## Code of Conduct
 
