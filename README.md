@@ -9,7 +9,8 @@
 
 ## Kasir Web
 
-Aplikasi laporan transaksi untuk kasir, terintegrasi dengan aplikasi Flutter.
+Aplikasi laporan transaksi untuk kasir, terintegrasi dengan [Aplikasi Kasir - Gulai Kambiang Kakek](https://github.com/IamDoctrin/kasir_android)
+
 
 ### Fitur
 - Dashboard metrik: total transaksi, pendapatan, item terjual, top-5 produk.
