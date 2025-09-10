@@ -11,28 +11,38 @@ class TransactionController extends Controller
 {
     public function store(Request $request)
     {
-        // Validasi sederhana (bisa Anda kembangkan)
+        // Validasi ketat agar sesuai kolom DB dan struktur data
         $validated = $request->validate([
             'nomorTransaksi' => 'required|string|unique:transactions,nomor_transaksi',
-            'items' => 'required|array|min:1'
+            'waktuTransaksi' => 'required|date',
+            'subtotal' => 'required|integer|min:0',
+            'ppnJumlah' => 'required|integer|min:0',
+            'grandTotal' => 'required|integer|min:0',
+            'metodePembayaran' => 'required|string',
+            'lokasiMeja' => 'nullable|string',
+            'nomorMeja' => 'nullable|integer',
+            'items' => 'required|array|min:1',
+            'items.*.namaProduk' => 'required|string',
+            'items.*.kuantitas' => 'required|integer|min:1',
+            'items.*.hargaSatuan' => 'required|integer|min:0',
         ]);
 
         try {
-            DB::transaction(function () use ($request) {
+            DB::transaction(function () use ($validated) {
                 // Simpan data transaksi utama
                 $transaction = Transaction::create([
-                    'nomor_transaksi' => $request->nomorTransaksi,
-                    'waktu_transaksi' => $request->waktuTransaksi,
-                    'subtotal' => $request->subtotal,
-                    'ppn_jumlah' => $request->ppnJumlah,
-                    'grand_total' => $request->grandTotal,
-                    'metode_pembayaran' => $request->metodePembayaran,
-                    'lokasi_meja' => $request->lokasiMeja,
-                    'nomor_meja' => $request->nomorMeja,
+                    'nomor_transaksi' => $validated['nomorTransaksi'],
+                    'waktu_transaksi' => $validated['waktuTransaksi'],
+                    'subtotal' => $validated['subtotal'],
+                    'ppn_jumlah' => $validated['ppnJumlah'],
+                    'grand_total' => $validated['grandTotal'],
+                    'metode_pembayaran' => $validated['metodePembayaran'],
+                    'lokasi_meja' => $validated['lokasiMeja'] ?? null,
+                    'nomor_meja' => $validated['nomorMeja'] ?? null,
                 ]);
 
                 // Simpan setiap item transaksi
-                foreach ($request->items as $item) {
+                foreach ($validated['items'] as $item) {
                     $transaction->items()->create([
                         'nama_produk' => $item['namaProduk'],
                         'kuantitas' => $item['kuantitas'],

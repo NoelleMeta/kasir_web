@@ -24,7 +24,7 @@ class ReportController extends Controller
             ->limit(5)
             ->get();
 
-        return view('dashboard', compact(
+        return view('index', compact(
             'totalTransaksi',
             'totalPendapatan',
             'totalItemTerjual',
@@ -33,12 +33,13 @@ class ReportController extends Controller
     }
     public function ringkas()
     {
-        $reportData = TransactionItem::query()
-            ->select('nama_produk',
-                DB::raw('SUM(kuantitas) as total_kuantitas'),
-                DB::raw('SUM(kuantitas * harga_satuan) as total_pendapatan')
+        $reportData = Transaction::query()
+            ->join('transaction_items as ti', 'ti.transaction_id', '=', 'transactions.id')
+            ->select('ti.nama_produk',
+                DB::raw('SUM(ti.kuantitas) as total_kuantitas'),
+                DB::raw('SUM(ti.kuantitas * ti.harga_satuan) as total_pendapatan')
             )
-            ->groupBy('nama_produk')
+            ->groupBy('ti.nama_produk')
             ->orderBy('total_pendapatan', 'desc')
             ->get();
 
@@ -104,18 +105,19 @@ class ReportController extends Controller
         $startDate = $request->query('start_date');
         $endDate = $request->query('end_date');
 
-        $query = TransactionItem::query()
-            ->select('nama_produk', DB::raw('SUM(kuantitas) as total_kuantitas'), DB::raw('SUM(kuantitas * harga_satuan) as total_pendapatan'))
-            ->groupBy('nama_produk');
+        $query = Transaction::query()
+            ->join('transaction_items as ti', 'ti.transaction_id', '=', 'transactions.id')
+            ->select('ti.nama_produk', DB::raw('SUM(ti.kuantitas) as total_kuantitas'), DB::raw('SUM(ti.kuantitas * ti.harga_satuan) as total_pendapatan'))
+            ->groupBy('ti.nama_produk');
 
         if ($period === 'month') {
-            $query->whereMonth('created_at', now()->month)->whereYear('created_at', now()->year);
+            $query->whereMonth('waktu_transaksi', now()->month)->whereYear('waktu_transaksi', now()->year);
         } elseif ($period === 'week') {
-            $query->whereBetween('created_at', [now()->startOfWeek(), now()->endOfWeek()]);
+            $query->whereBetween('waktu_transaksi', [now()->startOfWeek(), now()->endOfWeek()]);
         } elseif ($period === 'day') {
-            $query->whereDate('created_at', now()->toDateString());
+            $query->whereDate('waktu_transaksi', now()->toDateString());
         } elseif ($period === 'range' && $startDate && $endDate) {
-            $query->whereBetween('created_at', [
+            $query->whereBetween('waktu_transaksi', [
                 date('Y-m-d 00:00:00', strtotime($startDate)),
                 date('Y-m-d 23:59:59', strtotime($endDate)),
             ]);
