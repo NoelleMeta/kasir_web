@@ -2,10 +2,17 @@
 <html>
 <head>
     <title>Laporan Detail Transaksi</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
         @media print { .no-print { display:none; } }
         .card { page-break-inside: avoid; }
+        @media (max-width: 768px) {
+            h1 { font-size: 1.5rem; }
+            .form-label { font-size: .9rem; }
+            .form-select, .form-control { font-size: .95rem; }
+            .card-body p { font-size: .95rem; }
+        }
     </style>
     </head>
 <body>
@@ -38,6 +45,10 @@
             <a id="export-pdf" href="{{ route('laporan.detail.pdf') }}" class="btn btn-danger">Export ke PDF</a>
         </div>
 
+        <div id="transactions-summary" class="mb-3">
+            @include('laporan.partials._transactions_summary', ['summary' => $summary])
+        </div>
+
         <div id="transactions-list">
             @include('laporan.partials._transactions_list', ['transactions' => $transactions])
         </div>
@@ -63,6 +74,12 @@
             return params.toString();
         }
 
+        function buildSummaryQuery() {
+            const params = new URLSearchParams(new FormData(form));
+            params.set('only_summary', '1');
+            return params.toString();
+        }
+
         function updateExportLinks() {
             const qs = new URLSearchParams(new FormData(form)).toString();
             exportExcel.href = '{{ route('laporan.detail.excel') }}' + (qs ? ('?' + qs) : '');
@@ -71,10 +88,14 @@
 
         async function fetchAndRender() {
             const query = buildQuery();
+            const summaryQuery = buildSummaryQuery();
             updateExportLinks();
             const resp = await fetch(window.location.pathname + '?' + query, { headers: { 'X-Requested-With': 'XMLHttpRequest' }});
             const html = await resp.text();
             listContainer.innerHTML = html;
+            const summaryResp = await fetch(window.location.pathname + '?' + summaryQuery, { headers: { 'X-Requested-With': 'XMLHttpRequest' }});
+            const summaryHtml = await summaryResp.text();
+            document.getElementById('transactions-summary').innerHTML = summaryHtml;
         }
 
         form.addEventListener('submit', function(e){

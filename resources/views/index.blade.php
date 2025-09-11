@@ -24,6 +24,15 @@
         .links { margin-top: 16px; display: flex; gap: 12px; }
         .btn { display: inline-block; padding: 10px 14px; background: #0ea5e9; color: white; text-decoration: none; border-radius: 8px; font-weight: 600; font-size: 14px; }
         .btn.secondary { background: #64748b; }
+        @media (max-width: 900px) { .cards { grid-template-columns: repeat(2, 1fr); } }
+        @media (max-width: 640px) {
+            .container { padding: 0 12px; }
+            .title { font-size: 18px; }
+            .metric { font-size: 20px; }
+            .cards { grid-template-columns: 1fr; }
+            th, td { padding: 10px 12px; font-size: 13px; }
+            .btn { padding: 8px 12px; font-size: 13px; }
+        }
     </style>
 </head>
 <body>
@@ -35,28 +44,29 @@
         <div class="cards">
             <div class="card">
                 <h3>Total Transaksi</h3>
-                <div class="metric">{{ number_format($totalTransaksi) }}</div>
+                <div class="metric" id="m-total-transaksi">{{ number_format($totalTransaksi) }}</div>
             </div>
             <div class="card">
                 <h3>Total Pendapatan</h3>
-                <div class="metric">Rp {{ number_format($totalPendapatan, 0, ',', '.') }}</div>
+                <div class="metric" id="m-total-pendapatan">Rp {{ number_format($totalPendapatan, 0, ',', '.') }}</div>
             </div>
             <div class="card">
                 <h3>Total Item Terjual</h3>
-                <div class="metric">{{ number_format($totalItemTerjual) }}</div>
+                <div class="metric" id="m-total-item">{{ number_format($totalItemTerjual) }}</div>
             </div>
         </div>
 
         <div class="section">
             <h3 style="margin: 12px 0; color:#334155">Top 5 Produk Terlaris</h3>
-            <table>
+            <div class="table-responsive">
+            <table class="table">
                 <thead>
                     <tr>
                         <th>Produk</th>
                         <th>Kuantitas</th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody id="top-products-body">
                     @forelse($produkTerlaris as $row)
                         <tr>
                             <td>{{ $row->nama_produk }}</td>
@@ -69,12 +79,42 @@
                     @endforelse
                 </tbody>
             </table>
+            </div>
             <div class="links">
                 <a class="btn" href="{{ route('laporan.ringkas') }}">Lihat Laporan Ringkas</a>
                 <a class="btn secondary" href="{{ route('laporan.detail') }}">Lihat Laporan Detail</a>
             </div>
         </div>
     </div>
+    <script>
+        function formatNumber(idn) {
+            return new Intl.NumberFormat('id-ID').format(idn);
+        }
+        function formatRupiah(num) {
+            return 'Rp ' + new Intl.NumberFormat('id-ID').format(Math.round(num));
+        }
+        async function refreshDashboard() {
+            try {
+                const resp = await fetch('{{ route('dashboard.data') }}', { headers: { 'X-Requested-With': 'XMLHttpRequest' }});
+                const data = await resp.json();
+                document.getElementById('m-total-transaksi').textContent = formatNumber(data.totalTransaksi);
+                document.getElementById('m-total-pendapatan').textContent = formatRupiah(data.totalPendapatan);
+                document.getElementById('m-total-item').textContent = formatNumber(data.totalItemTerjual);
+
+                const tbody = document.getElementById('top-products-body');
+                if (Array.isArray(data.produkTerlaris) && data.produkTerlaris.length) {
+                    tbody.innerHTML = data.produkTerlaris.map(function(row){
+                        return '<tr><td>' + row.nama_produk + '</td><td>' + formatNumber(row.total_kuantitas) + '</td></tr>';
+                    }).join('');
+                } else {
+                    tbody.innerHTML = '<tr><td colspan="2" style="text-align:center; color:#64748b">Belum ada data</td></tr>';
+                }
+            } catch (e) {
+                // fail silently
+            }
+        }
+        setInterval(refreshDashboard, 10000);
+    </script>
 </body>
 </html>
 

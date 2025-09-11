@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ReportController;
 
 Route::get('/', [ReportController::class, 'dashboard'])->name('dashboard');
+Route::get('/dashboard/data', [ReportController::class, 'dashboardData'])->name('dashboard.data');
 
 Route::get('/laporan/ringkas', [ReportController::class, 'ringkas'])->name('laporan.ringkas');
 Route::get('/laporan/detail', [ReportController::class, 'detail'])->name('laporan.detail');

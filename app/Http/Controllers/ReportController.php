@@ -31,21 +31,47 @@ class ReportController extends Controller
             'produkTerlaris'
         ));
     }
-    public function ringkas()
+    public function dashboardData()
     {
-        $reportData = Transaction::query()
+        $totalTransaksi = Transaction::count();
+        $totalPendapatan = Transaction::sum('grand_total');
+        $totalItemTerjual = TransactionItem::sum('kuantitas');
+        $produkTerlaris = TransactionItem::select('nama_produk', DB::raw('SUM(kuantitas) as total_kuantitas'))
+            ->groupBy('nama_produk')
+            ->orderByDesc('total_kuantitas')
+            ->limit(5)
+            ->get();
+
+        return response()->json([
+            'totalTransaksi' => $totalTransaksi,
+            'totalPendapatan' => $totalPendapatan,
+            'totalItemTerjual' => $totalItemTerjual,
+            'produkTerlaris' => $produkTerlaris,
+        ]);
+    }
+    public function ringkas(Request $request)
+    {
+        // Sorting params with defaults
+        $allowedSorts = ['nama_produk', 'total_kuantitas', 'total_pendapatan'];
+        $sort = in_array($request->query('sort'), $allowedSorts, true) ? $request->query('sort') : 'total_pendapatan';
+        $direction = strtolower($request->query('direction')) === 'asc' ? 'asc' : 'desc';
+
+        $query = Transaction::query()
             ->join('transaction_items as ti', 'ti.transaction_id', '=', 'transactions.id')
-            ->select('ti.nama_produk',
+            ->select(
+                'ti.nama_produk',
                 DB::raw('SUM(ti.kuantitas) as total_kuantitas'),
                 DB::raw('SUM(ti.kuantitas * ti.harga_satuan) as total_pendapatan')
             )
-            ->groupBy('ti.nama_produk')
-            ->orderBy('total_pendapatan', 'desc')
-            ->get();
+            ->groupBy('ti.nama_produk');
 
+        // Use alias names for ordering
+        $query->orderBy($sort, $direction);
+
+        $reportData = $query->get();
         $grandTotal = $reportData->sum('total_pendapatan');
 
-        return view('laporan.ringkas', compact('reportData', 'grandTotal'));
+        return view('laporan.ringkas', compact('reportData', 'grandTotal', 'sort', 'direction'));
     }
 
     public function detail(Request $request)
@@ -55,16 +81,25 @@ class ReportController extends Controller
         $endDate = $request->query('end_date');
 
         $query = Transaction::with('items');
+        $statsQuery = Transaction::query();
 
         if ($period === 'month') {
             $query->whereMonth('waktu_transaksi', now()->month)
                   ->whereYear('waktu_transaksi', now()->year);
+            $statsQuery->whereMonth('waktu_transaksi', now()->month)
+                  ->whereYear('waktu_transaksi', now()->year);
         } elseif ($period === 'week') {
             $query->whereBetween('waktu_transaksi', [now()->startOfWeek(), now()->endOfWeek()]);
+            $statsQuery->whereBetween('waktu_transaksi', [now()->startOfWeek(), now()->endOfWeek()]);
         } elseif ($period === 'day') {
             $query->whereDate('waktu_transaksi', now()->toDateString());
+            $statsQuery->whereDate('waktu_transaksi', now()->toDateString());
         } elseif ($period === 'range' && $startDate && $endDate) {
             $query->whereBetween('waktu_transaksi', [
+                date('Y-m-d 00:00:00', strtotime($startDate)),
+                date('Y-m-d 23:59:59', strtotime($endDate)),
+            ]);
+            $statsQuery->whereBetween('waktu_transaksi', [
                 date('Y-m-d 00:00:00', strtotime($startDate)),
                 date('Y-m-d 23:59:59', strtotime($endDate)),
             ]);
@@ -74,11 +109,47 @@ class ReportController extends Controller
             ->paginate(20)
             ->appends($request->query());
 
-        if ($request->ajax() || $request->boolean('only_list')) {
-            return view('laporan.partials._transactions_list', compact('transactions'));
+        // Build summary
+        $totalTransactions = (clone $statsQuery)->count();
+        $totalRevenue = (clone $statsQuery)->sum('grand_total');
+        $minDate = (clone $statsQuery)->min('waktu_transaksi');
+        $maxDate = (clone $statsQuery)->max('waktu_transaksi');
+
+        $dateLabel = null;
+        if ($period === 'day') {
+            $dateLabel = now()->format('d M Y');
+        } elseif ($period === 'week') {
+            $start = now()->startOfWeek();
+            $end = now()->endOfWeek();
+            $dateLabel = $start->format('d M Y') . ' - ' . $end->format('d M Y');
+        } elseif ($period === 'month') {
+            $start = now()->startOfMonth();
+            $end = now();
+            $dateLabel = $start->format('d M Y') . ' - ' . $end->format('d M Y');
+        } elseif ($period === 'range' && $startDate && $endDate) {
+            $dateLabel = date('d M Y', strtotime($startDate)) . ' - ' . date('d M Y', strtotime($endDate));
+        } else {
+            // Semua
+            if ($minDate && $maxDate) {
+                $dateLabel = date('d M Y', strtotime($minDate)) . ' - ' . date('d M Y', strtotime($maxDate));
+            }
         }
 
-        return view('laporan.detail', compact('transactions', 'period', 'startDate', 'endDate'));
+        $summary = [
+            'dateLabel' => $dateLabel,
+            'totalTransactions' => $totalTransactions,
+            'totalRevenue' => $totalRevenue,
+            'period' => $period,
+        ];
+
+        if ($request->ajax() && $request->boolean('only_list')) {
+            return view('laporan.partials._transactions_list', compact('transactions'));
+        }
+        if ($request->ajax() && $request->boolean('only_summary')) {
+            return view('laporan.partials._transactions_summary', compact('summary'));
+        }
+
+        return view('laporan.detail', compact('transactions', 'period', 'startDate', 'endDate', 'summary'));
     }
 
     public function exportRingkasExcel(Request $request)
