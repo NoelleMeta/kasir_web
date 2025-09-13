@@ -4,21 +4,13 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\AuthController;
 
-// Authentication
-Route::middleware('guest')->group(function () {
-    Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
-});
-Route::post('/login', [AuthController::class, 'login'])->name('login.attempt');
-Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+Route::get('/login', [AuthController::class, 'showLogin'])->name('login')->middleware('guest');
+Route::post('/login', [AuthController::class, 'login'])->name('login.post')->middleware('guest');
+Route::post('/logout', [AuthController::class, 'logout'])->name('logout')->middleware('auth');
 
-// Protected web routes
 Route::middleware('auth')->group(function () {
     Route::get('/', [ReportController::class, 'dashboard'])->name('dashboard');
     Route::get('/dashboard/data', [ReportController::class, 'dashboardData'])->name('dashboard.data');
-
-    // Akun
-    Route::get('/akun', [AuthController::class, 'account'])->name('account.index');
-    Route::post('/akun/reset', [AuthController::class, 'resetAccount'])->name('account.reset');
 
     Route::get('/laporan/ringkas', [ReportController::class, 'ringkas'])->name('laporan.ringkas');
     Route::get('/laporan/detail', [ReportController::class, 'detail'])->name('laporan.detail');

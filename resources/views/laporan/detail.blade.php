@@ -1,18 +1,40 @@
+<<<<<<< HEAD
 @extends('layouts.app')
 @section('title','Laporan Detail')
 @section('page_title','Laporan Detail Transaksi')
 @push('head')
     {{-- Memuat CSS Bootstrap dari CDN --}}
+=======
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Laporan Detail Transaksi</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+>>>>>>> fd1fbdf0b129e39e746d0cf8f8fd507121860d5f
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
         @media print { .no-print { display:none; } }
         .card { page-break-inside: avoid; }
+<<<<<<< HEAD
         /* Sedikit penyesuaian agar pagination Bootstrap terlihat lebih rapi */
         .pagination {
             --bs-pagination-font-size: 0.9rem;
             --bs-pagination-padding-y: 0.4rem;
             --bs-pagination-padding-x: 0.8rem;
         }
+=======
+        @media (max-width: 768px) {
+            h1 { font-size: 1.5rem; }
+            .form-label { font-size: .9rem; }
+            .form-select, .form-control { font-size: .95rem; }
+            .card-body p { font-size: .95rem; }
+        }
+    </style>
+    </head>
+<body>
+    <div class="container mt-5">
+        <h1>Laporan Detail Transaksi</h1>
+>>>>>>> fd1fbdf0b129e39e746d0cf8f8fd507121860d5f
 
         /* Date input styling */
         input[type="date"] {
@@ -159,8 +181,16 @@
             @include('laporan.partials._transactions_summary', ['summary' => $summary])
         </div>
 
+<<<<<<< HEAD
         {{-- Container ini HANYA memanggil @include SATU KALI untuk menampilkan daftar --}}
         <div id="transactions-list" style="position: relative;">
+=======
+        <div id="transactions-summary" class="mb-3">
+            @include('laporan.partials._transactions_summary', ['summary' => $summary])
+        </div>
+
+        <div id="transactions-list">
+>>>>>>> fd1fbdf0b129e39e746d0cf8f8fd507121860d5f
             @include('laporan.partials._transactions_list', ['transactions' => $transactions])
         </div>
     </div>
@@ -257,6 +287,7 @@
             }
         }
 
+<<<<<<< HEAD
         // Add click handlers to date inputs and their wrappers
         function addCalendarClickHandlers(input, wrapper) {
             // Click on input itself
@@ -278,6 +309,30 @@
         if (startDateInput) {
             const startDateWrapper = document.querySelector('.date-input-wrapper');
             addCalendarClickHandlers(startDateInput, startDateWrapper);
+=======
+        function buildSummaryQuery() {
+            const params = new URLSearchParams(new FormData(form));
+            params.set('only_summary', '1');
+            return params.toString();
+        }
+
+        function updateExportLinks() {
+            const qs = new URLSearchParams(new FormData(form)).toString();
+            exportExcel.href = '{{ route('laporan.detail.excel') }}' + (qs ? ('?' + qs) : '');
+            exportPdf.href = '{{ route('laporan.detail.pdf') }}' + (qs ? ('?' + qs) : '');
+        }
+
+        async function fetchAndRender() {
+            const query = buildQuery();
+            const summaryQuery = buildSummaryQuery();
+            updateExportLinks();
+            const resp = await fetch(window.location.pathname + '?' + query, { headers: { 'X-Requested-With': 'XMLHttpRequest' }});
+            const html = await resp.text();
+            listContainer.innerHTML = html;
+            const summaryResp = await fetch(window.location.pathname + '?' + summaryQuery, { headers: { 'X-Requested-With': 'XMLHttpRequest' }});
+            const summaryHtml = await summaryResp.text();
+            document.getElementById('transactions-summary').innerHTML = summaryHtml;
+>>>>>>> fd1fbdf0b129e39e746d0cf8f8fd507121860d5f
         }
 
         if (endDateInput) {
