@@ -19,10 +19,16 @@
             padding: 15px;
             background: #ffffff;
             box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+<<<<<<< HEAD
             position: relative;
         }
         .transaction-header {
             background: #d8d8d8;
+=======
+        }
+        .transaction-header {
+            background: #a0a0a0;
+>>>>>>> b0c78feede0abf3b8b2f0ce3365d96f03e64d72b
             color: rgb(0, 0, 0);
             padding: 12px;
             border-radius: 5px;
@@ -30,14 +36,19 @@
             font-weight: bold;
         }
         .transaction-header div { margin: 2px 0; }
+<<<<<<< HEAD
         .transaction-items {
             margin-left: 0;
             padding: 0;
         }
+=======
+        .transaction-items { margin-left: 0; }
+>>>>>>> b0c78feede0abf3b8b2f0ce3365d96f03e64d72b
         .item-row {
             padding: 8px 0;
             border-bottom: 1px solid #e9ecef;
             margin-bottom: 5px;
+<<<<<<< HEAD
             position: relative;
         }
         .item-row:last-child { border-bottom: none; }
@@ -68,10 +79,21 @@
             margin-top: 10px;
             border: 1px solid #dee2e6;
             position: relative;
+=======
+        }
+        .item-row:last-child { border-bottom: none; }
+        .transaction-total {
+            background: #f8f9fa;
+            padding: 10px;
+            border-radius: 5px;
+            margin-top: 10px;
+            border: 1px solid #dee2e6;
+>>>>>>> b0c78feede0abf3b8b2f0ce3365d96f03e64d72b
         }
         .text-right { text-align: right; }
         .text-center { text-align: center; }
         .font-weight-bold { font-weight: bold; }
+<<<<<<< HEAD
 
         /* Force all price elements to right edge with proper spacing */
         .item-price, .transaction-total .item-price {
@@ -80,6 +102,8 @@
             margin: 0 !important;
             padding: 0 !important;
         }
+=======
+>>>>>>> b0c78feede0abf3b8b2f0ce3365d96f03e64d72b
         .transaction-number { font-size: 14px; font-weight: bold; }
         .transaction-details { font-size: 11px; opacity: 0.9; }
     </style>
@@ -128,18 +152,25 @@
         <div class="transaction-items">
             @foreach($transaction->items as $item)
             <div class="item-row">
+<<<<<<< HEAD
                 <div class="item-content">
                     <div class="item-name">
                         <div>{{ $item->nama_produk }}</div>
                         <div style="font-size: 11px; color: #666;">{{ $item->kuantitas }} x Rp {{ number_format($item->harga_satuan, 0, ',', '.') }}</div>
                     </div>
                     <span class="item-price">Rp {{ number_format($item->harga_satuan * $item->kuantitas, 0, ',', '.') }}</span>
+=======
+                <div style="display: flex; justify-content: space-between;">
+                    <span>{{ $item->nama_produk }} ({{ $item->kuantitas }}x)</span>
+                    <span class="text-right">Rp {{ number_format($item->harga_satuan * $item->kuantitas, 0, ',', '.') }}</span>
+>>>>>>> b0c78feede0abf3b8b2f0ce3365d96f03e64d72b
                 </div>
             </div>
             @endforeach
 
             <div class="transaction-total">
                 <div class="item-row font-weight-bold">
+<<<<<<< HEAD
                     <div class="item-content">
                         <span class="item-name">Subtotal:</span>
                         <span class="item-price">Rp {{ number_format($transaction->subtotal, 0, ',', '.') }}</span>
@@ -155,6 +186,23 @@
                     <div class="item-content">
                         <span class="item-name"><strong>TOTAL:</strong></span>
                         <span class="item-price"><strong>Rp {{ number_format($transaction->grand_total, 0, ',', '.') }}</strong></span>
+=======
+                    <div style="display: flex; justify-content: space-between;">
+                        <span>Subtotal:</span>
+                        <span class="text-right">Rp {{ number_format($transaction->subtotal, 0, ',', '.') }}</span>
+                    </div>
+                </div>
+                <div class="item-row font-weight-bold">
+                    <div style="display: flex; justify-content: space-between;">
+                        <span>PPN:</span>
+                        <span class="text-right">Rp {{ number_format($transaction->ppn_jumlah, 0, ',', '.') }}</span>
+                    </div>
+                </div>
+                <div class="item-row font-weight-bold" style="border-top: 2px solid #3a4755; margin-top: 8px; padding-top: 8px;">
+                    <div style="display: flex; justify-content: space-between;">
+                        <span><strong>TOTAL:</strong></span>
+                        <span class="text-right font-weight-bold">Rp {{ number_format($transaction->grand_total, 0, ',', '.') }}</span>
+>>>>>>> b0c78feede0abf3b8b2f0ce3365d96f03e64d72b
                     </div>
                 </div>
             </div>

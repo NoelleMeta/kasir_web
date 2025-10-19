@@ -255,9 +255,12 @@ class ReportController extends Controller
             if ($period === 'day') {
                 return $q->whereDate('waktu_transaksi', now()->toDateString());
             }
+<<<<<<< HEAD
             if ($period === 'yesterday') {
                 return $q->whereDate('waktu_transaksi', now()->subDay()->toDateString());
             }
+=======
+>>>>>>> b0c78feede0abf3b8b2f0ce3365d96f03e64d72b
             if ($period === 'range' && $startDate && $endDate) {
                 $start = Carbon::parse($startDate)->startOfDay();
                 $end = Carbon::parse($endDate)->endOfDay();
@@ -278,7 +281,10 @@ class ReportController extends Controller
 
         switch ($period) {
             case 'day': return now()->format('d/m/Y');
+<<<<<<< HEAD
             case 'yesterday': return now()->subDay()->format('d/m/Y');
+=======
+>>>>>>> b0c78feede0abf3b8b2f0ce3365d96f03e64d72b
             case 'week': return now()->startOfWeek()->format('d/m/Y') . ' - ' . now()->endOfWeek()->format('d/m/Y');
             case 'month': return now()->startOfMonth()->format('d/m/Y') . ' - ' . now()->endOfMonth()->format('d/m/Y');
             case 'range':

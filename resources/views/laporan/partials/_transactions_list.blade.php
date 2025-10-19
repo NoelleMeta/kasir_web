@@ -43,4 +43,8 @@
 <div class="mt-4 d-flex justify-content-center">
     {{ $transactions->links() }}
 </div>
+<<<<<<< HEAD
 @endif
+=======
+@endif
+>>>>>>> b0c78feede0abf3b8b2f0ce3365d96f03e64d72b

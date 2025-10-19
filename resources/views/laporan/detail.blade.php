@@ -1,18 +1,52 @@
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> b0c78feede0abf3b8b2f0ce3365d96f03e64d72b
 @extends('layouts.app')
 @section('title','Laporan Detail')
 @section('page_title','Laporan Detail Transaksi')
 @push('head')
     {{-- Memuat CSS Bootstrap dari CDN --}}
+<<<<<<< HEAD
+=======
+=======
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Laporan Detail Transaksi</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+>>>>>>> fd1fbdf0b129e39e746d0cf8f8fd507121860d5f
+>>>>>>> b0c78feede0abf3b8b2f0ce3365d96f03e64d72b
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
         @media print { .no-print { display:none; } }
         .card { page-break-inside: avoid; }
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> b0c78feede0abf3b8b2f0ce3365d96f03e64d72b
         /* Sedikit penyesuaian agar pagination Bootstrap terlihat lebih rapi */
         .pagination {
             --bs-pagination-font-size: 0.9rem;
             --bs-pagination-padding-y: 0.4rem;
             --bs-pagination-padding-x: 0.8rem;
         }
+<<<<<<< HEAD
+=======
+=======
+        @media (max-width: 768px) {
+            h1 { font-size: 1.5rem; }
+            .form-label { font-size: .9rem; }
+            .form-select, .form-control { font-size: .95rem; }
+            .card-body p { font-size: .95rem; }
+        }
+    </style>
+    </head>
+<body>
+    <div class="container mt-5">
+        <h1>Laporan Detail Transaksi</h1>
+>>>>>>> fd1fbdf0b129e39e746d0cf8f8fd507121860d5f
+>>>>>>> b0c78feede0abf3b8b2f0ce3365d96f03e64d72b
 
         /* Date input styling */
         input[type="date"] {
@@ -130,7 +164,10 @@
                 <select name="period" class="form-select">
                     <option value="" @if(!request('period')) selected @endif>Semua</option>
                     <option value="day" @if(request('period') == 'day') selected @endif>Hari ini</option>
+<<<<<<< HEAD
                     <option value="yesterday" @if(request('period') == 'yesterday') selected @endif>Kemarin</option>
+=======
+>>>>>>> b0c78feede0abf3b8b2f0ce3365d96f03e64d72b
                     <option value="week" @if(request('period') == 'week') selected @endif>Minggu ini</option>
                     <option value="month" @if(request('period') == 'month') selected @endif>Bulan ini</option>
                     <option value="range" @if(request('period') == 'range') selected @endif>Rentang Tanggal</option>
@@ -158,10 +195,25 @@
         {{-- Menampilkan Ringkasan Transaksi --}}
         <div id="transactions-summary" class="mb-3">
             @include('laporan.partials._transactions_summary', ['summary' => $summary])
+<<<<<<< HEAD
         </div>
 
         {{-- Container ini HANYA memanggil @include SATU KALI untuk menampilkan daftar --}}
         <div id="transactions-list" style="position: relative;">
+=======
+        </div>
+
+<<<<<<< HEAD
+        {{-- Container ini HANYA memanggil @include SATU KALI untuk menampilkan daftar --}}
+        <div id="transactions-list" style="position: relative;">
+=======
+        <div id="transactions-summary" class="mb-3">
+            @include('laporan.partials._transactions_summary', ['summary' => $summary])
+        </div>
+
+        <div id="transactions-list">
+>>>>>>> fd1fbdf0b129e39e746d0cf8f8fd507121860d5f
+>>>>>>> b0c78feede0abf3b8b2f0ce3365d96f03e64d72b
             @include('laporan.partials._transactions_list', ['transactions' => $transactions])
         </div>
     </div>
@@ -256,8 +308,11 @@
                 });
                 input.dispatchEvent(event);
             }
+<<<<<<< HEAD
+=======
         }
 
+<<<<<<< HEAD
         // Add click handlers to date inputs and their wrappers
         function addCalendarClickHandlers(input, wrapper) {
             // Click on input itself
@@ -279,6 +334,49 @@
         if (startDateInput) {
             const startDateWrapper = document.querySelector('.date-input-wrapper');
             addCalendarClickHandlers(startDateInput, startDateWrapper);
+=======
+        function buildSummaryQuery() {
+            const params = new URLSearchParams(new FormData(form));
+            params.set('only_summary', '1');
+            return params.toString();
+>>>>>>> b0c78feede0abf3b8b2f0ce3365d96f03e64d72b
+        }
+
+        // Add click handlers to date inputs and their wrappers
+        function addCalendarClickHandlers(input, wrapper) {
+            // Click on input itself
+            input.addEventListener('click', function(e) {
+                e.preventDefault();
+                openCalendar(this);
+            });
+
+            // Click on wrapper (including the custom display)
+            if (wrapper) {
+                wrapper.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    openCalendar(input);
+                });
+            }
+        }
+
+<<<<<<< HEAD
+        // Apply click handlers untuk detail
+        if (startDateInput) {
+            const startDateWrapper = document.querySelector('.date-input-wrapper');
+            addCalendarClickHandlers(startDateInput, startDateWrapper);
+=======
+        async function fetchAndRender() {
+            const query = buildQuery();
+            const summaryQuery = buildSummaryQuery();
+            updateExportLinks();
+            const resp = await fetch(window.location.pathname + '?' + query, { headers: { 'X-Requested-With': 'XMLHttpRequest' }});
+            const html = await resp.text();
+            listContainer.innerHTML = html;
+            const summaryResp = await fetch(window.location.pathname + '?' + summaryQuery, { headers: { 'X-Requested-With': 'XMLHttpRequest' }});
+            const summaryHtml = await summaryResp.text();
+            document.getElementById('transactions-summary').innerHTML = summaryHtml;
+>>>>>>> fd1fbdf0b129e39e746d0cf8f8fd507121860d5f
+>>>>>>> b0c78feede0abf3b8b2f0ce3365d96f03e64d72b
         }
 
         if (endDateInput) {

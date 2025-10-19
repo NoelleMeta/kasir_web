@@ -1,13 +1,31 @@
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> b0c78feede0abf3b8b2f0ce3365d96f03e64d72b
 @extends('layouts.app')
 @section('title','Laporan Ringkas')
 @section('page_title','Laporan Penjualan Ringkas')
 @push('head')
+<<<<<<< HEAD
+=======
+=======
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Laporan Penjualan Ringkas</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+>>>>>>> fd1fbdf0b129e39e746d0cf8f8fd507121860d5f
+>>>>>>> b0c78feede0abf3b8b2f0ce3365d96f03e64d72b
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
         @media print { .no-print { display:none; } }
         .table thead th { background:#f1f5f9; }
         .table tfoot th { background:#f8fafc; }
         @media (max-width: 768px) {
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> b0c78feede0abf3b8b2f0ce3365d96f03e64d72b
             h1 {
                 font-size: 1.5rem;
                 text-align: center;
@@ -203,6 +221,13 @@
         .date-error {
             border-color: #dc3545 !important;
             box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.25);
+<<<<<<< HEAD
+=======
+=======
+            h1 { font-size: 1.5rem; }
+            .btn { padding: .35rem .55rem; font-size: .9rem; }
+>>>>>>> fd1fbdf0b129e39e746d0cf8f8fd507121860d5f
+>>>>>>> b0c78feede0abf3b8b2f0ce3365d96f03e64d72b
         }
     </style>
 @endpush
@@ -220,7 +245,10 @@
                 <select name="period" class="form-select" onchange="onPeriodChange(this.value, false)">
                     <option value="" {{ (request('period')==null)?'selected':'' }}>Semua</option>
                     <option value="day" {{ request('period')=='day'?'selected':'' }}>Hari ini</option>
+<<<<<<< HEAD
                     <option value="yesterday" {{ request('period')=='yesterday'?'selected':'' }}>Kemarin</option>
+=======
+>>>>>>> b0c78feede0abf3b8b2f0ce3365d96f03e64d72b
                     <option value="week" {{ request('period')=='week'?'selected':'' }}>Minggu ini</option>
                     <option value="month" {{ request('period')=='month'?'selected':'' }}>Bulan ini</option>
                     <option value="range" {{ request('period')=='range'?'selected':'' }}>Rentang Tanggal</option>
@@ -249,14 +277,28 @@
         <table class="table table-bordered table-sm">
             <thead>
                 <tr>
+<<<<<<< HEAD
                     <th class="text-center">
                         <a class="text-decoration-none text-dark" href="{{ route('laporan.ringkas', array_merge(request()->query(), ['sort' => 'nama_produk', 'direction' => (isset($sort) && $sort==='nama_produk' && ($direction ?? 'desc')==='asc') ? 'desc' : 'asc'])) }}">
+=======
+<<<<<<< HEAD
+                    <th class="text-center">
+                        <a class="text-decoration-none text-dark" href="{{ route('laporan.ringkas', array_merge(request()->query(), ['sort' => 'nama_produk', 'direction' => (isset($sort) && $sort==='nama_produk' && ($direction ?? 'desc')==='asc') ? 'desc' : 'asc'])) }}">
+=======
+                    <th>
+                        <a class="text-decoration-none text-dark" href="{{ route('laporan.ringkas', ['sort' => 'nama_produk', 'direction' => (isset($sort) && $sort==='nama_produk' && ($direction ?? 'desc')==='asc') ? 'desc' : 'asc']) }}">
+>>>>>>> fd1fbdf0b129e39e746d0cf8f8fd507121860d5f
+>>>>>>> b0c78feede0abf3b8b2f0ce3365d96f03e64d72b
                             Nama Menu
                             @if(($sort ?? '') === 'nama_produk')
                                 {!! ($direction ?? 'desc') === 'asc' ? '&#9650;' : '&#9660;' !!}
                             @endif
                         </a>
                     </th>
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> b0c78feede0abf3b8b2f0ce3365d96f03e64d72b
                     <th class="text-center">
                         <a class="text-decoration-none text-dark" href="{{ route('laporan.ringkas', array_merge(request()->query(), ['sort' => 'kategori', 'direction' => (isset($sort) && $sort==='kategori' && ($direction ?? 'desc')==='asc') ? 'desc' : 'asc'])) }}">
                             Kategori
@@ -267,14 +309,31 @@
                     </th>
                     <th class="text-center">
                         <a class="text-decoration-none text-dark" href="{{ route('laporan.ringkas', array_merge(request()->query(), ['sort' => 'total_kuantitas', 'direction' => (isset($sort) && $sort==='total_kuantitas' && ($direction ?? 'desc')==='desc') ? 'asc' : 'desc'])) }}">
+<<<<<<< HEAD
+=======
+=======
+                    <th>
+                        <a class="text-decoration-none text-dark" href="{{ route('laporan.ringkas', ['sort' => 'total_kuantitas', 'direction' => (isset($sort) && $sort==='total_kuantitas' && ($direction ?? 'desc')==='desc') ? 'asc' : 'desc']) }}">
+>>>>>>> fd1fbdf0b129e39e746d0cf8f8fd507121860d5f
+>>>>>>> b0c78feede0abf3b8b2f0ce3365d96f03e64d72b
                             Jumlah Terjual
                             @if(($sort ?? '') === 'total_kuantitas')
                                 {!! ($direction ?? 'desc') === 'desc' ? '&#9660;' : '&#9650;' !!}
                             @endif
                         </a>
                     </th>
+<<<<<<< HEAD
                     <th class="text-center">
                         <a class="text-decoration-none text-dark" href="{{ route('laporan.ringkas', array_merge(request()->query(), ['sort' => 'total_pendapatan', 'direction' => (isset($sort) && $sort==='total_pendapatan' && ($direction ?? 'desc')==='desc') ? 'asc' : 'desc'])) }}">
+=======
+<<<<<<< HEAD
+                    <th class="text-center">
+                        <a class="text-decoration-none text-dark" href="{{ route('laporan.ringkas', array_merge(request()->query(), ['sort' => 'total_pendapatan', 'direction' => (isset($sort) && $sort==='total_pendapatan' && ($direction ?? 'desc')==='desc') ? 'asc' : 'desc'])) }}">
+=======
+                    <th>
+                        <a class="text-decoration-none text-dark" href="{{ route('laporan.ringkas', ['sort' => 'total_pendapatan', 'direction' => (isset($sort) && $sort==='total_pendapatan' && ($direction ?? 'desc')==='desc') ? 'asc' : 'desc']) }}">
+>>>>>>> fd1fbdf0b129e39e746d0cf8f8fd507121860d5f
+>>>>>>> b0c78feede0abf3b8b2f0ce3365d96f03e64d72b
                             Total Pendapatan
                             @if(($sort ?? '') === 'total_pendapatan')
                                 {!! ($direction ?? 'desc') === 'desc' ? '&#9660;' : '&#9650;' !!}
