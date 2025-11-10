@@ -9,4 +9,10 @@ class TransactionItem extends Model
 {
     use HasFactory;
     protected $guarded = ['id'];
+
+    // Item belongs to one transaction
+    public function transaction()
+    {
+        return $this->belongsTo(Transaction::class);
+    }
 }
