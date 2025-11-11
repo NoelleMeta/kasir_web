@@ -36,7 +36,7 @@
         body {
             font-family: var(--font-body);
             color: var(--color-gray);
-			background-color: #000000; /* black side background for desktop */
+            background-color: #000000; /* black side background for desktop */
             background-image:
                 url('{{ asset("images/marawa_1.png") }}'),
                 url('{{ asset("images/marawa_2.png") }}');
@@ -46,25 +46,25 @@
             background-attachment: fixed, fixed;
             line-height: 1.6;
         }
-		@media (max-width: 1199px) {
-			body {
-				background-image: none;
-			}
-		}
-		/* Boxed frame for desktop */
-		.page-frame {
-			background: var(--color-white);
+        @media (max-width: 1199px) {
+            body {
+                background-image: none;
+            }
+        }
+        /* Boxed frame for desktop */
+        .page-frame {
+            background: var(--color-white);
             /* Mencegah overflow horizontal dari frame itu sendiri */
             overflow-x: hidden;
-			position: relative;
-		}
-		@media (min-width: 1200px) {
-			.page-frame {
-				max-width: 1440px; /* frame width */
-				margin: 0 auto;    /* center the frame */
-				overflow: hidden;  /* keep inner effects contained */
-			}
-		}
+            position: relative;
+        }
+        @media (min-width: 1200px) {
+            .page-frame {
+                max-width: 1440px; /* frame width */
+                margin: 0 auto;    /* center the frame */
+                overflow: hidden;   /* keep inner effects contained */
+            }
+        }
         .container {
             max-width: 1140px;
             margin: 0 auto;
@@ -316,7 +316,7 @@
         #menu .container {
             position: relative;
             height: 100%;
-			max-width: 100%; /* allow content to reach frame edges */
+            max-width: 100%; /* allow content to reach frame edges */
         }
         .menu-inner {
             position: relative;
@@ -428,27 +428,27 @@
             font-size: 0.95rem;
             text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
         }
-		/* Call to Action - centered bottom like mock */
+        /* Call to Action - centered bottom like mock */
         .menu-cta {
             position: absolute;
-			bottom: -6.5%;               /* slightly lower */
-			left: 45%;
-			right: auto;
-			margin: 0;                /* use translate centering */
-			transform: translateX(-50%);
+            bottom: -6.5%;                /* slightly lower */
+            left: 45%;
+            right: auto;
+            margin: 0;                  /* use translate centering */
+            transform: translateX(-50%);
             z-index: 3;
-			max-width: 400px;
-			text-align: center;
+            max-width: 400px;
+            text-align: center;
         }
-		/* When CTA is placed inside the header, keep it centered inline */
-		.menu-header .menu-cta {
-			position: static;
-			left: auto;
-			right: auto;
-			transform: none;
-			margin: 12px auto 0;
-			max-width: none;
-		}
+        /* When CTA is placed inside the header, keep it centered inline */
+        .menu-header .menu-cta {
+            position: static;
+            left: auto;
+            right: auto;
+            transform: none;
+            margin: 12px auto 0;
+            max-width: none;
+        }
         .menu-cta-text {
             color: #ffffff;
             font-size: 1rem;
@@ -490,6 +490,7 @@
                 margin-top: 40px;
             }
         }
+
         /* Tablet adjustments */
         @media (max-width: 992px) {
             #menu .container {
@@ -512,18 +513,6 @@
             .menu-subtitle {
                 font-size: 1.8rem;
             }
-            .menu-unggulan-item {
-                flex-direction: column;
-                text-align: center;
-            }
-            .menu-unggulan-item:nth-child(even) {
-                flex-direction: column; /* Keep it stacked */
-            }
-            .menu-unggulan-image {
-                width: 180px;
-                height: 180px;
-                margin-bottom: 1rem;
-            }
             .menu-cta {
                 position: static;
                 text-align: center;
@@ -531,16 +520,13 @@
                 margin-top: 30px;
             }
 
-            /* MOBILE: place menu header above the first menu item for better reading order
-               Keep desktop layout unchanged. We use flex ordering and column stacking. */
+            /* Tata letak 1 kolom di tablet */
             .menu-unggulan-row {
-                /* Stack the header and first item vertically on mobile */
                 flex-direction: column;
                 align-items: center;
                 gap: 1rem;
-                padding-right: 0; /* <-- PERBAIKAN BUG OVERFLOW UTAMA ADA DI SINI */
+                padding-right: 0; /* <-- PERBAIKAN BUG OVERFLOW */
             }
-            /* Ensure menu header is always at the top on mobile */
             .menu-unggulan-row .menu-header {
                 order: -1;
                 width: 100%;
@@ -549,6 +535,34 @@
                 order: 0;
                 width: 100%;
             }
+
+            /* --- INI PERUBAHAN UTAMA: BENTUK KARTU --- */
+            .menu-unggulan-item {
+                flex-direction: row; /* <-- TETAP HORIZONTAL */
+                text-align: left; /* <-- Teks rata kiri */
+                gap: 1rem;
+                max-width: 500px; /* Batasi lebar di tablet */
+                align-self: center !important; /* Paksa ke tengah (batalkan zig-zag) */
+            }
+            .menu-unggulan-item:nth-child(even) {
+                flex-direction: row; /* <-- TETAP HORIZONTAL */
+                align-self: center !important; /* Paksa ke tengah */
+            }
+            .menu-unggulan-image {
+                width: 120px; /* <-- Perkecil gambar */
+                height: 120px;
+                margin-bottom: 0; /* <-- Hapus margin bawah */
+                flex-shrink: 0;
+            }
+            .menu-unggulan-content h3 {
+                font-size: 1.5rem; /* Perkecil judul */
+                margin-bottom: 8px;
+            }
+            .menu-unggulan-content p {
+                font-size: 0.9rem; /* Perkecil teks */
+                line-height: 1.5;
+            }
+            /* --- BATAS AKHIR PERUBAHAN --- */
         }
 
         /* --- 5. KONTAK KAMI SECTION --- */
@@ -687,6 +701,16 @@
         /* === PERUBAHAN DESKTOP (SESUAI REQUEST ANDA) === */
         @media (min-width: 992px) {
 
+            /* --- INI BLOK YANG SAYA TAMBAHKAN --- */
+            header {
+                max-width: 1440px; /* Samakan dengan .page-frame */
+                width: 100%;
+                left: 50%;
+                transform: translateX(-50%);
+                /* 'right: 0' dari style global otomatis terganti */
+            }
+            /* --- BATAS AKHIR BLOK TAMBAHAN --- */
+
             /* --- PERUBAHAN BARU: Perkecil #home --- */
             #home {
                 min-height: auto; /* Membatalkan 100vh global */
@@ -783,7 +807,10 @@
                 font-size: 2.8rem;
             }
 
-
+            /* Penyesuaian untuk HP (mewarisi dari tablet) */
+            .menu-unggulan-item {
+                max-width: 100%; /* Lebar penuh di HP */
+            }
         }
 
         /* Small screen tweaks (mobile phones) */
@@ -823,17 +850,27 @@
             .hero-title { font-size: 36px; }
             .hero-sub { font-size: 12px; }
 
-            /* Menu section responsive - stack all elements */
+            /* --- Penyesuaian Ukuran Kartu di HP Kecil --- */
             .menu-unggulan-item {
-                padding: 1rem;
+                padding: 0.75rem; /* Perkecil padding kartu */
+                gap: 0.75rem;
+                /* flex-direction: row; (diwarisi) */
+                /* text-align: left; (diwarisi) */
             }
             .menu-unggulan-image {
-                width: 150px;
-                height: 150px;
+                width: 100px; /* Perkecil gambar lagi */
+                height: 100px;
             }
             .menu-unggulan-content h3 {
-                font-size: 1.8rem;
+                font-size: 1.4rem; /* Perkecil font lagi */
+                margin-bottom: 4px;
             }
+            .menu-unggulan-content p {
+                font-size: 0.85rem;
+                line-height: 1.4;
+            }
+            /* --- Batas Akhir Penyesuaian --- */
+
             .btn-daftar {
                 display: inline-block;
                 width: auto;
@@ -872,8 +909,8 @@
         </div>
     </header>
 
-	<div class="page-frame">
-	<main>
+    <div class="page-frame">
+    <main>
         <section id="home">
             {{-- Slideshow background slides --}}
             <div class="home-slides" aria-hidden="true">
@@ -1080,12 +1117,12 @@
         </section>
     </main>
 
-	<footer>
+    <footer>
         <div class="container">
             <p>&copy; 2025 RM Gulai Kakek. All Rights Reserved.</p>
         </div>
     </footer>
-	</div>
+    </div>
 
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>
