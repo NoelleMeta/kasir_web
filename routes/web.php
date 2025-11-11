@@ -64,6 +64,9 @@ Route::middleware('auth')->prefix('admin')->group(function () {
     Route::post('/landing-page/menu/{urutan}', [LandingPageController::class, 'updateMenuUnggulan'])->name('landing-page.update-menu');
     Route::post('/landing-page/menu-pdf', [LandingPageController::class, 'uploadMenuPdf'])->name('landing-page.upload-menu-pdf');
     Route::post('/landing-page/about', [LandingPageController::class, 'updateAbout'])->name('landing-page.update-about');
+
+    // --- RUTE BARU DITAMBAHKAN DI SINI ---
+    Route::post('/landing-page/menu-deskripsi', [LandingPageController::class, 'updateMenuDeskripsi'])->name('landing-page.update-menu-deskripsi');
 });
 
 // Public route to display the daftar menu PDF inline

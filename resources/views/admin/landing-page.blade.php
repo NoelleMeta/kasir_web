@@ -19,11 +19,9 @@
         </div>
     @endif
 
-    <!-- Background Images Section -->
     <div style="background:#ffffff;border-radius:12px;box-shadow:0 1px 2px rgba(0,0,0,.06);padding:20px;margin-bottom:20px;">
         <h3 style="margin:0 0 16px 0;color:#334155;border-bottom:2px solid #e2e8f0;padding-bottom:8px;">Background Images</h3>
 
-        <!-- Preview Grid with Browse Buttons -->
         <form method="POST" action="{{ route('landing-page.upload-background') }}" enctype="multipart/form-data" id="form-backgrounds">
             @csrf
             <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:16px;margin-bottom:20px;">
@@ -49,7 +47,6 @@
             <button type="submit" class="btn primary">Upload Semua Background</button>
         </form>
 
-        <!-- Reset Button -->
         <form method="POST" action="{{ route('landing-page.reset-background') }}" onsubmit="return confirm('Yakin ingin menghapus semua background?');" style="margin-top:12px;">
             @csrf
             <input type="hidden" name="reset_all" value="1">
@@ -57,12 +54,10 @@
         </form>
     </div>
 
-    <!-- Menu Unggulan Section -->
     <div style="background:#ffffff;border-radius:12px;box-shadow:0 1px 2px rgba(0,0,0,.06);padding:20px;margin-bottom:20px;">
         <h3 style="margin:0 0 16px 0;color:#334155;border-bottom:2px solid #e2e8f0;padding-bottom:8px;">Menu Unggulan</h3>
 
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;">
-            <!-- Menu 1 (Top Left) -->
             <div style="border:1px solid #e2e8f0;border-radius:8px;padding:16px;">
                 <h4 style="margin:0 0 12px 0;color:#475569;">Menu Unggulan 1 (Top Left)</h4>
                 <form method="POST" action="{{ route('landing-page.update-menu', 1) }}" enctype="multipart/form-data">
@@ -87,7 +82,6 @@
                 </form>
             </div>
 
-            <!-- Menu 2 (Bottom Right) -->
             <div style="border:1px solid #e2e8f0;border-radius:8px;padding:16px;">
                 <h4 style="margin:0 0 12px 0;color:#475569;">Menu Unggulan 2 (Bottom Right)</h4>
                 <form method="POST" action="{{ route('landing-page.update-menu', 2) }}" enctype="multipart/form-data">
@@ -112,7 +106,6 @@
                 </form>
             </div>
 
-            <!-- Menu 3 (Top Right) -->
             <div style="border:1px solid #e2e8f0;border-radius:8px;padding:16px;">
                 <h4 style="margin:0 0 12px 0;color:#475569;">Menu Unggulan 3 (Top Right)</h4>
                 <form method="POST" action="{{ route('landing-page.update-menu', 3) }}" enctype="multipart/form-data">
@@ -137,7 +130,6 @@
                 </form>
             </div>
 
-            <!-- Menu 4 (Bottom Left) -->
             <div style="border:1px solid #e2e8f0;border-radius:8px;padding:16px;">
                 <h4 style="margin:0 0 12px 0;color:#475569;">Menu Unggulan 4 (Bottom Left)</h4>
                 <form method="POST" action="{{ route('landing-page.update-menu', 4) }}" enctype="multipart/form-data">
@@ -164,7 +156,6 @@
         </div>
     </div>
 
-    <!-- Kontak Section -->
     <div style="background:#ffffff;border-radius:12px;box-shadow:0 1px 2px rgba(0,0,0,.06);padding:20px;margin-bottom:20px;">
         <h3 style="margin:0 0 16px 0;color:#334155;border-bottom:2px solid #e2e8f0;padding-bottom:8px;">Kontak Kami</h3>
         <form method="POST" action="{{ route('landing-page.update-kontak') }}">
@@ -199,7 +190,6 @@
         </form>
     </div>
 
-    <!-- About Section -->
     <div style="background:#ffffff;border-radius:12px;box-shadow:0 1px 2px rgba(0,0,0,.06);padding:20px;margin-bottom:20px;">
         <h3 style="margin:0 0 16px 0;color:#334155;border-bottom:2px solid #e2e8f0;padding-bottom:8px;">About Us</h3>
         <form method="POST" action="{{ route('landing-page.update-about') }}" enctype="multipart/form-data">
@@ -226,7 +216,20 @@
         </form>
     </div>
 
-    <!-- Menu PDF Section -->
+    <div style="background:#ffffff;border-radius:12px;box-shadow:0 1px 2px rgba(0,0,0,.06);padding:20px;margin-bottom:20px;">
+        <h3 style="margin:0 0 16px 0;color:#334155;border-bottom:2px solid #e2e8f0;padding-bottom:8px;">Deskripsi Menu Unggulan</h3>
+        <form method="POST" action="{{ route('landing-page.update-menu-deskripsi') }}">
+            @csrf
+            <div style="margin-bottom:16px;">
+                <label style="display:block;margin-bottom:6px;color:#475569;">Teks Deskripsi</label>
+                <textarea name="menu_unggulan_deskripsi" class="form-control" rows="5" placeholder="Dengan bangga kami persembahkan hidangan terbaik kami...">{{ $settings->get('menu_unggulan_deskripsi') ? $settings->get('menu_unggulan_deskripsi')->value : '' }}</textarea>
+                <small style="color:#64748b;display:block;margin-top:4px;">Teks ini akan muncul di area judul menu unggulan (di tempat Anda silang).</small>
+            </div>
+            <div style="margin-top:14px;display:flex;gap:10px;justify-content:flex-end;">
+                <button type="submit" class="btn primary">Simpan Deskripsi</button>
+            </div>
+        </form>
+    </div>
     <div style="background:#ffffff;border-radius:12px;box-shadow:0 1px 2px rgba(0,0,0,.06);padding:20px;margin-bottom:20px;">
         <h3 style="margin:0 0 16px 0;color:#334155;border-bottom:2px solid #e2e8f0;padding-bottom:8px;">Menu PDF</h3>
         @if($settings->get('menu_pdf') && $settings->get('menu_pdf')->value)
@@ -260,4 +263,3 @@
     }
 </script>
 @endsection
-

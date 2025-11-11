@@ -9,9 +9,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500&family=Poppins:wght@500;700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet">
-    <!-- Lobster font for hero title -->
     <link href="https://fonts.googleapis.com/css2?family=Lobster&display=swap" rel="stylesheet">
-    <!-- AOS (Animate On Scroll) CSS -->
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <style>
         /* --- VARIABLE CSS DARI REFERENSI ASSET --- */
@@ -336,6 +334,9 @@
             font-size: 1rem;
             line-height: 1.8;
             text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
+            max-width: 600px; /* Batasi lebar teks deskripsi */
+            margin: 0 auto; /* Pusatkan teks deskripsi */
+            margin-bottom: 20px; /* Beri jarak ke item menu di bawahnya */
         }
         /* Menu Items Layout */
         .menu-unggulan-grid {
@@ -867,12 +868,11 @@
         <section id="menu">
             <div class="container">
                 <div class="menu-inner">
-                    <!-- Menu Items Grid - Data from Database -->
                     <div class="menu-unggulan-grid">
                         @if($menuItems && count($menuItems) > 0)
+
                             <div class="menu-unggulan-row">
-                                <!-- First Menu Item -->
-                                @if($menuItems[0])
+                                @if(isset($menuItems[0]) && $menuItems[0])
                                     <div class="menu-unggulan-item" data-aos="fade-up" data-aos-delay="100">
                                         <div class="menu-unggulan-image">
                                             <img src="{{ $menuItems[0]->getImageSrc('images/menu_unggulan_1.jpg') }}" alt="{{ $menuItems[0]->nama }}" loading="lazy">
@@ -884,39 +884,73 @@
                                     </div>
                                 @endif
 
-                                <!-- Menu Header -->
                                 <div class="menu-header" data-aos="fade-down" data-aos-delay="100">
                                     <h2 class="menu-title">MENU UNGGULAN</h2>
                                     <div class="menu-subtitle">Spesial dari Dapur Kami</div>
+                                    <p class="menu-description">
+                                        {{ $settings->get('menu_unggulan_deskripsi') && $settings->get('menu_unggulan_deskripsi')->value ? $settings->get('menu_unggulan_deskripsi')->value : 'Dengan bangga kami persembahkan hidangan terbaik kami. Menu ini adalah alasan mengapa para tamu selalu kembali. Silakan cicipi dedikasi dan cita rasa khas yang kami tuang dalam setiap porsi.' }}
+                                    </p>
                                 </div>
                             </div>
 
-                            <!-- Remaining Menu Items (2, 3, 4) -->
-                            @foreach(array_slice($menuItems, 1) as $index => $item)
-                                @if($item)
-                                    <div class="menu-unggulan-item" data-aos="fade-up" data-aos-delay="{{ 150 + ($index * 50) }}">
-                                        <div class="menu-unggulan-image">
-                                            <img src="{{ $item->getImageSrc('images/menu_unggulan_' . ($index + 2) . '.jpg') }}" alt="{{ $item->nama }}" loading="lazy">
-                                        </div>
-                                        <div class="menu-unggulan-content">
-                                            <h3>{{ $item->nama }}</h3>
-                                            <p>{{ $item->deskripsi }}</p>
-                                        </div>
+                            @if(isset($menuItems[1]) && $menuItems[1])
+                                <div class="menu-unggulan-item" data-aos="fade-up" data-aos-delay="150">
+                                    <div class="menu-unggulan-image">
+                                        <img src="{{ $menuItems[1]->getImageSrc('images/menu_unggulan_2.jpg') }}" alt="{{ $menuItems[1]->nama }}" loading="lazy">
                                     </div>
-                                @endif
-                            @endforeach
+                                    <div class="menu-unggulan-content">
+                                        <h3>{{ $menuItems[1]->nama }}</h3>
+                                        <p>{{ $menuItems[1]->deskripsi }}</p>
+                                    </div>
+                                </div>
+                            @endif
+
+                            @if(isset($menuItems[2]) && $menuItems[2])
+                                <div class="menu-unggulan-item" data-aos="fade-up" data-aos-delay="200">
+                                    <div class="menu-unggulan-image">
+                                        <img src="{{ $menuItems[2]->getImageSrc('images/menu_unggulan_3.jpg') }}" alt="{{ $menuItems[2]->nama }}" loading="lazy">
+                                    </div>
+                                    <div class="menu-unggulan-content">
+                                        <h3>{{ $menuItems[2]->nama }}</h3>
+                                        <p>{{ $menuItems[2]->deskripsi }}</p>
+                                    </div>
+                                </div>
+                            @endif
+
+                            @if(isset($menuItems[3]) && $menuItems[3])
+                                <div class="menu-unggulan-item" data-aos="fade-up" data-aos-delay="300">
+                                    <div class="menu-unggulan-image">
+                                        <img src="{{ $menuItems[3]->getImageSrc('images/menu_unggulan_4.jpg') }}" alt="{{ $menuItems[3]->nama }}" loading="lazy">
+                                    </div>
+                                    <div class="menu-unggulan-content">
+                                        <h3>{{ $menuItems[3]->nama }}</h3>
+                                        <p>{{ $menuItems[3]->deskripsi }}</p>
+                                    </div>
+                                </div>
+                            @endif
+
+                            <div class="menu-header" data-aos="fade-up" data-aos-delay="250" style="text-align: center; max-width: 400px;">
+                                <p class="menu-description" style="max-width: 100%;">
+                                    Selain menu unggulan, kami juga menyediakan beragam pilihan lezat lainnya. Silakan lihat daftar menu lengkap kami.
+                                </p>
+                                <div class="menu-cta" style="position: static; transform: none; margin-top: 12px; text-align: center;">
+                                    <a href="{{ route('menu.daftar') }}" class="btn btn-daftar" target="_blank" rel="noopener">DAFTAR MENU</a>
+                                </div>
+                            </div>
+
+
                         @else
-                            <!-- Fallback if no menu items in database -->
                             <div style="text-align: center; color: #fff; padding: 40px;">
                                 <p>Menu unggulan belum ditambahkan. Silakan akses halaman admin untuk menambahkan menu.</p>
                             </div>
                         @endif
                     </div>
 
-                    <!-- Call to Action - Bottom Center -->
+                    {{--
                     <div class="menu-cta" data-aos="fade-up" data-aos-delay="300">
                         <a href="{{ route('menu.daftar') }}" class="btn btn-daftar" target="_blank" rel="noopener">DAFTAR MENU</a>
                     </div>
+                    --}}
                 </div>
             </div>
         </section>
@@ -925,7 +959,6 @@
             <div class="container">
                 <div class="kontak-wrapper">
                     <div class="kontak-map" data-aos="fade-up" data-aos-delay="120">
-                        <!-- Iframe now points to our resolver which redirects to a proper embed URL -->
                         <iframe src="{{ route('map.redirect') }}" loading="lazy" referrerpolicy="no-referrer-when-downgrade" aria-label="Peta Lokasi RM Gulai Kakek"></iframe>
                     </div>
 
@@ -933,7 +966,6 @@
                         <h3>KONTAK KAMI</h3>
                         <div class="info-item">
                             <div class="icon" aria-hidden="true">
-                                <!-- Location pin (uses currentColor) -->
                                 <svg width="18" height="18" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                                     <path fill="currentColor" d="M8 0C5.243 0 3 2.243 3 5c0 3.75 4.5 9.5 4.707 9.74.17.195.47.195.64 0C8.5 14.5 13 8.75 13 5c0-2.757-2.243-5-5-5zm0 7.5A2.5 2.5 0 1 1 8 2.5a2.5 2.5 0 0 1 0 5z" />
                                 </svg>
@@ -944,7 +976,6 @@
                         </div>
                         <div class="info-item">
                             <div class="icon" aria-hidden="true">
-                                <!-- Phone handset -->
                                 <svg width="18" height="18" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                                     <path fill="currentColor" d="M3.654 1.328a.678.678 0 0 1 .737-.098l2.522 1.26c.27.135.43.418.39.712l-.288 2.01a.678.678 0 0 1-.606.56l-1.01.105c.6 1.172 1.64 2.212 2.812 2.812l.105-1.01a.678.678 0 0 1 .56-.606l2.01-.288c.294-.04.577.12.712.39l1.26 2.522a.678.678 0 0 1-.098.737l-1.2 1.2c-.53.53-1.35.666-2.03.356-2.02-1.02-4.36-3.36-5.38-5.38-.31-.68-.174-1.5.356-2.03l1.2-1.2z" />
                                 </svg>
@@ -955,7 +986,6 @@
                         </div>
                         <div class="info-item">
                             <div class="icon" aria-hidden="true">
-                                <!-- Clock icon -->
                                 <svg width="18" height="18" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                                     <path fill="currentColor" d="M8 3.5a.5.5 0 0 1 .5.5v3.25l2.25 1.35a.5.5 0 1 1-.5.866L7.5 8.0V4a.5.5 0 0 1 .5-.5z" />
                                     <path fill="currentColor" d="M8 16A8 8 0 1 1 8 0a8 8 0 0 1 0 16zm0-1A7 7 0 1 0 8 1a7 7 0 0 0 0 14z" />
@@ -984,7 +1014,6 @@
                             @if($tiktok)
                             <div class="info-item">
                                 <div class="icon" aria-hidden="true">
-                                    <!-- TikTok icon -->
                                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                                         <path fill="currentColor" d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z"/>
                                     </svg>
@@ -995,7 +1024,6 @@
                             @if($instagram)
                             <div class="info-item">
                                 <div class="icon" aria-hidden="true">
-                                    <!-- Instagram icon -->
                                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                                         <path fill="currentColor" d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
                                     </svg>
@@ -1018,7 +1046,6 @@
     </footer>
 	</div>
 
-    <!-- AOS (Animate On Scroll) JS -->
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function () {

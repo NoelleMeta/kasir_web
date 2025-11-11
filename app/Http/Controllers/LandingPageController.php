@@ -210,6 +210,22 @@ class LandingPageController extends Controller
         return redirect()->route('landing-page.index')->with('success', 'About section berhasil diperbarui.');
     }
 
+    // --- FUNGSI BARU DITAMBAHKAN DI SINI ---
+    /**
+     * Update menu unggulan description text
+     */
+    public function updateMenuDeskripsi(Request $request)
+    {
+        $validated = $request->validate([
+            'menu_unggulan_deskripsi' => 'nullable|string|max:500',
+        ]);
+
+        LandingPageSetting::setValue('menu_unggulan_deskripsi', $validated['menu_unggulan_deskripsi'] ?? '', 'text', 'Deskripsi Menu Unggulan');
+
+        return redirect()->route('landing-page.index')->with('success', 'Deskripsi menu unggulan berhasil diperbarui.');
+    }
+    // ----------------------------------------
+
     /**
      * Helper method to get label from key
      */
