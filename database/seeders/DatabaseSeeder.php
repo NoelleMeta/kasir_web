@@ -23,5 +23,8 @@ class DatabaseSeeder extends Seeder
                 'password' => Hash::make('password'),
             ]
         );
+
+        // Seed menu unggulan data
+        $this->call(MenuUnggulanSeeder::class);
     }
 }

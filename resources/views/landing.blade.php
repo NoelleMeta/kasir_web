@@ -218,8 +218,6 @@
         /* Subtle interactive/hover animations */
         .btn { transition: transform 180ms ease, box-shadow 180ms ease; }
         .btn:hover { transform: translateY(-3px); box-shadow: 0 10px 24px rgba(0,0,0,0.18); }
-        .menu-panel { transition: transform 260ms cubic-bezier(.2,.9,.2,1), box-shadow 260ms ease; }
-        .menu-panel:hover { transform: translateY(-6px) scale(1.01); box-shadow: 0 20px 40px rgba(0,0,0,0.35); }
         .hero-sub {
             font-family: var(--font-heading);
             font-size: 14px;
@@ -227,60 +225,6 @@
             color: rgba(255,255,255,0.85);
             margin-top: 6px;
         }
-        .home-content h1 {
-            font-size: 3.5rem; /* 56px */
-            font-weight: 700;
-            line-height: 1.2;
-            margin-bottom: 20px;
-        }
-        .home-content p {
-            font-size: 1.1rem; /* 18px */
-            margin-bottom: 30px;
-            max-width: 500px; /* Batasi lebar paragraf */
-        }
-        /* Placeholder untuk gambar di kolom kanan */
-        .home-image-placeholder {
-            height: 450px;
-            width: 100%;
-            border-radius: 10px;
-
-            /* Ganti background-color ini dengan gambar Anda */
-            /* background-image: url('url-gambar-makanan-anda.jpg'); */
-            background-color: var(--color-light-gray); /* Placeholder */
-            background-size: cover;
-            background-position: center;
-        }
-        /* Info Boxes (NEW) */
-        .home-info-boxes {
-            display: flex;
-            gap: 20px;
-            margin-top: 50px;
-            flex-wrap: wrap; /* Agar responsif jika layar kecil */
-        }
-        .info-box {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-        .info-box-icon {
-            width: 40px;
-            height: 40px;
-            background-color: var(--color-white); /* Placeholder untuk icon */
-            border-radius: 50%;
-            flex-shrink: 0;
-            /* Anda bisa tambahkan <img> di dalam sini nanti */
-        }
-        .info-box-text h4 {
-            font-size: 1rem;
-            font-weight: 700;
-            margin-bottom: 2px;
-        }
-        .info-box-text p {
-            font-size: 0.9rem;
-            margin-bottom: 0;
-            line-height: 1.4;
-        }
-
         /* --- 3. ABOUT US SECTION --- */
         /* About section: full-bleed background with overlay, image card on left */
         #about {
@@ -708,22 +652,6 @@
 
     /* --- 7. RESPONSIVE CSS --- */
         @media (max-width: 992px) {
-            .home-wrapper {
-                grid-template-columns: 1fr; /* Stack di layar medium */
-                text-align: center;
-            }
-            .home-image-placeholder {
-                order: -1; /* Pindah gambar ke atas di mobile */
-                height: 300px;
-                margin-bottom: 30px;
-            }
-            .home-content p {
-                max-width: 100%;
-            }
-            .home-info-boxes {
-                justify-content: center; /* Tengahkan info box */
-            }
-            /* Ensure grid sections collapse to single column on medium screens */
             .about-wrapper {
                 grid-template-columns: 1fr;
                 gap: 24px;
@@ -779,10 +707,7 @@
             #about .about-image img { width: 100%; height: auto; object-fit: cover; border-radius: 14px; }
 
             /* Menu panel images: bigger on desktop */
-            .menu-panel { padding: 28px; }
-            .menu-panel .panel-image { width: 200px; height: 200px; }
             .menu-header { max-width: 450px; }
-            .menu-card--top-left, .menu-card--bottom-right { max-width: 500px; }
             .menu-cta { max-width: 450px; }
 
             /* Kontak map: taller iframe */
@@ -791,14 +716,26 @@
         }
 
         @media (max-width: 768px) {
+            header {
+                padding: 14px 0;
+            }
             header .container {
                 flex-direction: column;
-                gap: 10px;
+                gap: 12px;
+                align-items: center;
+                justify-content: center;
+            }
+            .logo {
+                justify-content: center;
+            }
+            .nav-menu {
+                width: 100%;
             }
             .nav-menu ul {
                 flex-wrap: wrap;
                 justify-content: center;
                 gap: 10px;
+                width: 100%;
             }
             section {
                 padding: 60px 0;
@@ -815,16 +752,34 @@
 
         /* Small screen tweaks (mobile phones) */
         @media (max-width: 600px) {
-            header .container { padding: 0 12px; }
+            header {
+                padding: 16px 0;
+            }
+            header .container {
+                padding: 0 12px;
+                flex-direction: column;
+                gap: 12px;
+                align-items: center;
+                justify-content: center;
+            }
+            .logo {
+                justify-content: center;
+            }
             .site-logo { height: 42px; }
-            .nav-menu ul { gap: 8px; }
+            .nav-menu {
+                width: 100%;
+            }
+            .nav-menu ul {
+                gap: 8px;
+                justify-content: center;
+                width: 100%;
+            }
 
             /* Hero adjustments */
             #home { padding-top: 140px; }
             .home-inner { padding: 80px 16px; }
             .hero-title { font-size: 36px; }
             .hero-sub { font-size: 12px; }
-            .home-image-placeholder { height: 220px; }
 
             /* Menu section responsive - stack all elements */
             .menu-unggulan-item {
@@ -912,45 +867,50 @@
         <section id="menu">
             <div class="container">
                 <div class="menu-inner">
-                    <!-- Menu Items Grid -->
+                    <!-- Menu Items Grid - Data from Database -->
                     <div class="menu-unggulan-grid">
-                        <div class="menu-unggulan-row">
-                            @php
-                                $menuItems = [
-                                    (object)['nama' => 'Gulai Kepala Kambing', 'deskripsi' => 'Kepala kambing utuh dimasak dengan bumbu gulai kaya rempah, menghasilkan cita rasa otentik yang melegenda.', 'gambar' => 'images/menu_unggulan_1.jpg'],
-                                    (object)['nama' => 'Gulai Kambing', 'deskripsi' => 'Potongan daging kambing empuk dalam kuah gulai kental yang gurih dan sedikit pedas, resep turun-temurun.', 'gambar' => 'images/menu_unggulan_2.jpg'],
-                                    (object)['nama' => 'Sop Kambing', 'deskripsi' => 'Sop bening dengan kaldu kambing yang ringan namun kaya rasa, disajikan dengan potongan daging dan tulang.', 'gambar' => 'images/menu_unggulan_3.jpg'],
-                                    (object)['nama' => 'Tongseng Kambing', 'deskripsi' => 'Daging kambing empuk ditumis dengan bumbu tongseng khas, kol, dan tomat, memberikan rasa manis, gurih, dan pedas.', 'gambar' => 'images/menu_unggulan_4.jpg'],
-                                ];
-                            @endphp
+                        @if($menuItems && count($menuItems) > 0)
+                            <div class="menu-unggulan-row">
+                                <!-- First Menu Item -->
+                                @if($menuItems[0])
+                                    <div class="menu-unggulan-item" data-aos="fade-up" data-aos-delay="100">
+                                        <div class="menu-unggulan-image">
+                                            <img src="{{ $menuItems[0]->getImageSrc('images/menu_unggulan_1.jpg') }}" alt="{{ $menuItems[0]->nama }}" loading="lazy">
+                                        </div>
+                                        <div class="menu-unggulan-content">
+                                            <h3>{{ $menuItems[0]->nama }}</h3>
+                                            <p>{{ $menuItems[0]->deskripsi }}</p>
+                                        </div>
+                                    </div>
+                                @endif
 
-                            <div class="menu-unggulan-item" data-aos="fade-up" data-aos-delay="100">
-                                <div class="menu-unggulan-image">
-                                    <img src="{{ asset($menuItems[0]->gambar) }}" alt="{{ $menuItems[0]->nama }}" loading="lazy">
-                                </div>
-                                <div class="menu-unggulan-content">
-                                    <h3>{{ $menuItems[0]->nama }}</h3>
-                                    <p>{{ $menuItems[0]->deskripsi }}</p>
+                                <!-- Menu Header -->
+                                <div class="menu-header" data-aos="fade-down" data-aos-delay="100">
+                                    <h2 class="menu-title">MENU UNGGULAN</h2>
+                                    <div class="menu-subtitle">Spesial dari Dapur Kami</div>
                                 </div>
                             </div>
 
-                            <div class="menu-header" data-aos="fade-down" data-aos-delay="100">
-                                <h2 class="menu-title">MENU UNGGULAN</h2>
-                                <div class="menu-subtitle">Spesial dari Dapur Kami</div>
+                            <!-- Remaining Menu Items (2, 3, 4) -->
+                            @foreach(array_slice($menuItems, 1) as $index => $item)
+                                @if($item)
+                                    <div class="menu-unggulan-item" data-aos="fade-up" data-aos-delay="{{ 150 + ($index * 50) }}">
+                                        <div class="menu-unggulan-image">
+                                            <img src="{{ $item->getImageSrc('images/menu_unggulan_' . ($index + 2) . '.jpg') }}" alt="{{ $item->nama }}" loading="lazy">
+                                        </div>
+                                        <div class="menu-unggulan-content">
+                                            <h3>{{ $item->nama }}</h3>
+                                            <p>{{ $item->deskripsi }}</p>
+                                        </div>
+                                    </div>
+                                @endif
+                            @endforeach
+                        @else
+                            <!-- Fallback if no menu items in database -->
+                            <div style="text-align: center; color: #fff; padding: 40px;">
+                                <p>Menu unggulan belum ditambahkan. Silakan akses halaman admin untuk menambahkan menu.</p>
                             </div>
-                        </div>
-
-                        @foreach(array_slice($menuItems, 1) as $index => $item)
-                            <div class="menu-unggulan-item" data-aos="fade-up" data-aos-delay="{{ 150 + ($index * 50) }}">
-                                <div class="menu-unggulan-image">
-                                    <img src="{{ asset($item->gambar) }}" alt="{{ $item->nama }}" loading="lazy">
-                                </div>
-                                <div class="menu-unggulan-content">
-                                    <h3>{{ $item->nama }}</h3>
-                                    <p>{{ $item->deskripsi }}</p>
-                                </div>
-                            </div>
-                        @endforeach
+                        @endif
                     </div>
 
                     <!-- Call to Action - Bottom Center -->
