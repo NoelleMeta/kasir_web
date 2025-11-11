@@ -37,11 +37,26 @@
             font-family: var(--font-body);
             color: var(--color-gray);
 			background-color: #000000; /* black side background for desktop */
+            background-image:
+                url('{{ asset("images/marawa_1.png") }}'),
+                url('{{ asset("images/marawa_2.png") }}');
+            background-size: auto 100%, auto 100%;
+            background-position: left center, right center;
+            background-repeat: no-repeat, no-repeat;
+            background-attachment: fixed, fixed;
             line-height: 1.6;
         }
+		@media (max-width: 1199px) {
+			body {
+				background-image: none;
+			}
+		}
 		/* Boxed frame for desktop */
 		.page-frame {
 			background: var(--color-white);
+            /* Mencegah overflow horizontal dari frame itu sendiri */
+            overflow-x: hidden;
+			position: relative;
 		}
 		@media (min-width: 1200px) {
 			.page-frame {
@@ -98,11 +113,13 @@
             background-color: #0b0b0b; /* black header like design */
             box-shadow: 0 2px 6px rgba(0,0,0,0.2);
             padding: 12px 0;
-            position: fixed;
-            width: 100%;
+            position: fixed; /* <-- INI YANG MEMBUATNYA TETAP ADA (STICKY) */
             top: 0;
             left: 0;
+            right: 0;
             z-index: 1000;
+            /* Petunjuk render untuk kestabilan */
+            will-change: transform;
         }
         header .container {
             display: flex;
@@ -355,7 +372,7 @@
             justify-content: space-between;
             width: 100%;
             gap: 2rem;
-            padding-right: 10rem; /* Adjust this value as needed */
+            padding-right: 10rem; /* <-- BIANG KEROK OVERFLOW */
         }
         .menu-unggulan-item {
             background: linear-gradient(135deg, #8B4513 0%, #A0522D 50%, #8B4513 100%);
@@ -521,13 +538,16 @@
                 flex-direction: column;
                 align-items: center;
                 gap: 1rem;
-                padding-right: 0; /* remove desktop right padding on small screens */
+                padding-right: 0; /* <-- PERBAIKAN BUG OVERFLOW UTAMA ADA DI SINI */
             }
+            /* Ensure menu header is always at the top on mobile */
             .menu-unggulan-row .menu-header {
-                order: -1; /* appear above the first item */
+                order: -1;
                 width: 100%;
-                text-align: center;
-                margin-bottom: 8px;
+            }
+            .menu-unggulan-row .menu-unggulan-item {
+                order: 0;
+                width: 100%;
             }
         }
 
@@ -664,32 +684,43 @@
             /* Menu section already handled above in @media (max-width: 992px) */
         }
 
-        /* Desktop: make each main section match the home height (full viewport) */
+        /* === PERUBAHAN DESKTOP (SESUAI REQUEST ANDA) === */
         @media (min-width: 992px) {
-            /* Make sections fill the viewport and vertically center their container */
-            section {
-                min-height: 100vh;
-                padding: 0; /* container will handle inner spacing */
+
+            /* --- PERUBAHAN BARU: Perkecil #home --- */
+            #home {
+                min-height: auto; /* Membatalkan 100vh global */
+                padding: 100px 0; /* Mengembalikan padding aslinya */
                 display: flex;
                 align-items: center;
             }
 
-            /* Give containers some breathing room inside the full-height section */
-            section > .container {
-                padding: 80px 20px; /* keep inner spacing similar to previous design */
+            /* HANYA #menu yang dibuat 100vh */
+            #menu {
+                min-height: 100vh;
+                padding: 0;
+                display: flex;
+                align-items: center;
+            }
+
+            /* HANYA container #menu yang di-style untuk 100vh */
+            #menu > .container {
+                padding: 80px 0; /* Hapus padding horizontal, ganti ke 0 */
                 width: 100%;
                 height: 100%;
             }
-			#menu > .container {
-				padding: 0; /* remove side padding to stick to frame edges */
-                height: 100%;
+
+            /* --- Style lain untuk desktop --- */
+
+            /* Pastikan wrapper #about dan #kontak sekarang "align-items: center" */
+            #about .about-wrapper {
+                align-items: center;
+            }
+            #kontak .kontak-wrapper {
+                align-items: center;
             }
 
-            /* Ensure specific section internals align nicely */
-            #about .about-wrapper {
-                align-items: center; /* vertically center image + text */
-                height: 100%;
-            }
+            /* Style internal #menu 100vh (INI TETAP) */
             #menu .menu-inner {
                 height: 100%;
                 position: relative;
@@ -698,10 +729,7 @@
                 display: flex;
                 flex-direction: column;
             }
-            #kontak .kontak-wrapper {
-                align-items: center;
-                height: 100%;
-            }
+
             /* Enlarge assets inside full-height sections */
             /* About image: wider and full height */
             #about .about-wrapper { grid-template-columns: 360px 1fr; }
@@ -711,8 +739,8 @@
             .menu-header { max-width: 450px; }
             .menu-cta { max-width: 450px; }
 
-            /* Kontak map: taller iframe */
-            .kontak-map iframe { height: 60vh; }
+            /* Kontak map: DIHAPUS agar kembali ke 320px */
+            /* .kontak-map iframe { height: 60vh; } <-- BARIS INI DIHAPUS */
             .kontak-halal img { width: 160px; }
         }
 
@@ -725,6 +753,13 @@
                 gap: 12px;
                 align-items: center;
                 justify-content: center;
+
+                /* === PERBAIKAN BUG HEADER MOBILE === */
+                margin: 0;
+                width: 100%;
+                max-width: 100%;
+                padding: 0 20px;
+                box-sizing: border-box;
             }
             .logo {
                 justify-content: center;
@@ -757,11 +792,17 @@
                 padding: 16px 0;
             }
             header .container {
-                padding: 0 12px;
+                padding: 0 12px; /* <-- Sesuaikan padding di layar kecil */
                 flex-direction: column;
                 gap: 12px;
                 align-items: center;
                 justify-content: center;
+
+                /* === PERBAIKAN BUG HEADER MOBILE (Harus ada di kedua media query) === */
+                margin: 0;
+                width: 100%;
+                max-width: 100%;
+                box-sizing: border-box;
             }
             .logo {
                 justify-content: center;
@@ -1076,7 +1117,7 @@
         })();
     </script>
     <script>
-        // Smooth center-scroll for internal anchor links (nav)
+        // Smooth scroll for internal anchor links (nav)
         document.addEventListener('DOMContentLoaded', function () {
             // Only target in-page hash links
             document.querySelectorAll('a[href^="#"]').forEach(function (link) {
@@ -1086,8 +1127,12 @@
                     var target = document.querySelector(href);
                     if (target) {
                         e.preventDefault();
-                        // Scroll target to vertical center of viewport
-                        target.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'nearest' });
+                        // Determine scroll behavior based on target section
+                        var scrollBlock = 'start'; // default: scroll to top
+                        if (href === '#about') {
+                            scrollBlock = 'center'; // About Us: scroll to center
+                        }
+                        target.scrollIntoView({ behavior: 'smooth', block: scrollBlock, inline: 'nearest' });
                         // Update URL hash without jumping
                         if (history && history.pushState) {
                             history.pushState(null, null, href);
