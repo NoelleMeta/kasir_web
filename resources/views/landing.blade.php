@@ -113,14 +113,22 @@
             background-color: #0b0b0b; /* black header like design */
             box-shadow: 0 2px 6px rgba(0,0,0,0.2);
             padding: 12px 0;
-            position: fixed; /* <-- INI YANG MEMBUATNYA TETAP ADA (STICKY) */
+            position: fixed;
             top: 0;
             left: 0;
             right: 0;
             z-index: 1000;
-            /* Petunjuk render untuk kestabilan */
             will-change: transform;
+
+            /* --- PERUBAHAN CSS 1: Tambahkan transisi --- */
+            transition: transform 0.3s ease-out;
         }
+
+        /* --- PERUBAHAN CSS 2: Style untuk header tersembunyi (Mobile) --- */
+        header.header-hidden {
+            transform: translateY(-100%);
+        }
+
         header .container {
             display: flex;
             justify-content: space-between;
@@ -626,6 +634,15 @@
         }
         .kontak-info p, .kontak-info a { color: rgba(255,255,255,0.95); text-decoration: none; }
         .kontak-info .socials { margin-top: 8px; }
+        /* Style untuk link media sosial */
+        .kontak-info .socials a {
+            text-decoration: underline;
+            transition: opacity 0.2s;
+        }
+        .kontak-info .socials a:hover {
+            opacity: 0.8;
+        }
+
         .kontak-halal {
             margin-top: 18px;
             display:flex;
@@ -686,11 +703,72 @@
         }
 
     /* --- 7. RESPONSIVE CSS --- */
+
+        /* === PERUBAHAN 'ABOUT US' (TABLET) - KEMBALI KE SIMPLE === */
         @media (max-width: 992px) {
             .about-wrapper {
-                grid-template-columns: 1fr;
-                gap: 24px;
+                /* --- KEMBALI KE 2 KOLOM SEDERHANA --- */
+                grid-template-columns: 1fr 1fr; /* 2 kolom (50/50) */
+                gap: 24px; /* Beri jarak antar kolom/baris */
+                align-items: start; /* Rata atas */
             }
+
+            /* "Buka" container .about-text agar isinya bisa diatur */
+            .about-wrapper .about-text {
+                display: contents;
+            }
+
+            /* 1. Atur Judul */
+            .about-wrapper .about-titles {
+                order: 1; /* Judul tampil #1 */
+                grid-column: 1 / 3; /* Rentangkan di 2 kolom */
+                margin-bottom: 0; /* Hapus margin, biarkan gap */
+            }
+
+            /* 2. Atur Gambar */
+            .about-wrapper .about-image {
+                order: 2; /* Tampil #2 */
+                grid-column: 1 / 2; /* Kolom pertama */
+
+                /* --- HAPUS STYLE HIMPIT --- */
+                position: static;
+                z-index: auto;
+                margin-right: 0;
+            }
+            .about-wrapper .about-image img {
+                /* Biarkan style default */
+            }
+
+            /* 3. Atur Deskripsi (Side-by-side) */
+            .about-wrapper .about-description {
+                order: 2; /* Tampil #2 (sama dgn gambar) */
+                grid-column: 2 / 3; /* Kolom kedua */
+
+                /* --- HAPUS STYLE HIMPIT (CARD PUTIH) --- */
+                position: static;
+                z-index: auto;
+                background-color: transparent;
+                color: inherit; /* Warisi warna dari #about */
+                padding: 0;
+                border-radius: 0;
+                box-shadow: none;
+                margin: 0;
+                width: auto;
+                align-self: start;
+            }
+
+            /* Pastikan teks deskripsi kembali putih & kecil */
+            .about-wrapper .about-description p {
+                color: rgba(255,255,255,0.9);
+                font-size: 0.9rem; /* Perkecil font */
+                line-height: 1.6;
+            }
+            .about-wrapper .about-description p:last-child {
+                margin-bottom: 0;
+            }
+            /* --- BATAS AKHIR PERUBAHAN 'ABOUT US' --- */
+
+
             .kontak-wrapper {
                 grid-template-columns: 1fr;
                 gap: 20px;
@@ -699,7 +777,7 @@
         }
 
         /* === PERUBAHAN DESKTOP (SESUAI REQUEST ANDA) === */
-        @media (min-width: 992px) {
+        @media (min-width: 993px) { /* Ubah ke 993px agar tidak konflik */
 
             /* --- INI BLOK YANG SAYA TAMBAHKAN --- */
             header {
@@ -708,6 +786,12 @@
                 left: 50%;
                 transform: translateX(-50%);
                 /* 'right: 0' dari style global otomatis terganti */
+            }
+
+            /* --- PERUBAHAN CSS 3: Style tersembunyi (Desktop) --- */
+            /* Kita harus menggabungkan translateX (untuk center) dengan translateY (untuk sembunyi) */
+            header.header-hidden {
+                transform: translateX(-50%) translateY(-100%);
             }
             /* --- BATAS AKHIR BLOK TAMBAHAN --- */
 
@@ -739,7 +823,56 @@
             /* Pastikan wrapper #about dan #kontak sekarang "align-items: center" */
             #about .about-wrapper {
                 align-items: center;
+                /* Kembalikan grid desktop asli */
+                grid-template-columns: 360px 1fr; /* Versi 360px yg lebih besar */
+                gap: 48px; /* Kembalikan gap desktop */
             }
+
+            /* --- RESET CSS MOBILE 'ABOUT US' UNTUK DESKTOP --- */
+            /* Kembalikan .about-text ke default, BUKAN 'display: contents' */
+            #about .about-wrapper .about-text {
+                display: block;
+            }
+
+            /* Reset order jika terpengaruh */
+            #about .about-wrapper .about-image {
+                order: 0;
+                grid-column: 1 / 2; /* Pastikan kembali ke kolom 1 */
+                margin-right: 0;
+            }
+            #about .about-wrapper .about-text {
+                 order: 0;
+                 grid-column: 2 / 3; /* Pastikan kembali ke kolom 2 */
+            }
+            #about .about-wrapper .about-titles {
+                order: 0;
+                grid-column: auto; /* Reset grid span */
+                margin-bottom: 0;
+            }
+            #about .about-wrapper .about-description {
+                order: 0;
+                grid-column: auto; /* Reset grid span */
+            }
+
+            /* Kembalikan style .about-description ke normal */
+            #about .about-wrapper .about-description {
+                position: static;
+                width: auto;
+                background-color: transparent;
+                color: inherit;
+                padding: 0;
+                box-shadow: none;
+                margin: 0;
+            }
+            /* Kembalikan warna teks deskripsi ke putih */
+            #about .about-wrapper .about-description p {
+                color: rgba(255,255,255,0.9);
+                font-size: 1rem;
+                line-height: 1.8;
+            }
+             /* --- BATAS AKHIR RESET CSS 'ABOUT US' --- */
+
+
             #kontak .kontak-wrapper {
                 align-items: center;
             }
@@ -756,7 +889,7 @@
 
             /* Enlarge assets inside full-height sections */
             /* About image: wider and full height */
-            #about .about-wrapper { grid-template-columns: 360px 1fr; }
+            /* #about .about-wrapper { grid-template-columns: 360px 1fr; } <- Sudah di atas */
             #about .about-image img { width: 100%; height: auto; object-fit: cover; border-radius: 14px; }
 
             /* Menu panel images: bigger on desktop */
@@ -807,6 +940,13 @@
                 font-size: 2.8rem;
             }
 
+            /* Penyesuaian 'About Us' (menghapus sisa overlap) */
+            .about-wrapper .about-description {
+                /* Hapus sisa margin overlap */
+                margin: 0;
+            }
+
+
             /* Penyesuaian untuk HP (mewarisi dari tablet) */
             .menu-unggulan-item {
                 max-width: 100%; /* Lebar penuh di HP */
@@ -849,6 +989,38 @@
             .home-inner { padding: 80px 16px; }
             .hero-title { font-size: 36px; }
             .hero-sub { font-size: 12px; }
+
+            /* --- PERUBAHAN 'ABOUT US' (HP KECIL) --- */
+            /* Kembalikan ke 1 kolom karena 2 kolom terlalu sempit */
+            .about-wrapper {
+                grid-template-columns: 1fr;
+                gap: 24px; /* Beri jarak lagi */
+            }
+            .about-wrapper .about-titles {
+                grid-column: 1 / 2; /* Reset ke 1 kolom */
+                order: 1;
+                margin-bottom: 0; /* Hapus margin */
+            }
+            .about-wrapper .about-image {
+                grid-column: 1 / 2; /* Reset ke 1 kolom */
+                order: 2;
+                margin-right: 0; /* <<< RESET HIMPIT */
+            }
+            .about-wrapper .about-description {
+                grid-column: 1 / 2; /* Reset ke 1 kolom */
+                order: 3;
+                /* <<< RESET HIMPIT STYLES */
+                background-color: transparent;
+                color: inherit;
+                padding: 0;
+                box-shadow: none;
+            }
+            .about-wrapper .about-description p {
+                font-size: 0.95rem; /* Kembalikan ukuran font normal HP */
+                color: rgba(255,255,255,0.9); /* Kembalikan warna putih */
+            }
+            /* --- BATAS AKHIR PERUBAHAN 'ABOUT US' HP --- */
+
 
             /* --- Penyesuaian Ukuran Kartu di HP Kecil --- */
             .menu-unggulan-item {
@@ -927,17 +1099,30 @@
 
         <section id="about">
             <div class="container">
+                    {{--
+                        Struktur HTML ini (dijaga tetap sama)
+                        memungkinkan CSS untuk mengatur ulang
+                        tampilannya di berbagai ukuran layar.
+                    --}}
                     <div class="about-wrapper" data-aos="fade-up" data-aos-delay="100">
+
                     <div class="about-image">
                         <img src="{{ isset($settings) && $settings->get('about_gambar') && $settings->get('about_gambar')->value ? \App\Models\LandingPageSetting::getImageSrc($settings->get('about_gambar')->value, 'images/gambar_about_us.jpg') : asset('images/gambar_about_us.jpg') }}" alt="Gulai Kakek House" data-aos="zoom-in" data-aos-delay="160">
                     </div>
+
                     <div class="about-text">
-                        <div class="section-title" data-aos="fade-right" data-aos-delay="180">ABOUT US</div>
-                        <div class="section-subtitle" data-aos="fade-right" data-aos-delay="220">Warisan Turun-temurun</div>
+                        {{-- BLOK 1: JUDUL --}}
+                        <div class="about-titles">
+                            <div class="section-title" data-aos="fade-right" data-aos-delay="180">ABOUT US</div>
+                            <div class="section-subtitle" data-aos="fade-right" data-aos-delay="220">Warisan Turun-temurun</div>
+                        </div>
 
-                        <p>{{ isset($settings) && $settings->get('about_text_1') && $settings->get('about_text_1')->value ? $settings->get('about_text_1')->value : 'Di Gulai Kambiang Kakek, kami percaya bahwa masakan yang enak berasal dari resep yang tulus. Berdiri pada tahun 2024, kami membawa misi sederhana: menghadirkan gulai kambing seenak buatan "Kakek" di rumah—penuh cinta, kaya rempah, dan tak terlupakan.' }}</p>
+                        {{-- BLOK 2: DESKRIPSI --}}
+                        <div class="about-description">
+                            <p>{{ isset($settings) && $settings->get('about_text_1') && $settings->get('about_text_1')->value ? $settings->get('about_text_1')->value : 'Di Gulai Kambiang Kakek, kami percaya bahwa masakan yang enak berasal dari resep yang tulus. Berdiri pada tahun 2024, kami membawa misi sederhana: menghadirkan gulai kambing seenak buatan "Kakek" di rumah—penuh cinta, kaya rempah, dan tak terlupakan.' }}</p>
 
-                        <p>{{ isset($settings) && $settings->get('about_text_2') && $settings->get('about_text_2')->value ? $settings->get('about_text_2')->value : 'Kami adalah rumah bagi para pencinta hidangan kambing. Dengan bangga, kami menempatkan Gulai Kepala Kambing dan Gulai Kambing sebagai bintang utama di dapur kami. Dibuat dari bahan-bahan segar dan daging pilihan, kami menjamin tekstur yang empuk dan bumbu yang meresap hingga ke tulang.' }}</p>
+                            <p>{{ isset($settings) && $settings->get('about_text_2') && $settings->get('about_text_2')->value ? $settings->get('about_text_2')->value : 'Kami adalah rumah bagi para pencinta hidangan kambing. Dengan bangga, kami menempatkan Gulai Kepala Kambing dan Gulai Kambing sebagai bintang utama di dapur kami. Dibuat dari bahan-bahan segar dan daging pilihan, kami menjamin tekstur yang empuk dan bumbu yang meresap hingga ke tulang.' }}</p>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -1084,32 +1269,57 @@
                         </div>
 
                         <h3 style="margin-top:16px;">IKUTI KAMI</h3>
+
+                        {{-- --- PERUBAHAN "IKUTI KAMI" MENJADI LINK --- --}}
                         <div class="socials">
-                            @php
-                                $tiktok = isset($settings) && $settings->get('kontak_tiktok') && $settings->get('kontak_tiktok')->value ? $settings->get('kontak_tiktok')->value : '@gulaikambiangkakek';
-                                $instagram = isset($settings) && $settings->get('kontak_instagram') && $settings->get('kontak_instagram')->value ? $settings->get('kontak_instagram')->value : '@rm.gulai_kambiang_kakek';
+                             @php
+                                // Ambil handle (nama pengguna) dari settings
+                                $tiktok_handle = isset($settings) && $settings->get('kontak_tiktok') && $settings->get('kontak_tiktok')->value
+                                    ? $settings->get('kontak_tiktok')->value
+                                    : '@gulaikambiangkakek';
+
+                                $instagram_handle = isset($settings) && $settings->get('kontak_instagram') && $settings->get('kontak_instagram')->value
+                                    ? $settings->get('kontak_instagram')->value
+                                    : '@rm.gulai_kambiang_kakek';
+
+                                // Bersihkan handle dari '@' untuk membuat URL
+                                $tiktok_username = ltrim($tiktok_handle, '@');
+                                $instagram_username = ltrim($instagram_handle, '@');
+
+                                // Buat URL lengkap
+                                $tiktok_url = $tiktok_username ? "https://www.tiktok.com/@" . $tiktok_username : null;
+                                $instagram_url = $instagram_username ? "https://www.instagram.com/" . $instagram_username : null;
                             @endphp
-                            @if($tiktok)
+
+                            {{-- Tampilkan link TikTok jika URL valid --}}
+                            @if($tiktok_url)
                             <div class="info-item">
                                 <div class="icon" aria-hidden="true">
                                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                                         <path fill="currentColor" d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z"/>
                                     </svg>
                                 </div>
-                                <div>{{ $tiktok }}</div>
+                                <div>
+                                    <a href="{{ $tiktok_url }}" target="_blank" rel="noopener">{{ $tiktok_handle }}</a>
+                                </div>
                             </div>
                             @endif
-                            @if($instagram)
+
+                            {{-- Tampilkan link Instagram jika URL valid --}}
+                            @if($instagram_url)
                             <div class="info-item">
                                 <div class="icon" aria-hidden="true">
                                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                                         <path fill="currentColor" d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
                                     </svg>
                                 </div>
-                                <div>{{ $instagram }}</div>
+                                <div>
+                                    <a href="{{ $instagram_url }}" target="_blank" rel="noopener">{{ $instagram_handle }}</a>
+                                </div>
                             </div>
                             @endif
                         </div>
+                        {{-- --- BATAS AKHIR PERUBAHAN LINK --- --}}
 
                     </div>
                 </div>
@@ -1153,7 +1363,7 @@
             }, SLIDE_INTERVAL);
         })();
     </script>
-    <script>
+<script>
         // Smooth scroll for internal anchor links (nav)
         document.addEventListener('DOMContentLoaded', function () {
             // Only target in-page hash links
@@ -1164,12 +1374,15 @@
                     var target = document.querySelector(href);
                     if (target) {
                         e.preventDefault();
-                        // Determine scroll behavior based on target section
-                        var scrollBlock = 'start'; // default: scroll to top
-                        if (href === '#about') {
-                            scrollBlock = 'center'; // About Us: scroll to center
-                        }
+
+                        // --- PERUBAHAN DI SINI ---
+                        // Kita hapus kondisi 'if' agar semua link
+                        // menggunakan 'start' (rata atas)
+                        var scrollBlock = 'start';
+
                         target.scrollIntoView({ behavior: 'smooth', block: scrollBlock, inline: 'nearest' });
+                        // --- BATAS AKHIR PERUBAHAN ---
+
                         // Update URL hash without jumping
                         if (history && history.pushState) {
                             history.pushState(null, null, href);
@@ -1181,5 +1394,41 @@
             });
         });
     </script>
+
+    {{-- --- PERUBAHAN JAVASCRIPT: Script untuk Auto-Hide Header --- --}}
+    <script>
+    (function() {
+        let lastScrollTop = 0;
+        const header = document.querySelector('header');
+        // Threshold (jarak) scroll sebelum header bereaksi
+        const delta = 10;
+        // Ambil tinggi header agar tidak sembunyi saat di paling atas
+        const headerHeight = header.offsetHeight;
+
+        window.addEventListener('scroll', function() {
+            let scrollTop = window.scrollY || document.documentElement.scrollTop;
+
+            // Pastikan user scroll lebih jauh dari 'delta'
+            if (Math.abs(lastScrollTop - scrollTop) <= delta) {
+                return;
+            }
+
+            // Jika scroll ke bawah (scrollTop > lastScrollTop)
+            // DAN sudah melewati tinggi header (scrollTop > headerHeight)
+            if (scrollTop > lastScrollTop && scrollTop > headerHeight){
+                // Scroll Down
+                header.classList.add('header-hidden');
+            } else {
+                // Scroll Up
+                header.classList.remove('header-hidden');
+            }
+
+            // Simpan posisi scroll terakhir
+            lastScrollTop = scrollTop <= 0 ? 0 : scrollTop;
+        }, false);
+    })();
+    </script>
+    {{-- --- BATAS AKHIR PERUBAHAN JAVASCRIPT --- --}}
+
 </body>
 </html>
