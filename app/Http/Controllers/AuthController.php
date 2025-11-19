@@ -23,7 +23,7 @@ class AuthController extends Controller
 		if (Auth::attempt(['username' => $credentials['username'], 'password' => $credentials['password']], $request->boolean('remember'))) {
             $request->session()->regenerate();
             // Ubah redirect ke rute dashboard (yang sekarang ada di /admin)
-            return redirect()->intended(route('dashboard')); // route('dashboard') akan otomatis mengarah ke /admin
+            return redirect()->intended(route('admin.dashboard')); // route('dashboard') akan otomatis mengarah ke /admin
         }
 
 		return back()->withErrors([
@@ -45,12 +45,12 @@ class AuthController extends Controller
 		return redirect()->route('login');
 	}
 
-	public function account()
+	public function showAccountPage()
 	{
 		return view('auth.account');
 	}
 
-	public function resetAccount(Request $request)
+	public function updateAccount(Request $request)
 	{
 		$validated = $request->validate([
 			'current_password' => ['required', 'string'],

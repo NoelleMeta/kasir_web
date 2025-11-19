@@ -15,7 +15,7 @@ return new class extends Migration
         $table->id();
         $table->foreignId('transaction_id')->constrained()->onDelete('cascade');
         $table->string('nama_produk');
-        $table->unsignedBigInteger('kategori_id')->nullable()->after('nama_produk');
+        $table->unsignedBigInteger('kategori_id')->nullable();
         $table->integer('kuantitas');
         $table->unsignedBigInteger('harga_satuan');
         $table->timestamps();

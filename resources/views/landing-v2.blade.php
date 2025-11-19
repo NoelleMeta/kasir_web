@@ -175,7 +175,7 @@
 
         /* --- 1. HEADER (NAVBAR) --- */
         header {
-            background-color: var(--color-dark-wood);
+            background-color: #381511;
             box-shadow: 0 2px 10px rgba(0,0,0,0.3);
             padding: 15px 0;
             position: fixed;
@@ -209,8 +209,6 @@
             height: 54px;
             width: auto;
             display: block;
-            border-radius: 50%;
-            border: 2px solid var(--color-primary);
         }
 
         .nav-menu ul {
@@ -248,6 +246,24 @@
 
         .nav-menu li a:hover::after {
             width: 100%;
+        }
+
+        .nav-menu .btn-admin {
+            background-color: var(--color-primary);
+            color: var(--color-black);
+            border-radius: 8px;
+            padding: 10px 20px;
+            border: 2px solid var(--color-primary);
+        }
+
+        .nav-menu .btn-admin:hover {
+            background-color: var(--color-accent);
+            color: var(--color-black);
+            border-color: var(--color-primary);
+        }
+
+        .nav-menu .btn-admin::after {
+            display: none; /* Hapus underline effect untuk tombol admin */
         }
 
         /* --- 2. HOME SECTION --- */
@@ -674,6 +690,7 @@
             align-items: center;
             gap: 8px;
             margin-right: 15px;
+            margin-bottom: 15px;
             padding: 8px 15px;
             background-color: var(--color-brown-minang);
             color: var(--color-white);
@@ -804,7 +821,7 @@
     <header>
         <div class="container">
             <a href="#home" class="logo">
-                <img src="{{ asset('images/logo_rm_gulai_kambing_kakek.jpg') }}" alt="RM Gulai Kakek" class="site-logo">
+                <img src="{{ asset('images/logo_rm_gulai_kambing_kakek_v2.png') }}" alt="RM Gulai Kakek" class="site-logo">
             </a>
             <nav class="nav-menu">
                 <ul>
@@ -812,6 +829,7 @@
                     <li><a href="#about">Tentang Kami</a></li>
                     <li><a href="#menu">Menu</a></li>
                     <li><a href="#kontak">Kontak</a></li>
+                    <li><a href="{{ route('login') }}" class="btn-admin">Admin</a></li>
                 </ul>
             </nav>
         </div>
@@ -861,50 +879,50 @@
                     <div class="menu-unggulan-grid">
                         @if($menuItems && count($menuItems) > 0)
 
-                            @if(isset($menuItems[0]) && $menuItems[0])
+                            @if(isset($menuUnggulan1) && $menuUnggulan1)
                                 <div class="menu-unggulan-item" data-aos="fade-up" data-aos-delay="100">
                                     <div class="menu-unggulan-image">
-                                        <img src="{{ $menuItems[0]->getImageSrc('images/menu_unggulan_1.jpg') }}" alt="{{ $menuItems[0]->nama }}" loading="lazy">
+                                        <img src="{{ $menuUnggulan1->getImageSrc('images/menu_unggulan_1.jpg') }}" alt="{{ $menuUnggulan1->nama }}" loading="lazy">
                                     </div>
                                     <div class="menu-unggulan-content">
-                                        <h3>{{ $menuItems[0]->nama }}</h3>
-                                        <p>{{ $menuItems[0]->deskripsi }}</p>
+                                        <h3>{{ $menuUnggulan1->nama }}</h3>
+                                        <p>{{ $menuUnggulan1->deskripsi }}</p>
                                     </div>
                                 </div>
                             @endif
 
-                            @if(isset($menuItems[1]) && $menuItems[1])
+                            @if(isset($menuUnggulan2) && $menuUnggulan2)
                                 <div class="menu-unggulan-item" data-aos="fade-up" data-aos-delay="150">
                                     <div class="menu-unggulan-image">
-                                        <img src="{{ $menuItems[1]->getImageSrc('images/menu_unggulan_2.jpg') }}" alt="{{ $menuItems[1]->nama }}" loading="lazy">
+                                        <img src="{{ $menuUnggulan2->getImageSrc('images/menu_unggulan_2.jpg') }}" alt="{{ $menuUnggulan2->nama }}" loading="lazy">
                                     </div>
                                     <div class="menu-unggulan-content">
-                                        <h3>{{ $menuItems[1]->nama }}</h3>
-                                        <p>{{ $menuItems[1]->deskripsi }}</p>
+                                        <h3>{{ $menuUnggulan2->nama }}</h3>
+                                        <p>{{ $menuUnggulan2->deskripsi }}</p>
                                     </div>
                                 </div>
                             @endif
 
-                            @if(isset($menuItems[2]) && $menuItems[2])
+                            @if(isset($menuUnggulan3) && $menuUnggulan3)
                                 <div class="menu-unggulan-item" data-aos="fade-up" data-aos-delay="200">
                                     <div class="menu-unggulan-image">
-                                        <img src="{{ $menuItems[2]->getImageSrc('images/menu_unggulan_3.jpg') }}" alt="{{ $menuItems[2]->nama }}" loading="lazy">
+                                        <img src="{{ $menuUnggulan3->getImageSrc('images/menu_unggulan_3.jpg') }}" alt="{{ $menuUnggulan3->nama }}" loading="lazy">
                                     </div>
                                     <div class="menu-unggulan-content">
-                                        <h3>{{ $menuItems[2]->nama }}</h3>
-                                        <p>{{ $menuItems[2]->deskripsi }}</p>
+                                        <h3>{{ $menuUnggulan3->nama }}</h3>
+                                        <p>{{ $menuUnggulan3->deskripsi }}</p>
                                     </div>
                                 </div>
                             @endif
 
-                            @if(isset($menuItems[3]) && $menuItems[3])
+                            @if(isset($menuUnggulan4) && $menuUnggulan4)
                                 <div class="menu-unggulan-item" data-aos="fade-up" data-aos-delay="300">
                                     <div class="menu-unggulan-image">
-                                        <img src="{{ $menuItems[3]->getImageSrc('images/menu_unggulan_4.jpg') }}" alt="{{ $menuItems[3]->nama }}" loading="lazy">
+                                        <img src="{{ $menuUnggulan4->getImageSrc('images/menu_unggulan_4.jpg') }}" alt="{{ $menuUnggulan4->nama }}" loading="lazy">
                                     </div>
                                     <div class="menu-unggulan-content">
-                                        <h3>{{ $menuItems[3]->nama }}</h3>
-                                        <p>{{ $menuItems[3]->deskripsi }}</p>
+                                        <h3>{{ $menuUnggulan4->nama }}</h3>
+                                        <p>{{ $menuUnggulan4->deskripsi }}</p>
                                     </div>
                                 </div>
                             @endif
@@ -1047,27 +1065,6 @@
                 });
             });
         });
-
-        // Auto-Hide Header
-        (function() {
-            let lastScrollTop = 0;
-            const header = document.querySelector('header');
-            const delta = 10;
-            const headerHeight = header.offsetHeight;
-
-            window.addEventListener('scroll', function() {
-                let scrollTop = window.scrollY || document.documentElement.scrollTop;
-                if (Math.abs(lastScrollTop - scrollTop) <= delta) {
-                    return;
-                }
-                if (scrollTop > lastScrollTop && scrollTop > headerHeight){
-                    header.classList.add('header-hidden');
-                } else {
-                    header.classList.remove('header-hidden');
-                }
-                lastScrollTop = scrollTop <= 0 ? 0 : scrollTop;
-            }, false);
-        })();
     </script>
 
 </body>

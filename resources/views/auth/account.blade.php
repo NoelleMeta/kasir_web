@@ -20,7 +20,7 @@
 
         <div style="background:#ffffff;border-radius:12px;box-shadow:0 1px 2px rgba(0,0,0,.06);padding:16px;">
             <h3 style="margin:0 0 12px 0;color:#334155">Reset Password</h3>
-            <form method="POST" action="{{ route('account.reset') }}">
+            <form method="POST" action="{{ route('admin.account.update') }}">
                 @csrf
                 <div style="margin-bottom:12px;">
                     <label style="display:block;margin-bottom:6px;color:#475569;">Password sekarang</label>

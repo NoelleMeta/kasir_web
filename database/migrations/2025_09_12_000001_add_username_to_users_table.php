@@ -11,9 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->string('username')->unique()->after('name');
-        });
+        // Migration ini duplikat dengan 2025_09_12_000000_add_username_to_users_table
+        // Kolom username sudah ditambahkan di migration sebelumnya
+        if (!Schema::hasColumn('users', 'username')) {
+            Schema::table('users', function (Blueprint $table) {
+                $table->string('username')->unique()->after('name');
+            });
+        }
     }
 
     /**

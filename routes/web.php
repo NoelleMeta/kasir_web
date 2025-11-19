@@ -33,7 +33,7 @@ Route::get('/map', [MapController::class, 'redirectToGoogleMaps'])->name('map.re
 
 // --- Admin Authentication Routes ---
 Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
-Route::post('/login', [AuthController::class, 'login']);
+Route::post('/login', [AuthController::class, 'login'])->name('login.attempt');
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 
@@ -41,9 +41,7 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 Route::middleware(['auth'])->group(function () {
 
     // Dashboard Utama
-    Route::get('/admin/dashboard', function () {
-        return view('index');
-    })->name('admin.dashboard');
+    Route::get('/admin/dashboard', [ReportController::class, 'dashboard'])->name('admin.dashboard');
 
     // Manajemen Akun
     Route::get('/admin/account', [AuthController::class, 'showAccountPage'])->name('admin.account');
@@ -52,9 +50,10 @@ Route::middleware(['auth'])->group(function () {
     // Laporan
     Route::get('/admin/laporan/ringkas', [ReportController::class, 'ringkas'])->name('laporan.ringkas');
     Route::get('/admin/laporan/detail', [ReportController::class, 'detail'])->name('laporan.detail');
-    Route::get('/admin/laporan/ringkas/export', [ReportController::class, 'exportRingkas'])->name('laporan.ringkas.export');
-    Route::get('/admin/laporan/detail/export', [ReportController::class, 'exportDetail'])->name('laporan.detail.export');
-    Route::get('/admin/laporan/detail-pdf/{id}', [ReportController::class, 'exportDetailPdf'])->name('laporan.detail.pdf');
+    Route::get('/admin/laporan/ringkas/excel', [ReportController::class, 'exportRingkasExcel'])->name('laporan.ringkas.excel');
+    Route::get('/admin/laporan/ringkas/pdf', [ReportController::class, 'exportRingkasPdf'])->name('laporan.ringkas.pdf');
+    Route::get('/admin/laporan/detail/excel', [ReportController::class, 'exportDetailExcel'])->name('laporan.detail.excel');
+    Route::get('/admin/laporan/detail/pdf', [ReportController::class, 'exportDetailPdf'])->name('laporan.detail.pdf');
 
     // Manajemen Landing Page
     Route::get('/admin/landing-page', [LandingPageController::class, 'showAdminPage'])->name('landing-page.admin');
@@ -65,5 +64,6 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/admin/landing-page/about', [LandingPageController::class, 'updateAbout'])->name('landing-page.update-about');
     Route::post('/admin/landing-page/menu-deskripsi', [LandingPageController::class, 'updateMenuDeskripsi'])->name('landing-page.update-menu-deskripsi');
     Route::post('/admin/landing-page/menu-pdf', [LandingPageController::class, 'uploadMenuPdf'])->name('landing-page.upload-menu-pdf');
+    Route::post('/admin/landing-page/koordinat', [LandingPageController::class, 'updateKoordinat'])->name('landing-page.update-koordinat');
 
 });

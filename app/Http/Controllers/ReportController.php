@@ -59,9 +59,6 @@ class ReportController extends Controller
         $reportData = $query->groupBy('ti.nama_produk', 'ti.kategori_id')
             ->get();
 
-        // Debug: Log the raw data
-        Log::info('Raw report data:', $reportData->toArray());
-
         // Map kategori_id to kategori name
         $reportData = $reportData->map(function ($item) {
             $kategoriMap = [
@@ -72,14 +69,6 @@ class ReportController extends Controller
                 '2' => 'Minuman',  // Handle string type
                 '3' => 'Extra'     // Handle string type
             ];
-
-            // Debug: Log the kategori_id value
-            Log::info('Processing item:', [
-                'nama_produk' => $item->nama_produk,
-                'kategori_id' => $item->kategori_id,
-                'kategori_id_type' => gettype($item->kategori_id),
-                'kategori_id_raw' => var_export($item->kategori_id, true)
-            ]);
 
             $item->kategori = $kategoriMap[$item->kategori_id] ?? 'Tidak Diketahui (ID: ' . $item->kategori_id . ')';
             return $item;
@@ -137,15 +126,6 @@ class ReportController extends Controller
         $month = $selectedMonth ? (int)$selectedMonth : now()->month;
         $year = $selectedYear ? (int)$selectedYear : now()->year;
 
-        // Debug logging untuk memastikan periode yang dipilih
-        Log::info('Dashboard Period Selection:', [
-            'selected_month' => $selectedMonth,
-            'selected_year' => $selectedYear,
-            'final_month' => $month,
-            'final_year' => $year,
-            'period_label' => Carbon::create($year, $month, 1)->format('F Y')
-        ]);
-
         $baseQuery = Transaction::whereMonth('waktu_transaksi', $month)
             ->whereYear('waktu_transaksi', $year);
 
@@ -190,28 +170,6 @@ class ReportController extends Controller
         // Cek apakah ada data transaksi untuk periode yang dipilih
         $hasData = $totalTransaksi > 0;
 
-        // Debug logging untuk memverifikasi data yang dihasilkan
-        Log::info('Dashboard Data Results:', [
-            'period' => Carbon::create($year, $month, 1)->format('F Y'),
-            'total_transaksi' => $totalTransaksi,
-            'total_pendapatan' => $totalPendapatan,
-            'total_item_terjual' => $totalItemTerjual,
-            'makanan_terlaris_count' => $makananTerlaris->count(),
-            'minuman_terlaris_count' => $minumanTerlaris->count(),
-            'date_range' => [
-                'start' => Carbon::create($year, $month, 1)->format('Y-m-d'),
-                'end' => Carbon::create($year, $month, 1)->endOfMonth()->format('Y-m-d')
-            ],
-            'query_verification' => [
-                'month_filter' => $month,
-                'year_filter' => $year,
-                'actual_date_range' => [
-                    'from' => Carbon::create($year, $month, 1)->startOfDay()->toDateTimeString(),
-                    'to' => Carbon::create($year, $month, 1)->endOfMonth()->endOfDay()->toDateTimeString()
-                ]
-            ]
-        ]);
-
         return [
             'totalTransaksi' => $totalTransaksi,
             'totalPendapatan' => $totalPendapatan,
@@ -236,14 +194,6 @@ class ReportController extends Controller
         $period = $request->query('period');
         $startDate = $request->query('start_date');
         $endDate = $request->query('end_date');
-
-        // Debug: Log parameter yang diterima
-        Log::info('Filter parameters:', [
-            'period' => $period,
-            'start_date' => $startDate,
-            'end_date' => $endDate,
-            'all_params' => $request->query()
-        ]);
 
         return $query->when($period, function ($q, $period) use ($startDate, $endDate) {
             if ($period === 'month') {

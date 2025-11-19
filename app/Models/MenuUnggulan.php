@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
 
 class MenuUnggulan extends Model
 {
@@ -39,6 +40,24 @@ class MenuUnggulan extends Model
         if ($this->isBase64Image()) {
             return $this->gambar; // Return base64 data URI directly
         }
-        return $this->gambar ? asset($this->gambar) : ($defaultPath ? asset($defaultPath) : '');
+
+        if ($this->gambar) {
+            // Jika path sudah dimulai dengan http, gunakan langsung
+            if (strpos($this->gambar, 'http') === 0) {
+                return $this->gambar;
+            }
+            // Jika path sudah dimulai dengan storage/, gunakan asset langsung
+            if (strpos($this->gambar, 'storage/') === 0) {
+                return asset($this->gambar);
+            }
+            // Jika path dimulai dengan images/, tambahkan prefix storage/
+            if (strpos($this->gambar, 'images/') === 0) {
+                return asset('storage/' . $this->gambar);
+            }
+            // Default: gunakan Storage::url untuk path dari storage/app/public
+            return Storage::url($this->gambar);
+        }
+
+        return $defaultPath ? asset($defaultPath) : '';
     }
 }

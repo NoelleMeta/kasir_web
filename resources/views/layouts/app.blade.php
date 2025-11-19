@@ -198,7 +198,7 @@
             <div class="brand"><span class="dot"></span> <span>POS Admin</span></div>
             <ul class="menu">
                 <li>
-                    <a class="link {{ request()->routeIs('dashboard') ? 'active' : '' }}" href="{{ route('dashboard') }}">
+                    <a class="link {{ request()->routeIs('admin.dashboard') ? 'active' : '' }}" href="{{ route('admin.dashboard') }}">
                         <span class="icon">🏠</span>
                         <span>Dashboard</span>
                     </a>
@@ -216,13 +216,13 @@
                     </a>
                 </li>
                 <li>
-                    <a class="link {{ request()->routeIs('landing-page.*') ? 'active' : '' }}" href="{{ route('landing-page.index') }}">
+                    <a class="link {{ request()->routeIs('landing-page.*') ? 'active' : '' }}" href="{{ route('landing-page.admin') }}">
                         <span class="icon">🌐</span>
                         <span>Landing Page</span>
                     </a>
                 </li>
                 <li>
-                    <a class="link {{ request()->routeIs('account.index') ? 'active' : '' }}" href="{{ route('account.index') }}">
+                    <a class="link {{ request()->routeIs('admin.account') ? 'active' : '' }}" href="{{ route('admin.account') }}">
                         <span class="icon">👤</span>
                         <span>Akun</span>
                     </a>

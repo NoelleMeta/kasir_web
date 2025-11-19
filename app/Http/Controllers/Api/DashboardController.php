@@ -106,4 +106,3 @@ public function topProducts(Request $request)
         }
     }
 }
-?>

@@ -276,4 +276,27 @@ class LandingPageController extends Controller
 
         return back()->with('success', 'Menu PDF berhasil di-upload.');
     }
+
+    /**
+     * Update koordinat lokasi untuk map.
+     */
+    public function updateKoordinat(Request $request)
+    {
+        $data = $request->validate([
+            'map_latitude' => 'required|numeric|between:-90,90',
+            'map_longitude' => 'required|numeric|between:-180,180',
+        ]);
+
+        LandingPageSetting::updateOrCreate(
+            ['key' => 'map_latitude'],
+            ['value' => $data['map_latitude']]
+        );
+
+        LandingPageSetting::updateOrCreate(
+            ['key' => 'map_longitude'],
+            ['value' => $data['map_longitude']]
+        );
+
+        return back()->with('success', 'Koordinat lokasi berhasil diperbarui.');
+    }
 }

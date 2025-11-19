@@ -1044,6 +1044,7 @@
                     <li><a href="#about">About Us</a></li>
                     <li><a href="#menu">Menu</a></li>
                     <li><a href="#kontak">Kontak</a></li>
+                    <li><a href="{{ route('login') }}" class="btn-admin">Admin</a></li>
                 </ul>
             </nav>
         </div>
@@ -1113,50 +1114,50 @@
 
                             {{-- Semua menu item sekarang langsung di bawah menu-unggulan-grid (Item 1, 2, 3, 4) --}}
 
-                            @if(isset($menuItems[0]) && $menuItems[0])
+                            @if(isset($menuUnggulan1) && $menuUnggulan1)
                                 <div class="menu-unggulan-item" data-aos="fade-up" data-aos-delay="100">
                                     <div class="menu-unggulan-image">
-                                        <img src="{{ $menuItems[0]->getImageSrc('images/menu_unggulan_1.jpg') }}" alt="{{ $menuItems[0]->nama }}" loading="lazy">
+                                        <img src="{{ $menuUnggulan1->getImageSrc('images/menu_unggulan_1.jpg') }}" alt="{{ $menuUnggulan1->nama }}" loading="lazy">
                                     </div>
                                     <div class="menu-unggulan-content">
-                                        <h3>{{ $menuItems[0]->nama }}</h3>
-                                        <p>{{ $menuItems[0]->deskripsi }}</p>
+                                        <h3>{{ $menuUnggulan1->nama }}</h3>
+                                        <p>{{ $menuUnggulan1->deskripsi }}</p>
                                     </div>
                                 </div>
                             @endif
 
-                            @if(isset($menuItems[1]) && $menuItems[1])
+                            @if(isset($menuUnggulan2) && $menuUnggulan2)
                                 <div class="menu-unggulan-item" data-aos="fade-up" data-aos-delay="150">
                                     <div class="menu-unggulan-image">
-                                        <img src="{{ $menuItems[1]->getImageSrc('images/menu_unggulan_2.jpg') }}" alt="{{ $menuItems[1]->nama }}" loading="lazy">
+                                        <img src="{{ $menuUnggulan2->getImageSrc('images/menu_unggulan_2.jpg') }}" alt="{{ $menuUnggulan2->nama }}" loading="lazy">
                                     </div>
                                     <div class="menu-unggulan-content">
-                                        <h3>{{ $menuItems[1]->nama }}</h3>
-                                        <p>{{ $menuItems[1]->deskripsi }}</p>
+                                        <h3>{{ $menuUnggulan2->nama }}</h3>
+                                        <p>{{ $menuUnggulan2->deskripsi }}</p>
                                     </div>
                                 </div>
                             @endif
 
-                            @if(isset($menuItems[2]) && $menuItems[2])
+                            @if(isset($menuUnggulan3) && $menuUnggulan3)
                                 <div class="menu-unggulan-item" data-aos="fade-up" data-aos-delay="200">
                                     <div class="menu-unggulan-image">
-                                        <img src="{{ $menuItems[2]->getImageSrc('images/menu_unggulan_3.jpg') }}" alt="{{ $menuItems[2]->nama }}" loading="lazy">
+                                        <img src="{{ $menuUnggulan3->getImageSrc('images/menu_unggulan_3.jpg') }}" alt="{{ $menuUnggulan3->nama }}" loading="lazy">
                                     </div>
                                     <div class="menu-unggulan-content">
-                                        <h3>{{ $menuItems[2]->nama }}</h3>
-                                        <p>{{ $menuItems[2]->deskripsi }}</p>
+                                        <h3>{{ $menuUnggulan3->nama }}</h3>
+                                        <p>{{ $menuUnggulan3->deskripsi }}</p>
                                     </div>
                                 </div>
                             @endif
 
-                            @if(isset($menuItems[3]) && $menuItems[3])
+                            @if(isset($menuUnggulan4) && $menuUnggulan4)
                                 <div class="menu-unggulan-item" data-aos="fade-up" data-aos-delay="300">
                                     <div class="menu-unggulan-image">
-                                        <img src="{{ $menuItems[3]->getImageSrc('images/menu_unggulan_4.jpg') }}" alt="{{ $menuItems[3]->nama }}" loading="lazy">
+                                        <img src="{{ $menuUnggulan4->getImageSrc('images/menu_unggulan_4.jpg') }}" alt="{{ $menuUnggulan4->nama }}" loading="lazy">
                                     </div>
                                     <div class="menu-unggulan-content">
-                                        <h3>{{ $menuItems[3]->nama }}</h3>
-                                        <p>{{ $menuItems[3]->deskripsi }}</p>
+                                        <h3>{{ $menuUnggulan4->nama }}</h3>
+                                        <p>{{ $menuUnggulan4->deskripsi }}</p>
                                     </div>
                                 </div>
                             @endif
@@ -1355,7 +1356,7 @@
         });
     </script>
 
-    {{-- --- PERUBAHAN JAVASCRIPT: Script untuk Auto-Hide Header --- --}}
+{{-- --- PERUBAHAN JAVASCRIPT: Script untuk Auto-Hide Header --- --}}
     <script>
     (function() {
         let lastScrollTop = 0;

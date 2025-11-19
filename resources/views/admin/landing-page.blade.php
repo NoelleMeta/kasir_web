@@ -104,7 +104,7 @@
 
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;">
             <div style="border:1px solid #e2e8f0;border-radius:8px;padding:16px;">
-                <h4 style="margin:0 0 12px 0;color:#475569;">Menu Unggulan 1 (Top Left)</h4>
+                <h4 style="margin:0 0 12px 0;color:#475569;">Menu Unggulan 1</h4>
                 <form method="POST" action="{{ route('landing-page.update-menu', 1) }}" enctype="multipart/form-data">
                     @csrf
                     <div style="margin-bottom:12px;">
@@ -128,7 +128,7 @@
             </div>
 
             <div style="border:1px solid #e2e8f0;border-radius:8px;padding:16px;">
-                <h4 style="margin:0 0 12px 0;color:#475569;">Menu Unggulan 2 (Bottom Right)</h4>
+                <h4 style="margin:0 0 12px 0;color:#475569;">Menu Unggulan 2</h4>
                 <form method="POST" action="{{ route('landing-page.update-menu', 2) }}" enctype="multipart/form-data">
                     @csrf
                     <div style="margin-bottom:12px;">
@@ -152,7 +152,7 @@
             </div>
 
             <div style="border:1px solid #e2e8f0;border-radius:8px;padding:16px;">
-                <h4 style="margin:0 0 12px 0;color:#475569;">Menu Unggulan 3 (Top Right)</h4>
+                <h4 style="margin:0 0 12px 0;color:#475569;">Menu Unggulan 3</h4>
                 <form method="POST" action="{{ route('landing-page.update-menu', 3) }}" enctype="multipart/form-data">
                     @csrf
                     <div style="margin-bottom:12px;">
@@ -176,7 +176,7 @@
             </div>
 
             <div style="border:1px solid #e2e8f0;border-radius:8px;padding:16px;">
-                <h4 style="margin:0 0 12px 0;color:#475569;">Menu Unggulan 4 (Bottom Left)</h4>
+                <h4 style="margin:0 0 12px 0;color:#475569;">Menu Unggulan 4</h4>
                 <form method="POST" action="{{ route('landing-page.update-menu', 4) }}" enctype="multipart/form-data">
                     @csrf
                     <div style="margin-bottom:12px;">
@@ -251,6 +251,46 @@
             </div>
             <div style="margin-top:14px;display:flex;gap:10px;justify-content:flex-end;">
                 <button type="submit" class="btn primary">Simpan Kontak</button>
+            </div>
+        </form>
+    </div>
+
+    {{-- 5. Koordinat Lokasi untuk Map --}}
+    <div style="background:#ffffff;border-radius:12px;box-shadow:0 1px 2px rgba(0,0,0,.06);padding:20px;margin-bottom:20px;">
+        <h3 style="margin:0 0 16px 0;color:#334155;border-bottom:2px solid #e2e8f0;padding-bottom:8px;">Koordinat Lokasi (Map)</h3>
+        <p style="color:#64748b;margin:0 0 16px 0;font-size:0.9rem;">
+            Masukkan koordinat latitude dan longitude untuk menampilkan lokasi di peta Google Maps.
+            Koordinat ini akan digunakan di kedua landing page.
+        </p>
+        <form method="POST" action="{{ route('landing-page.update-koordinat') }}">
+            @csrf
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px;">
+                <div>
+                    <label style="display:block;margin-bottom:6px;color:#475569;">Latitude (Garis Lintang)</label>
+                    <input type="number" name="map_latitude" step="any"
+                           value="{{ $settings->get('map_latitude') ? $settings->get('map_latitude')->value : '-0.9630501253081452' }}"
+                           required class="form-control" placeholder="-0.9630501253081452">
+                    <small style="color:#64748b;display:block;margin-top:4px;">Range: -90 sampai 90</small>
+                </div>
+                <div>
+                    <label style="display:block;margin-bottom:6px;color:#475569;">Longitude (Garis Bujur)</label>
+                    <input type="number" name="map_longitude" step="any"
+                           value="{{ $settings->get('map_longitude') ? $settings->get('map_longitude')->value : '100.60195909658837' }}"
+                           required class="form-control" placeholder="100.60195909658837">
+                    <small style="color:#64748b;display:block;margin-top:4px;">Range: -180 sampai 180</small>
+                </div>
+            </div>
+            <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:12px;margin-bottom:16px;">
+                <p style="margin:0 0 8px 0;color:#475569;font-weight:600;font-size:0.9rem;">💡 Cara mendapatkan koordinat:</p>
+                <ol style="margin:0;padding-left:20px;color:#64748b;font-size:0.85rem;">
+                    <li>Buka <a href="https://www.google.com/maps" target="_blank" style="color:#0ea5e9;">Google Maps</a></li>
+                    <li>Cari lokasi yang ingin ditampilkan</li>
+                    <li>Klik kanan pada lokasi dan pilih koordinat</li>
+                    <li>Salin nilai latitude dan longitude</li>
+                </ol>
+            </div>
+            <div style="margin-top:14px;display:flex;gap:10px;justify-content:flex-end;">
+                <button type="submit" class="btn primary">Simpan Koordinat</button>
             </div>
         </form>
     </div>
