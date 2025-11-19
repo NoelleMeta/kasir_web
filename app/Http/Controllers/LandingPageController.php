@@ -2,250 +2,278 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\Request;
 use App\Models\LandingPageSetting;
 use App\Models\MenuUnggulan;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 
 class LandingPageController extends Controller
 {
     /**
-     * Menampilkan halaman edit landing page
+     * Menampilkan halaman landing utama (V1 - Modern).
      */
     public function index()
     {
-        // Get all settings
         $settings = LandingPageSetting::all()->keyBy('key');
+        $menuItems = MenuUnggulan::orderBy('id', 'asc')->get();
 
-        // Get menu unggulan
-        $menuUnggulan1 = MenuUnggulan::getByUrutan(1);
-        $menuUnggulan2 = MenuUnggulan::getByUrutan(2);
-        $menuUnggulan3 = MenuUnggulan::getByUrutan(3);
-        $menuUnggulan4 = MenuUnggulan::getByUrutan(4);
+        $data = [
+            'settings' => $settings,
+            'menuItems' => $menuItems,
+            'menuUnggulan1' => $menuItems->firstWhere('id', 1),
+            'menuUnggulan2' => $menuItems->firstWhere('id', 2),
+            'menuUnggulan3' => $menuItems->firstWhere('id', 3),
+            'menuUnggulan4' => $menuItems->firstWhere('id', 4),
+        ];
 
-        return view('admin.landing-page', compact('settings', 'menuUnggulan1', 'menuUnggulan2', 'menuUnggulan3', 'menuUnggulan4'));
+        return view('landing', $data);
     }
 
     /**
-     * Update kontak settings
+     * (INI FUNGSI BARU)
+     * Menampilkan halaman landing V2 (Tradisional).
      */
-    public function updateKontak(Request $request)
+    public function indexV2()
     {
-        $validated = $request->validate([
-            'kontak_alamat' => 'required|string',
-            'kontak_telepon' => 'required|string',
-            'kontak_jam_buka' => 'required|string',
-            'kontak_tiktok' => 'nullable|string',
-            'kontak_instagram' => 'nullable|string',
-            'kontak_facebook' => 'nullable|string',
-        ]);
+        // Logika pengambilan datanya sama dengan index()
+        $settings = LandingPageSetting::all()->keyBy('key');
+        $menuItems = MenuUnggulan::orderBy('id', 'asc')->get();
 
-        foreach ($validated as $key => $value) {
-            LandingPageSetting::setValue($key, $value, 'text', $this->getLabel($key));
-        }
+        $data = [
+            'settings' => $settings,
+            'menuItems' => $menuItems,
+            'menuUnggulan1' => $menuItems->firstWhere('id', 1),
+            'menuUnggulan2' => $menuItems->firstWhere('id', 2),
+            'menuUnggulan3' => $menuItems->firstWhere('id', 3),
+            'menuUnggulan4' => $menuItems->firstWhere('id', 4),
+        ];
 
-        return redirect()->route('landing-page.index')->with('success', 'Kontak berhasil diperbarui.');
+        // Mengarahkan ke view 'landing-v2'
+        return view('landing-v2', $data);
+    }
+
+
+    /**
+     * Menampilkan halaman admin untuk mengelola landing page.
+     */
+    public function showAdminPage()
+    {
+        $settings = LandingPageSetting::all()->keyBy('key');
+        $menuItems = MenuUnggulan::orderBy('id', 'asc')->get();
+
+        $data = [
+            'settings' => $settings,
+            'menuUnggulan1' => $menuItems->firstWhere('id', 1),
+            'menuUnggulan2' => $menuItems->firstWhere('id', 2),
+            'menuUnggulan3' => $menuItems->firstWhere('id', 3),
+            'menuUnggulan4' => $menuItems->firstWhere('id', 4),
+        ];
+
+        return view('admin.landing-page', $data);
     }
 
     /**
-     * Upload background images - Save as base64 in database
-     * Handles multiple backgrounds in one request
+     * Upload background images.
      */
     public function uploadBackground(Request $request)
     {
-        $validated = $request->validate([
-            'backgrounds' => 'required|array',
-            'backgrounds.*' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:10240', // 10MB per image
+        $validator = Validator::make($request->all(), [
+            'backgrounds.*' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:10240', // 10MB max
         ]);
 
-        $uploaded = [];
-        foreach ($validated['backgrounds'] as $bgType => $file) {
-            if ($file && $file->isValid()) {
-                // Convert image to base64
-                $imageData = file_get_contents($file->getRealPath());
-                $base64 = base64_encode($imageData);
-                $mimeType = $file->getMimeType();
-                $base64String = 'data:' . $mimeType . ';base64,' . $base64;
+        if ($validator->fails()) {
+            return back()->withErrors($validator)->withInput();
+        }
 
-                // Save base64 to database
-                LandingPageSetting::setValue('bg_' . $bgType, $base64String, 'image', $this->getLabel('bg_' . $bgType));
-                $uploaded[] = ucfirst(str_replace('_', ' ', $bgType));
+        if ($request->has('backgrounds')) {
+            foreach ($request->file('backgrounds') as $key => $file) {
+                // Hapus file lama jika ada
+                $settingKey = 'bg_' . $key;
+                $oldSetting = LandingPageSetting::where('key', $settingKey)->first();
+                if ($oldSetting && $oldSetting->value) {
+                    Storage::disk('public')->delete($oldSetting->value);
+                }
+
+                // Simpan file baru
+                $path = $file->store('images/backgrounds', 'public');
+
+                LandingPageSetting::updateOrCreate(
+                    ['key' => $settingKey],
+                    ['value' => $path]
+                );
             }
         }
 
-        if (count($uploaded) > 0) {
-            return redirect()->route('landing-page.index')->with('success', 'Background ' . implode(', ', $uploaded) . ' berhasil diunggah.');
-        }
-
-        return redirect()->route('landing-page.index')->with('error', 'Tidak ada file yang diunggah.');
+        return back()->with('success', 'Background images berhasil di-upload.');
     }
 
     /**
-     * Reset/Delete background images
-     * Can reset all or specific background
+     * Reset (hapus) background images.
      */
     public function resetBackground(Request $request)
     {
-        if ($request->has('reset_all') && $request->reset_all == '1') {
-            // Reset all backgrounds
-            $bgTypes = ['home_1', 'home_2', 'home_3', 'about', 'menu', 'kontak'];
-            foreach ($bgTypes as $bgType) {
-                $setting = LandingPageSetting::where('key', 'bg_' . $bgType)->first();
-                if ($setting) {
-                    $setting->value = null;
-                    $setting->save();
+        if ($request->input('reset_all') == '1') {
+            $bgKeys = ['bg_home_1', 'bg_home_2', 'bg_home_3', 'bg_about', 'bg_menu', 'bg_kontak'];
+            $settings = LandingPageSetting::whereIn('key', $bgKeys)->get();
+
+            foreach ($settings as $setting) {
+                if ($setting->value) {
+                    Storage::disk('public')->delete($setting->value);
                 }
+                $setting->delete();
             }
-            return redirect()->route('landing-page.index')->with('success', 'Semua background berhasil direset.');
+            return back()->with('success', 'Semua background images berhasil di-reset.');
         }
-
-        // Reset specific background (backward compatibility)
-        $validated = $request->validate([
-            'bg_type' => 'required|in:home_1,home_2,home_3,about,menu,kontak',
-        ]);
-
-        $setting = LandingPageSetting::where('key', 'bg_' . $validated['bg_type'])->first();
-        if ($setting) {
-            $setting->value = null;
-            $setting->save();
-        }
-
-        return redirect()->route('landing-page.index')->with('success', 'Background berhasil direset.');
+        return back()->with('error', 'Gagal me-reset background.');
     }
 
+
     /**
-     * Update menu unggulan
+     * Update menu unggulan.
      */
-    public function updateMenuUnggulan(Request $request, $urutan)
+    public function updateMenu(Request $request, $id)
     {
-        $validated = $request->validate([
-            'nama' => 'required|string|max:255',
-            'deskripsi' => 'required|string',
-            'gambar' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:10240', // 10MB
+        $validator = Validator::make($request->all(), [
+            'nama' => 'required|string|max:100',
+            'deskripsi' => 'required|string|max:500',
+            'gambar' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:10240', // 10MB
         ]);
 
-        $menu = MenuUnggulan::updateOrCreate(
-            ['urutan' => $urutan],
-            [
-                'nama' => $validated['nama'],
-                'deskripsi' => $validated['deskripsi'],
-            ]
-        );
+        if ($validator->fails()) {
+            return back()->withErrors($validator)->withInput();
+        }
 
-        // Handle image upload - Save as base64 in database
+        $menu = MenuUnggulan::firstOrNew(['id' => $id]);
+        $menu->nama = $request->input('nama');
+        $menu->deskripsi = $request->input('deskripsi');
+
         if ($request->hasFile('gambar')) {
-            $file = $request->file('gambar');
-
-            // Convert image to base64
-            $imageData = file_get_contents($file->getRealPath());
-            $base64 = base64_encode($imageData);
-            $mimeType = $file->getMimeType();
-            $base64String = 'data:' . $mimeType . ';base64,' . $base64;
-
-            $menu->gambar = $base64String;
-            $menu->save();
-        }
-
-        return redirect()->route('landing-page.index')->with('success', 'Menu unggulan berhasil diperbarui.');
-    }
-
-    /**
-     * Upload menu PDF
-     */
-    public function uploadMenuPdf(Request $request)
-    {
-        $validated = $request->validate([
-            'menu_pdf' => 'required|mimes:pdf|max:10240', // 10MB max
-        ]);
-
-        $file = $request->file('menu_pdf');
-
-        // Delete old file if exists
-        $oldSetting = LandingPageSetting::where('key', 'menu_pdf')->first();
-        if ($oldSetting && $oldSetting->value) {
-            $oldPath = public_path('images/' . basename($oldSetting->value));
-            if (file_exists($oldPath)) {
-                unlink($oldPath);
+            // Hapus gambar lama jika ada
+            if ($menu->gambar) {
+                Storage::disk('public')->delete($menu->gambar);
             }
+            // Simpan gambar baru
+            $path = $request->file('gambar')->store('images/menu_unggulan', 'public');
+            $menu->gambar = $path;
         }
 
-        // Save new file
-        $filename = 'semua_menu.pdf';
-        $file->move(public_path('images'), $filename);
-        $path = 'images/' . $filename;
+        $menu->save();
 
-        LandingPageSetting::setValue('menu_pdf', $path, 'file', 'Menu PDF');
-
-        return redirect()->route('landing-page.index')->with('success', 'Menu PDF berhasil diunggah.');
+        return back()->with('success', "Menu Unggulan $id berhasil disimpan.");
     }
 
     /**
-     * Update about section text
-     */
-    public function updateAbout(Request $request)
-    {
-        $validated = $request->validate([
-            'about_text_1' => 'required|string',
-            'about_text_2' => 'required|string',
-            'about_gambar' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:10240', // 10MB
-        ]);
-
-        LandingPageSetting::setValue('about_text_1', $validated['about_text_1'], 'text', 'About Text 1');
-        LandingPageSetting::setValue('about_text_2', $validated['about_text_2'], 'text', 'About Text 2');
-
-        // Handle image upload - Save as base64 in database
-        if ($request->hasFile('about_gambar')) {
-            $file = $request->file('about_gambar');
-
-            // Convert image to base64
-            $imageData = file_get_contents($file->getRealPath());
-            $base64 = base64_encode($imageData);
-            $mimeType = $file->getMimeType();
-            $base64String = 'data:' . $mimeType . ';base64,' . $base64;
-
-            LandingPageSetting::setValue('about_gambar', $base64String, 'image', 'About Image');
-        }
-
-        return redirect()->route('landing-page.index')->with('success', 'About section berhasil diperbarui.');
-    }
-
-    // --- FUNGSI BARU DITAMBAHKAN DI SINI ---
-    /**
-     * Update menu unggulan description text
+     * Update deskripsi header menu unggulan.
      */
     public function updateMenuDeskripsi(Request $request)
     {
-        $validated = $request->validate([
-            'menu_unggulan_deskripsi' => 'nullable|string|max:500',
+        $request->validate([
+            'menu_unggulan_deskripsi' => 'nullable|string|max:1000',
         ]);
 
-        LandingPageSetting::setValue('menu_unggulan_deskripsi', $validated['menu_unggulan_deskripsi'] ?? '', 'text', 'Deskripsi Menu Unggulan');
+        LandingPageSetting::updateOrCreate(
+            ['key' => 'menu_unggulan_deskripsi'],
+            ['value' => $request->input('menu_unggulan_deskripsi')]
+        );
 
-        return redirect()->route('landing-page.index')->with('success', 'Deskripsi menu unggulan berhasil diperbarui.');
+        return back()->with('success', 'Deskripsi Menu Unggulan berhasil disimpan.');
     }
-    // ----------------------------------------
 
     /**
-     * Helper method to get label from key
+     * Update info kontak.
      */
-    private function getLabel($key)
+    public function updateKontak(Request $request)
     {
-        $labels = [
-            'bg_home_1' => 'Background Home 1',
-            'bg_home_2' => 'Background Home 2',
-            'bg_home_3' => 'Background Home 3',
-            'bg_about' => 'Background About',
-            'bg_menu' => 'Background Menu',
-            'bg_kontak' => 'Background Kontak',
-            'kontak_alamat' => 'Alamat',
-            'kontak_telepon' => 'Telepon',
-            'kontak_jam_buka' => 'Jam Buka',
-            'kontak_instagram' => 'Instagram',
-            'kontak_facebook' => 'Facebook',
-            'menu_pdf' => 'Menu PDF',
-        ];
+        $data = $request->validate([
+            'kontak_alamat' => 'required|string|max:255',
+            'kontak_telepon' => 'required|string|max:50',
+            'kontak_jam_buka' => 'required|string|max:100',
+            'kontak_tiktok' => 'nullable|string|max:100',
+            'kontak_instagram' => 'nullable|string|max:100',
+        ]);
 
-        return $labels[$key] ?? ucfirst(str_replace('_', ' ', $key));
+        foreach ($data as $key => $value) {
+            LandingPageSetting::updateOrCreate(
+                ['key' => $key],
+                ['value' => $value ?? '']
+            );
+        }
+
+        return back()->with('success', 'Info Kontak berhasil disimpan.');
+    }
+
+    /**
+     * Update section About Us.
+     */
+    public function updateAbout(Request $request)
+    {
+        $data = $request->validate([
+            'about_text_1' => 'required|string|max:1000',
+            'about_text_2' => 'required|string|max:1000',
+            'about_gambar' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:10240', // 10MB
+        ]);
+
+        LandingPageSetting::updateOrCreate(
+            ['key' => 'about_text_1'],
+            ['value' => $data['about_text_1']]
+        );
+        LandingPageSetting::updateOrCreate(
+            ['key' => 'about_text_2'],
+            ['value' => $data['about_text_2']]
+        );
+
+        if ($request->hasFile('about_gambar')) {
+            $key = 'about_gambar';
+            $file = $request->file('about_gambar');
+
+            // Hapus file lama jika ada
+            $oldSetting = LandingPageSetting::where('key', $key)->first();
+            if ($oldSetting && $oldSetting->value) {
+                Storage::disk('public')->delete($oldSetting->value);
+            }
+
+            // Simpan file baru
+            $path = $file->store('images/about', 'public');
+
+            LandingPageSetting::updateOrCreate(
+                ['key' => $key],
+                ['value' => $path]
+            );
+        }
+
+        return back()->with('success', 'Section About Us berhasil disimpan.');
+    }
+
+    /**
+     * Upload Menu PDF.
+     */
+    public function uploadMenuPdf(Request $request)
+    {
+        $request->validate([
+            'menu_pdf' => 'required|file|mimes:pdf|max:10240', // 10MB
+        ]);
+
+        if ($request->hasFile('menu_pdf')) {
+            $key = 'menu_pdf';
+            $file = $request->file('menu_pdf');
+
+            // Hapus file lama jika ada
+            $oldSetting = LandingPageSetting::where('key', $key)->first();
+            if ($oldSetting && $oldSetting->value) {
+                Storage::disk('public')->delete($oldSetting->value);
+            }
+
+            // Simpan file baru
+            $path = $file->storeAs('menu', 'menu_lengkap_rm_gulai_kakek.pdf', 'public');
+
+            LandingPageSetting::updateOrCreate(
+                ['key' => $key],
+                ['value' => $path]
+            );
+        }
+
+        return back()->with('success', 'Menu PDF berhasil di-upload.');
     }
 }

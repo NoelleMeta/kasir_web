@@ -19,6 +19,7 @@
         </div>
     @endif
 
+    {{-- 1. Background Images (Termasuk background untuk Home, About, Menu, Kontak) --}}
     <div style="background:#ffffff;border-radius:12px;box-shadow:0 1px 2px rgba(0,0,0,.06);padding:20px;margin-bottom:20px;">
         <h3 style="margin:0 0 16px 0;color:#334155;border-bottom:2px solid #e2e8f0;padding-bottom:8px;">Background Images</h3>
 
@@ -54,8 +55,52 @@
         </form>
     </div>
 
+    {{-- 2. About Us --}}
     <div style="background:#ffffff;border-radius:12px;box-shadow:0 1px 2px rgba(0,0,0,.06);padding:20px;margin-bottom:20px;">
-        <h3 style="margin:0 0 16px 0;color:#334155;border-bottom:2px solid #e2e8f0;padding-bottom:8px;">Menu Unggulan</h3>
+        <h3 style="margin:0 0 16px 0;color:#334155;border-bottom:2px solid #e2e8f0;padding-bottom:8px;">About Us</h3>
+        <form method="POST" action="{{ route('landing-page.update-about') }}" enctype="multipart/form-data">
+            @csrf
+            <div style="margin-bottom:16px;">
+                <label style="display:block;margin-bottom:6px;color:#475569;">Teks About 1</label>
+                <textarea name="about_text_1" required class="form-control" rows="3">{{ $settings->get('about_text_1') ? $settings->get('about_text_1')->value : 'Di Gulai Kambiang Kakek, kami percaya bahwa masakan yang enak berasal dari resep yang tulus. Berdiri pada tahun 2024, kami membawa misi sederhana: menghadirkan gulai kambing seenak buatan "Kakek" di rumah—penuh cinta, kaya rempah, dan tak terlupakan.' }}</textarea>
+            </div>
+            <div style="margin-bottom:16px;">
+                <label style="display:block;margin-bottom:6px;color:#475569;">Teks About 2</label>
+                <textarea name="about_text_2" required class="form-control" rows="3">{{ $settings->get('about_text_2') ? $settings->get('about_text_2')->value : 'Kami adalah rumah bagi para pencinta hidangan kambing. Dengan bangga, kami menempatkan Gulai Kepala Kambing dan Gulai Kambing sebagai bintang utama di dapur kami. Dibuat dari bahan-bahan segar dan daging pilihan, kami menjamin tekstur yang empuk dan bumbu yang meresap hingga ke tulang.' }}</textarea>
+            </div>
+            @if($settings->get('about_gambar') && $settings->get('about_gambar')->value)
+                <img src="{{ \App\Models\LandingPageSetting::getImageSrc($settings->get('about_gambar')->value) }}" alt="About Image" style="width:100%;max-width:300px;height:200px;object-fit:cover;border-radius:6px;margin-bottom:8px;">
+            @endif
+            <div style="margin-bottom:16px;">
+                <label style="display:block;margin-bottom:6px;color:#475569;">Gambar About</label>
+                <input type="file" name="about_gambar" accept="image/*" class="form-control">
+                <small style="color:#64748b;display:block;margin-top:4px;">Maksimal 10MB</small>
+            </div>
+            <div style="margin-top:14px;display:flex;gap:10px;justify-content:flex-end;">
+                <button type="submit" class="btn primary">Simpan About</button>
+            </div>
+        </form>
+    </div>
+
+    {{-- 3a. Menu Unggulan: Deskripsi Global (Header Menu) --}}
+    <div style="background:#ffffff;border-radius:12px;box-shadow:0 1px 2px rgba(0,0,0,.06);padding:20px;margin-bottom:20px;">
+        <h3 style="margin:0 0 16px 0;color:#334155;border-bottom:2px solid #e2e8f0;padding-bottom:8px;">Deskripsi Header Menu Unggulan</h3>
+        <form method="POST" action="{{ route('landing-page.update-menu-deskripsi') }}">
+            @csrf
+            <div style="margin-bottom:16px;">
+                <label style="display:block;margin-bottom:6px;color:#475569;">Teks Deskripsi</label>
+                <textarea name="menu_unggulan_deskripsi" class="form-control" rows="5" placeholder="Dengan bangga kami persembahkan hidangan terbaik kami...">{{ $settings->get('menu_unggulan_deskripsi') ? $settings->get('menu_unggulan_deskripsi')->value : '' }}</textarea>
+                <small style="color:#64748b;display:block;margin-top:4px;">Teks ini akan muncul di area judul menu unggulan.</small>
+            </div>
+            <div style="margin-top:14px;display:flex;gap:10px;justify-content:flex-end;">
+                <button type="submit" class="btn primary">Simpan Deskripsi</button>
+            </div>
+        </form>
+    </div>
+
+    {{-- 3b. Menu Unggulan: Item Menu 1-4 --}}
+    <div style="background:#ffffff;border-radius:12px;box-shadow:0 1px 2px rgba(0,0,0,.06);padding:20px;margin-bottom:20px;">
+        <h3 style="margin:0 0 16px 0;color:#334155;border-bottom:2px solid #e2e8f0;padding-bottom:8px;">Item Menu Unggulan</h3>
 
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;">
             <div style="border:1px solid #e2e8f0;border-radius:8px;padding:16px;">
@@ -156,6 +201,26 @@
         </div>
     </div>
 
+    {{-- 3c. Menu Unggulan: Menu PDF --}}
+    <div style="background:#ffffff;border-radius:12px;box-shadow:0 1px 2px rgba(0,0,0,.06);padding:20px;margin-bottom:20px;">
+        <h3 style="margin:0 0 16px 0;color:#334155;border-bottom:2px solid #e2e8f0;padding-bottom:8px;">Menu PDF</h3>
+        @if($settings->get('menu_pdf') && $settings->get('menu_pdf')->value)
+            <p style="margin:0 0 12px 0;color:#64748b;">File saat ini: <a href="{{ asset($settings->get('menu_pdf')->value) }}" target="_blank">{{ basename($settings->get('menu_pdf')->value) }}</a></p>
+        @endif
+        <form method="POST" action="{{ route('landing-page.upload-menu-pdf') }}" enctype="multipart/form-data">
+            @csrf
+            <div style="margin-bottom:16px;">
+                <label style="display:block;margin-bottom:6px;color:#475569;">Upload Menu PDF</label>
+                <input type="file" name="menu_pdf" accept=".pdf" required class="form-control">
+                <small style="color:#64748b;display:block;margin-top:4px;">Maksimal 10MB</small>
+            </div>
+            <div style="margin-top:14px;display:flex;gap:10px;justify-content:flex-end;">
+                <button type="submit" class="btn primary">Upload Menu PDF</button>
+            </div>
+        </form>
+    </div>
+
+    {{-- 4. Kontak Kami --}}
     <div style="background:#ffffff;border-radius:12px;box-shadow:0 1px 2px rgba(0,0,0,.06);padding:20px;margin-bottom:20px;">
         <h3 style="margin:0 0 16px 0;color:#334155;border-bottom:2px solid #e2e8f0;padding-bottom:8px;">Kontak Kami</h3>
         <form method="POST" action="{{ route('landing-page.update-kontak') }}">
@@ -190,63 +255,6 @@
         </form>
     </div>
 
-    <div style="background:#ffffff;border-radius:12px;box-shadow:0 1px 2px rgba(0,0,0,.06);padding:20px;margin-bottom:20px;">
-        <h3 style="margin:0 0 16px 0;color:#334155;border-bottom:2px solid #e2e8f0;padding-bottom:8px;">About Us</h3>
-        <form method="POST" action="{{ route('landing-page.update-about') }}" enctype="multipart/form-data">
-            @csrf
-            <div style="margin-bottom:16px;">
-                <label style="display:block;margin-bottom:6px;color:#475569;">Teks About 1</label>
-                <textarea name="about_text_1" required class="form-control" rows="3">{{ $settings->get('about_text_1') ? $settings->get('about_text_1')->value : 'Di Gulai Kambiang Kakek, kami percaya bahwa masakan yang enak berasal dari resep yang tulus. Berdiri pada tahun 2024, kami membawa misi sederhana: menghadirkan gulai kambing seenak buatan "Kakek" di rumah—penuh cinta, kaya rempah, dan tak terlupakan.' }}</textarea>
-            </div>
-            <div style="margin-bottom:16px;">
-                <label style="display:block;margin-bottom:6px;color:#475569;">Teks About 2</label>
-                <textarea name="about_text_2" required class="form-control" rows="3">{{ $settings->get('about_text_2') ? $settings->get('about_text_2')->value : 'Kami adalah rumah bagi para pencinta hidangan kambing. Dengan bangga, kami menempatkan Gulai Kepala Kambing dan Gulai Kambing sebagai bintang utama di dapur kami. Dibuat dari bahan-bahan segar dan daging pilihan, kami menjamin tekstur yang empuk dan bumbu yang meresap hingga ke tulang.' }}</textarea>
-            </div>
-            @if($settings->get('about_gambar') && $settings->get('about_gambar')->value)
-                <img src="{{ \App\Models\LandingPageSetting::getImageSrc($settings->get('about_gambar')->value) }}" alt="About Image" style="width:100%;max-width:300px;height:200px;object-fit:cover;border-radius:6px;margin-bottom:8px;">
-            @endif
-            <div style="margin-bottom:16px;">
-                <label style="display:block;margin-bottom:6px;color:#475569;">Gambar About</label>
-                <input type="file" name="about_gambar" accept="image/*" class="form-control">
-                <small style="color:#64748b;display:block;margin-top:4px;">Maksimal 10MB</small>
-            </div>
-            <div style="margin-top:14px;display:flex;gap:10px;justify-content:flex-end;">
-                <button type="submit" class="btn primary">Simpan About</button>
-            </div>
-        </form>
-    </div>
-
-    <div style="background:#ffffff;border-radius:12px;box-shadow:0 1px 2px rgba(0,0,0,.06);padding:20px;margin-bottom:20px;">
-        <h3 style="margin:0 0 16px 0;color:#334155;border-bottom:2px solid #e2e8f0;padding-bottom:8px;">Deskripsi Menu Unggulan</h3>
-        <form method="POST" action="{{ route('landing-page.update-menu-deskripsi') }}">
-            @csrf
-            <div style="margin-bottom:16px;">
-                <label style="display:block;margin-bottom:6px;color:#475569;">Teks Deskripsi</label>
-                <textarea name="menu_unggulan_deskripsi" class="form-control" rows="5" placeholder="Dengan bangga kami persembahkan hidangan terbaik kami...">{{ $settings->get('menu_unggulan_deskripsi') ? $settings->get('menu_unggulan_deskripsi')->value : '' }}</textarea>
-                <small style="color:#64748b;display:block;margin-top:4px;">Teks ini akan muncul di area judul menu unggulan (di tempat Anda silang).</small>
-            </div>
-            <div style="margin-top:14px;display:flex;gap:10px;justify-content:flex-end;">
-                <button type="submit" class="btn primary">Simpan Deskripsi</button>
-            </div>
-        </form>
-    </div>
-    <div style="background:#ffffff;border-radius:12px;box-shadow:0 1px 2px rgba(0,0,0,.06);padding:20px;margin-bottom:20px;">
-        <h3 style="margin:0 0 16px 0;color:#334155;border-bottom:2px solid #e2e8f0;padding-bottom:8px;">Menu PDF</h3>
-        @if($settings->get('menu_pdf') && $settings->get('menu_pdf')->value)
-            <p style="margin:0 0 12px 0;color:#64748b;">File saat ini: <a href="{{ asset($settings->get('menu_pdf')->value) }}" target="_blank">{{ basename($settings->get('menu_pdf')->value) }}</a></p>
-        @endif
-        <form method="POST" action="{{ route('landing-page.upload-menu-pdf') }}" enctype="multipart/form-data">
-            @csrf
-            <div style="margin-bottom:16px;">
-                <label style="display:block;margin-bottom:6px;color:#475569;">Upload Menu PDF</label>
-                <input type="file" name="menu_pdf" accept=".pdf" required class="form-control">
-                <small style="color:#64748b;display:block;margin-top:4px;">Maksimal 10MB</small>
-            </div>
-            <div style="margin-top:14px;display:flex;gap:10px;justify-content:flex-end;">
-                <button type="submit" class="btn primary">Upload Menu PDF</button>
-            </div>
-        </form>
-    </div>
 </div>
 
 <script>

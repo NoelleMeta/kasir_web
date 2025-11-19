@@ -2,7 +2,9 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
     <title>RM Gulai Kakek - Selamat Datang</title>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -33,38 +35,19 @@
         html {
             scroll-behavior: smooth;
         }
+
+        /* === PERBAIKAN 2: MENGHILANGKAN OVERFLOW HORIZONTAL === */
         body {
             font-family: var(--font-body);
             color: var(--color-gray);
-            background-color: #000000; /* black side background for desktop */
-            background-image:
-                url('{{ asset("images/marawa_1.png") }}'),
-                url('{{ asset("images/marawa_2.png") }}');
-            background-size: auto 100%, auto 100%;
-            background-position: left center, right center;
-            background-repeat: no-repeat, no-repeat;
-            background-attachment: fixed, fixed;
+            background-color: #000000; /* Latar belakang dasar halaman (hitam) */
             line-height: 1.6;
+            overflow-x: hidden; /* Menghilangkan scroll horizontal */
         }
-        @media (max-width: 1199px) {
-            body {
-                background-image: none;
-            }
-        }
-        /* Boxed frame for desktop */
-        .page-frame {
-            background: var(--color-white);
-            /* Mencegah overflow horizontal dari frame itu sendiri */
-            overflow-x: hidden;
-            position: relative;
-        }
-        @media (min-width: 1200px) {
-            .page-frame {
-                max-width: 1440px; /* frame width */
-                margin: 0 auto;    /* center the frame */
-                overflow: hidden;   /* keep inner effects contained */
-            }
-        }
+
+        /* === PERUBAHAN CSS: Menghapus media query body === */
+        /* === PERUBAHAN CSS: Menghapus .page-frame === */
+
         .container {
             max-width: 1140px;
             margin: 0 auto;
@@ -217,6 +200,8 @@
             inset: 0;
             background: rgba(0,0,0,0.5);
             z-index: 1;
+            /* === TAMBAHAN CSS: Efek blur === */
+            backdrop-filter: blur(0px);
         }
         .home-inner {
             position: relative;
@@ -264,6 +249,8 @@
             inset: 0;
             background: rgba(0,0,0,0.55);
             z-index: 1;
+            /* === TAMBAHAN CSS: Efek blur === */
+            backdrop-filter: blur(10px);
         }
         .about-wrapper {
             position: relative;
@@ -320,11 +307,12 @@
             inset: 0;
             background: rgba(0,0,0,0.55);
             z-index: 1;
+            /* === TAMBAHAN CSS: Efek blur === */
+            backdrop-filter: blur(10px);
         }
         #menu .container {
             position: relative;
             height: 100%;
-            max-width: 100%; /* allow content to reach frame edges */
         }
         .menu-inner {
             position: relative;
@@ -359,7 +347,7 @@
             font-size: 1rem;
             line-height: 1.8;
             text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
-            max-width: 600px; /* Batasi lebar teks deskripsi */
+            /* max-width default 600px */
             margin: 0 auto; /* Pusatkan teks deskripsi */
             margin-bottom: 20px; /* Beri jarak ke item menu di bawahnya */
         }
@@ -373,15 +361,9 @@
             gap: 2rem;
             width: 100%;
             padding: 0 20px; /* Add some padding */
+            margin-top: 40px;
         }
-        .menu-unggulan-row {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            width: 100%;
-            gap: 2rem;
-            padding-right: 10rem; /* <-- BIANG KEROK OVERFLOW */
-        }
+
         .menu-unggulan-item {
             background: linear-gradient(135deg, #8B4513 0%, #A0522D 50%, #8B4513 100%);
             border-radius: 16px;
@@ -528,22 +510,6 @@
                 margin-top: 30px;
             }
 
-            /* Tata letak 1 kolom di tablet */
-            .menu-unggulan-row {
-                flex-direction: column;
-                align-items: center;
-                gap: 1rem;
-                padding-right: 0; /* <-- PERBAIKAN BUG OVERFLOW */
-            }
-            .menu-unggulan-row .menu-header {
-                order: -1;
-                width: 100%;
-            }
-            .menu-unggulan-row .menu-unggulan-item {
-                order: 0;
-                width: 100%;
-            }
-
             /* --- INI PERUBAHAN UTAMA: BENTUK KARTU --- */
             .menu-unggulan-item {
                 flex-direction: row; /* <-- TETAP HORIZONTAL */
@@ -588,6 +554,8 @@
             inset: 0;
             background: rgba(0,0,0,0.55);
             z-index: 1;
+            /* === TAMBAHAN CSS: Efek blur === */
+            backdrop-filter: blur(10px);
         }
         .kontak-wrapper {
             position: relative;
@@ -779,22 +747,6 @@
         /* === PERUBAHAN DESKTOP (SESUAI REQUEST ANDA) === */
         @media (min-width: 993px) { /* Ubah ke 993px agar tidak konflik */
 
-            /* --- INI BLOK YANG SAYA TAMBAHKAN --- */
-            header {
-                max-width: 1440px; /* Samakan dengan .page-frame */
-                width: 100%;
-                left: 50%;
-                transform: translateX(-50%);
-                /* 'right: 0' dari style global otomatis terganti */
-            }
-
-            /* --- PERUBAHAN CSS 3: Style tersembunyi (Desktop) --- */
-            /* Kita harus menggabungkan translateX (untuk center) dengan translateY (untuk sembunyi) */
-            header.header-hidden {
-                transform: translateX(-50%) translateY(-100%);
-            }
-            /* --- BATAS AKHIR BLOK TAMBAHAN --- */
-
             /* --- PERUBAHAN BARU: Perkecil #home --- */
             #home {
                 min-height: auto; /* Membatalkan 100vh global */
@@ -813,9 +765,25 @@
 
             /* HANYA container #menu yang di-style untuk 100vh */
             #menu > .container {
-                padding: 80px 0; /* Hapus padding horizontal, ganti ke 0 */
+                padding: 80px 20px;
                 width: 100%;
                 height: 100%;
+            }
+
+            /* === PERUBAHAN UTAMA UNTUK JUDUL MENU (Sekarang di tengah atas dan lebih lebar) === */
+            /* Aturan ini berlaku untuk semua div dengan class .menu-header, termasuk yang ada di CTA footer */
+            .menu-header {
+                max-width: 1140px; /* Melebar selebar container */
+                margin-left: auto; /* Pusatkan wadah */
+                margin-right: auto; /* Pusatkan wadah */
+                text-align: center; /* Memastikan teks di dalamnya tetap rata tengah */
+                width: 100%; /* Agar max-width berlaku */
+            }
+            /* Deskripsi di dalam menu-header dibuat lebih lebar */
+            .menu-header .menu-description {
+                max-width: 900px; /* Lebar maksimum baru (dilebarkan) */
+                margin-left: auto;
+                margin-right: auto;
             }
 
             /* --- Style lain untuk desktop --- */
@@ -893,7 +861,7 @@
             #about .about-image img { width: 100%; height: auto; object-fit: cover; border-radius: 14px; }
 
             /* Menu panel images: bigger on desktop */
-            .menu-header { max-width: 450px; }
+            /* .menu-header { max-width: 450px; } <- DIHAPUS dan diganti di atas */
             .menu-cta { max-width: 450px; }
 
             /* Kontak map: DIHAPUS agar kembali ke 320px */
@@ -1081,7 +1049,7 @@
         </div>
     </header>
 
-    <div class="page-frame">
+
     <main>
         <section id="home">
             {{-- Slideshow background slides --}}
@@ -1131,30 +1099,31 @@
         <section id="menu">
             <div class="container">
                 <div class="menu-inner">
+
+                    <div class="menu-header" data-aos="fade-down" data-aos-delay="100">
+                        <h2 class="menu-title">MENU UNGGULAN</h2>
+                        <div class="menu-subtitle">Spesial dari Dapur Kami</div>
+                        <p class="menu-description">
+                            {{ $settings->get('menu_unggulan_deskripsi') && $settings->get('menu_unggulan_deskripsi')->value ? $settings->get('menu_unggulan_deskripsi')->value : 'Dengan bangga kami persembahkan hidangan terbaik kami. Menu ini adalah alasan mengapa para tamu selalu kembali. Silakan cicipi dedikasi dan cita rasa khas yang kami tuang dalam setiap porsi.' }}
+                        </p>
+                    </div>
                     <div class="menu-unggulan-grid">
+
                         @if($menuItems && count($menuItems) > 0)
 
-                            <div class="menu-unggulan-row">
-                                @if(isset($menuItems[0]) && $menuItems[0])
-                                    <div class="menu-unggulan-item" data-aos="fade-up" data-aos-delay="100">
-                                        <div class="menu-unggulan-image">
-                                            <img src="{{ $menuItems[0]->getImageSrc('images/menu_unggulan_1.jpg') }}" alt="{{ $menuItems[0]->nama }}" loading="lazy">
-                                        </div>
-                                        <div class="menu-unggulan-content">
-                                            <h3>{{ $menuItems[0]->nama }}</h3>
-                                            <p>{{ $menuItems[0]->deskripsi }}</p>
-                                        </div>
-                                    </div>
-                                @endif
+                            {{-- Semua menu item sekarang langsung di bawah menu-unggulan-grid (Item 1, 2, 3, 4) --}}
 
-                                <div class="menu-header" data-aos="fade-down" data-aos-delay="100">
-                                    <h2 class="menu-title">MENU UNGGULAN</h2>
-                                    <div class="menu-subtitle">Spesial dari Dapur Kami</div>
-                                    <p class="menu-description">
-                                        {{ $settings->get('menu_unggulan_deskripsi') && $settings->get('menu_unggulan_deskripsi')->value ? $settings->get('menu_unggulan_deskripsi')->value : 'Dengan bangga kami persembahkan hidangan terbaik kami. Menu ini adalah alasan mengapa para tamu selalu kembali. Silakan cicipi dedikasi dan cita rasa khas yang kami tuang dalam setiap porsi.' }}
-                                    </p>
+                            @if(isset($menuItems[0]) && $menuItems[0])
+                                <div class="menu-unggulan-item" data-aos="fade-up" data-aos-delay="100">
+                                    <div class="menu-unggulan-image">
+                                        <img src="{{ $menuItems[0]->getImageSrc('images/menu_unggulan_1.jpg') }}" alt="{{ $menuItems[0]->nama }}" loading="lazy">
+                                    </div>
+                                    <div class="menu-unggulan-content">
+                                        <h3>{{ $menuItems[0]->nama }}</h3>
+                                        <p>{{ $menuItems[0]->deskripsi }}</p>
+                                    </div>
                                 </div>
-                            </div>
+                            @endif
 
                             @if(isset($menuItems[1]) && $menuItems[1])
                                 <div class="menu-unggulan-item" data-aos="fade-up" data-aos-delay="150">
@@ -1192,28 +1161,20 @@
                                 </div>
                             @endif
 
-                            <div class="menu-header" data-aos="fade-up" data-aos-delay="250" style="text-align: center; max-width: 400px;">
-                                <p class="menu-description" style="max-width: 100%;">
+                            <div class="menu-header" data-aos="fade-up" data-aos-delay="250">
+                                <p class="menu-description">
                                     Selain menu unggulan, kami juga menyediakan beragam pilihan lezat lainnya. Silakan lihat daftar menu lengkap kami.
                                 </p>
                                 <div class="menu-cta" style="position: static; transform: none; margin-top: 12px; text-align: center;">
                                     <a href="{{ route('menu.daftar') }}" class="btn btn-daftar" target="_blank" rel="noopener">DAFTAR MENU</a>
                                 </div>
                             </div>
-
-
-                        @else
+                            @else
                             <div style="text-align: center; color: #fff; padding: 40px;">
                                 <p>Menu unggulan belum ditambahkan. Silakan akses halaman admin untuk menambahkan menu.</p>
                             </div>
                         @endif
                     </div>
-
-                    {{--
-                    <div class="menu-cta" data-aos="fade-up" data-aos-delay="300">
-                        <a href="{{ route('menu.daftar') }}" class="btn btn-daftar" target="_blank" rel="noopener">DAFTAR MENU</a>
-                    </div>
-                    --}}
                 </div>
             </div>
         </section>
@@ -1332,7 +1293,6 @@
             <p>&copy; 2025 RM Gulai Kakek. All Rights Reserved.</p>
         </div>
     </footer>
-    </div>
 
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>
