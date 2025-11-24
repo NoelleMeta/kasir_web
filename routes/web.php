@@ -19,12 +19,14 @@ use App\Http\Controllers\MapController;
 */
 
 // --- Landing Page Routes ---
-// Ini adalah V1 (Desain Modern)
-Route::get('/', [LandingPageController::class, 'index'])->name('landing');
+// V2 (Desain Tradisional) sekarang menjadi halaman utama (default)
+Route::get('/', [LandingPageController::class, 'indexV2'])->name('landing');
 
-// (INI ADALAH TAMBAHAN BARU)
-// Ini adalah V2 (Desain Tradisional)
+// Tetap sediakan route eksplisit untuk V2 (opsional)
 Route::get('/v2', [LandingPageController::class, 'indexV2'])->name('landing.v2');
+
+// V1 (Desain Modern) sekarang dapat diakses melalui /v1
+Route::get('/v1', [LandingPageController::class, 'index'])->name('landing.v1');
 
 // Rute pendukung untuk landing page
 Route::get('/menu-pdf', [MenuController::class, 'showPdf'])->name('menu.daftar');

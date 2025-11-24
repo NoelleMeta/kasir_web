@@ -33,11 +33,14 @@
                         $bgKey = 'bg_' . $bgType;
                         $bgSetting = $settings->get($bgKey);
                     @endphp
+                    <div id="preview-container-{{ $bgType }}" style="width:100%;height:120px;border-radius:6px;margin-bottom:8px;overflow:hidden;position:relative;">
                     @if($bgSetting && $bgSetting->value)
-                        <img src="{{ \App\Models\LandingPageSetting::getImageSrc($bgSetting->value) }}" alt="Background {{ $bgType }}" style="width:100%;height:120px;object-fit:cover;border-radius:6px;margin-bottom:8px;">
+                            <img id="preview-img-{{ $bgType }}" src="{{ \App\Models\LandingPageSetting::getImageSrc($bgSetting->value) }}?v={{ time() }}" alt="Background {{ $bgType }}" style="width:100%;height:100%;object-fit:cover;display:block;" onerror="this.style.display='none'; document.getElementById('preview-placeholder-{{ $bgType }}').style.display='flex';">
+                            <div id="preview-placeholder-{{ $bgType }}" style="width:100%;height:100%;background:#f1f5f9;display:none;align-items:center;justify-content:center;color:#64748b;font-size:0.9rem;position:absolute;top:0;left:0;">No image</div>
                     @else
-                        <div style="width:100%;height:120px;background:#f1f5f9;border-radius:6px;margin-bottom:8px;display:flex;align-items:center;justify-content:center;color:#64748b;font-size:0.9rem;">No image</div>
+                            <div id="preview-placeholder-{{ $bgType }}" style="width:100%;height:100%;background:#f1f5f9;display:flex;align-items:center;justify-content:center;color:#64748b;font-size:0.9rem;">No image</div>
                     @endif
+                    </div>
                     <input type="file" name="backgrounds[{{ $bgType }}]" accept="image/*" id="file-bg-{{ $bgType }}" style="display:none;" onchange="updateFileName('{{ $bgType }}', this)">
                     <button type="button" onclick="document.getElementById('file-bg-{{ $bgType }}').click();" class="btn" style="width:100%;margin-bottom:4px;background:#e2e8f0;color:#475569;">Browse</button>
                     <small id="file-name-{{ $bgType }}" style="color:#64748b;display:block;font-size:0.85rem;min-height:20px;"></small>
@@ -300,14 +303,57 @@
 <script>
     function updateFileName(bgType, input) {
         const fileNameDisplay = document.getElementById('file-name-' + bgType);
+        const previewContainer = document.getElementById('preview-container-' + bgType);
+        let previewImg = document.getElementById('preview-img-' + bgType);
+        const previewPlaceholder = document.getElementById('preview-placeholder-' + bgType);
+        
         if (input.files && input.files[0]) {
-            const fileName = input.files[0].name;
-            const fileSize = (input.files[0].size / 1024 / 1024).toFixed(2);
+            const file = input.files[0];
+            const fileName = file.name;
+            const fileSize = (file.size / 1024 / 1024).toFixed(2);
             fileNameDisplay.textContent = fileName + ' (' + fileSize + ' MB)';
             fileNameDisplay.style.color = '#059669';
+            
+            // Preview image
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                // Hide placeholder if exists
+                if (previewPlaceholder) {
+                    previewPlaceholder.style.display = 'none';
+                }
+                
+                // Create or update preview image
+                if (!previewImg) {
+                    previewImg = document.createElement('img');
+                    previewImg.id = 'preview-img-' + bgType;
+                    previewImg.style.width = '100%';
+                    previewImg.style.height = '100%';
+                    previewImg.style.objectFit = 'cover';
+                    previewImg.style.display = 'block';
+                    previewImg.style.position = 'relative';
+                    previewImg.style.zIndex = '1';
+                    previewContainer.appendChild(previewImg);
+                }
+                previewImg.src = e.target.result;
+                previewImg.alt = 'Preview ' + bgType;
+                previewImg.style.display = 'block';
+            };
+            reader.readAsDataURL(file);
         } else {
             fileNameDisplay.textContent = '';
         }
     }
+    
+    // Ensure preview images are refreshed after page load (to show newly uploaded images)
+    document.addEventListener('DOMContentLoaded', function() {
+        // Force refresh all preview images by adding cache busting
+        document.querySelectorAll('[id^="preview-img-"]').forEach(function(img) {
+            if (img.src && !img.src.includes('data:image')) {
+                // Add timestamp to force refresh
+                const separator = img.src.includes('?') ? '&' : '?';
+                img.src = img.src + separator + 'v=' + new Date().getTime();
+            }
+        });
+    });
 </script>
 @endsection

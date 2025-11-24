@@ -898,6 +898,12 @@
                 gap: 10px;
                 width: 100%;
             }
+
+            /* Hide admin button on mobile */
+            .nav-menu .btn-admin {
+                display: none;
+            }
+
             section {
                 padding: 60px 0;
             }
@@ -950,6 +956,11 @@
                 gap: 8px;
                 justify-content: center;
                 width: 100%;
+            }
+
+            /* Hide admin button on small mobile */
+            .nav-menu .btn-admin {
+                display: none;
             }
 
             /* Hero adjustments */

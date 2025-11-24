@@ -27,6 +27,7 @@ class MenuController extends Controller
 
         // Serve the file inline so the browser opens it in PDF viewer
         return response()->file($pdfPath, [
+            'Content-Type' => 'application/pdf',
             'Content-Disposition' => 'inline; filename="semua_menu.pdf"'
         ]);
     }
@@ -35,6 +36,14 @@ class MenuController extends Controller
      * Backward compatible alias used in some routes: daftarView -> daftarPdf
      */
     public function daftarView(Request $request)
+    {
+        return $this->daftarPdf($request);
+    }
+
+    /**
+     * Backward compatible alias used in routes: showPdf -> daftarPdf
+     */
+    public function showPdf(Request $request)
     {
         return $this->daftarPdf($request);
     }

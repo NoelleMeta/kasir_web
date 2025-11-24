@@ -38,7 +38,28 @@ class LandingPageSetting extends Model
         if (self::isBase64Image($value)) {
             return $value; // Return base64 data URI directly
         }
-        return $value ? asset($value) : ($defaultPath ? asset($defaultPath) : '');
+        
+        if (!$value) {
+            return $defaultPath ? asset($defaultPath) : '';
+        }
+        
+        // Jika path sudah dimulai dengan http:// atau https://, gunakan langsung
+        if (strpos($value, 'http://') === 0 || strpos($value, 'https://') === 0) {
+            return $value;
+        }
+        
+        // Jika path sudah dimulai dengan storage/, gunakan asset langsung
+        if (strpos($value, 'storage/') === 0) {
+            return asset($value);
+        }
+        
+        // Jika path dimulai dengan images/, tambahkan prefix storage/
+        if (strpos($value, 'images/') === 0) {
+            return asset('storage/' . $value);
+        }
+        
+        // Default: gunakan asset dengan value langsung
+        return asset($value);
     }
 
     /**

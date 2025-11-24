@@ -15,17 +15,16 @@
     <style>
         /* --- VARIABLE CSS --- */
         :root {
-            --color-black: #1a1a1a;
-            --color-gray: #4a4a4a;
+            --color-black: #000000;
+            --color-gray: #333333;
             --color-light-gray: #f5f5f5;
             --color-white: #FFFFFF;
-            --color-primary: #c9a227; /* Emas Minang */
-            --color-accent: #f2e6c9;   /* Krem Minang */
+            --color-primary: #FFD700; /* Kuning */
+            --color-accent: #FFF5E6;   /* Krem muda */
 
-            /* Warna Minangkabau */
-            --color-red-minang: #8b2c1e; /* Merah Minang */
-            --color-brown-minang: #5c3d2e; /* Coklat Minang */
-            --color-dark-wood: #3e2723; /* Coklat kayu tua */
+            /* Warna tema baru */
+            --color-red: #CC0000; /* Merah */
+            --color-dark-gray: #222222; /* Abu-abu tua */
 
             --font-heading: 'Poppins', sans-serif;
             --font-body: 'Montserrat', sans-serif;
@@ -47,11 +46,11 @@
             color: var(--color-gray);
             line-height: 1.6;
             overflow-x: hidden;
-            background-color: var(--color-dark-wood);
-            background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='%23c9a227' fill-opacity='0.05' fill-rule='evenodd'/%3E%3C/svg%3E");
+            background-color: var(--color-dark-gray);
+            background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='%23FFD700' fill-opacity='0.05' fill-rule='evenodd'/%3E%3C/svg%3E");
         }
 
-        /* Kontainer utama dengan border khas Minang */
+        /* Kontainer utama dengan border khas */
         main {
             background-color: var(--color-accent);
             max-width: 1440px;
@@ -59,31 +58,9 @@
             box-shadow: 0 10px 40px rgba(0,0,0,0.7);
             position: relative;
             z-index: 5;
-            border: 12px solid var(--color-dark-wood);
+            border: 12px solid var(--color-black);
             border-top: none;
             border-bottom: none;
-        }
-
-        /* Ornamen Minangkabau di bagian atas dan bawah */
-        main::before, main::after {
-            content: "";
-            position: absolute;
-            left: 0;
-            right: 0;
-            height: 30px;
-            background-image: url("data:image/svg+xml,%3Csvg width='100' height='30' viewBox='0 0 100 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 15h20c0-8.284 6.716-15 15-15s15 6.716 15 15h20c0-8.284 6.716-15 15-15s15 6.716 15 15h20' stroke='%23c9a227' stroke-width='2' fill='none'/%3E%3C/svg%3E");
-            background-repeat: repeat-x;
-            background-size: 100px 30px;
-            z-index: 10;
-        }
-
-        main::before {
-            top: 0;
-        }
-
-        main::after {
-            bottom: 0;
-            transform: rotate(180deg);
         }
 
         .container {
@@ -143,7 +120,7 @@
             transition: all 0.3s ease;
         }
 
-        /* Tombol dengan gaya Minang */
+        /* Tombol dengan gaya baru */
         .btn-minang {
             background-color: var(--color-primary);
             color: var(--color-black);
@@ -159,7 +136,7 @@
             left: -100%;
             width: 100%;
             height: 100%;
-            background-color: var(--color-red-minang);
+            background-color: var(--color-red);
             transition: left 0.3s ease;
             z-index: -1;
         }
@@ -170,12 +147,12 @@
 
         .btn-minang:hover {
             color: var(--color-white);
-            border-color: var(--color-red-minang);
+            border-color: var(--color-red);
         }
 
         /* --- 1. HEADER (NAVBAR) --- */
         header {
-            background-color: #381511;
+            background-color: var(--color-black);
             box-shadow: 0 2px 10px rgba(0,0,0,0.3);
             padding: 15px 0;
             position: fixed;
@@ -268,15 +245,47 @@
 
         /* --- 2. HOME SECTION --- */
         #home {
-            background-color: var(--color-red-minang);
-            background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='%23ffffff' fill-opacity='0.1' fill-rule='evenodd'/%3E%3C/svg%3E");
+            /* Background netral untuk slideshow */
+            background-color: #1a1a1a;
             padding-top: 180px;
             padding-bottom: 120px;
             text-align: center;
             position: relative;
             overflow: hidden;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
+        /* Slideshow container */
+        .slideshow-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
+
+        .slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            opacity: 0;
+            transition: opacity 1.5s ease-in-out;
+        }
+
+        .slide.active {
+            opacity: 1;
+        }
+
+        /* Overlay untuk memastikan teks terbaca */
         #home::before {
             content: "";
             position: absolute;
@@ -284,22 +293,21 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M50 0 L100 40 L100 100 L0 100 L0 40 Z' fill='none' stroke='%23c9a227' stroke-width='1' stroke-opacity='0.2'/%3E%3C/svg%3E");
-            background-size: 100px 100px;
-            z-index: 1;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 2;
         }
 
         .hero-content {
             position: relative;
-            z-index: 2;
+            z-index: 3;
         }
 
         .hero-title {
-            font-family: var(--font-traditional);
+            font-family: lobster;
             font-size: 64px;
             line-height: 1.1;
             color: var(--color-primary);
-            text-shadow: 0 4px 10px rgba(0,0,0,0.3);
+            text-shadow: 0 4px 10px rgba(0,0,0,0.8);
             margin-bottom: 20px;
         }
 
@@ -310,22 +318,25 @@
             color: var(--color-white);
             margin-top: 15px;
             text-transform: uppercase;
+            text-shadow: 0 2px 5px rgba(0,0,0,0.8);
         }
 
         .rumah-gadang-icon {
             width: 80px;
             height: 80px;
             margin: 0 auto 30px;
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23c9a227'%3E%3Cpath d='M12 3L2 12h3v8h14v-8h3L12 3zm0 2.5L19 12v7h-5v-5h-4v5H5v-7l7-6.5z'/%3E%3C/svg%3E");
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23FFD700'%3E%3Cpath d='M12 3L2 12h3v8h14v-8h3L12 3zm0 2.5L19 12v7h-5v-5h-4v5H5v-7l7-6.5z'/%3E%3C/svg%3E");
             background-repeat: no-repeat;
             background-position: center;
             background-size: contain;
+            filter: drop-shadow(0 4px 10px rgba(0,0,0,0.8));
         }
 
         /* --- 3. ABOUT US SECTION --- */
         #about {
-            background-color: var(--color-accent);
+            background-color: var(--color-red);
             position: relative;
+            color: var(--color-white);
         }
 
         #about::before {
@@ -335,7 +346,7 @@
             left: 0;
             right: 0;
             height: 5px;
-            background: linear-gradient(90deg, var(--color-primary) 0%, var(--color-red-minang) 50%, var(--color-primary) 100%);
+            background: linear-gradient(90deg, var(--color-primary) 0%, var(--color-white) 50%, var(--color-primary) 100%);
         }
 
         .about-wrapper {
@@ -364,16 +375,16 @@
         .about-image img {
             width: 100%;
             border-radius: 8px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
             border: 5px solid var(--color-white);
         }
 
         .about-text {
-            color: var(--color-gray);
+            color: var(--color-white);
         }
 
         .about-text .section-title {
-            color: var(--color-red-minang);
+            color: var(--color-primary);
             font-size: 2.5rem;
             text-transform: uppercase;
             font-family: var(--font-heading);
@@ -383,19 +394,19 @@
         .about-text .section-subtitle {
             font-family: var(--font-traditional);
             font-size: 32px;
-            color: var(--color-brown-minang);
+            color: var(--color-white);
             margin-bottom: 25px;
         }
 
         .about-text p {
-            color: var(--color-gray);
+            color: rgba(255, 255, 255, 0.9);
             line-height: 1.8;
             margin-bottom: 20px;
         }
 
         /* --- 4. MENU UNGGULAN SECTION --- */
         #menu {
-            background-color: var(--color-brown-minang);
+            background-color: var(--color-black);
             position: relative;
             padding: 100px 0 120px;
         }
@@ -407,19 +418,11 @@
             left: 0;
             right: 0;
             height: 5px;
-            background: linear-gradient(90deg, var(--color-primary) 0%, var(--color-red-minang) 50%, var(--color-primary) 100%);
+            background: linear-gradient(90deg, var(--color-primary) 0%, var(--color-red) 50%, var(--color-primary) 100%);
         }
 
         #menu::after {
-            content: "";
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            height: 30px;
-            background-image: url("data:image/svg+xml,%3Csvg width='100' height='30' viewBox='0 0 100 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 15h20c0-8.284 6.716-15 15-15s15 6.716 15 15h20c0-8.284 6.716-15 15-15s15 6.716 15 15h20' stroke='%23c9a227' stroke-width='2' fill='none'/%3E%3C/svg%3E");
-            background-repeat: repeat-x;
-            background-size: 100px 30px;
+            display: none;
         }
 
         .menu-inner {
@@ -454,12 +457,29 @@
         .menu-unggulan-grid {
             position: relative;
             z-index: 2;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 30px;
+            display: flex;
+            flex-direction: row;
+            gap: 20px;
             width: 100%;
             padding: 0 20px;
             margin-top: 40px;
+            overflow-x: auto;
+            scroll-behavior: smooth;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .menu-unggulan-grid::-webkit-scrollbar {
+            height: 8px;
+        }
+
+        .menu-unggulan-grid::-webkit-scrollbar-track {
+            background: rgba(255,255,255,0.1);
+            border-radius: 4px;
+        }
+
+        .menu-unggulan-grid::-webkit-scrollbar-thumb {
+            background: var(--color-primary);
+            border-radius: 4px;
         }
 
         .menu-unggulan-item {
@@ -471,6 +491,9 @@
             flex-direction: column;
             transition: transform 0.3s ease, box-shadow 0.3s ease;
             position: relative;
+            cursor: pointer;
+            flex: 0 0 250px;
+            min-width: 250px;
         }
 
         .menu-unggulan-item::before {
@@ -480,7 +503,7 @@
             left: 0;
             width: 100%;
             height: 5px;
-            background: linear-gradient(90deg, var(--color-primary) 0%, var(--color-red-minang) 100%);
+            background: linear-gradient(90deg, var(--color-primary) 0%, var(--color-red) 100%);
         }
 
         .menu-unggulan-item:hover {
@@ -506,32 +529,173 @@
         }
 
         .menu-unggulan-content {
-            padding: 20px;
+            padding: 15px;
             flex: 1;
             display: flex;
             flex-direction: column;
+            align-items: center;
+            text-align: center;
         }
 
         .menu-unggulan-content h3 {
             font-family: var(--font-heading);
-            color: var(--color-red-minang);
-            font-size: 1.8rem;
-            margin-bottom: 12px;
+            color: var(--color-red);
+            font-size: 1.3rem;
+            margin: 0;
             font-weight: 700;
         }
 
         .menu-unggulan-content p {
-            color: var(--color-gray);
-            line-height: 1.6;
-            flex: 1;
+            display: none; /* Hidden in card view */
         }
 
-        .menu-unggulan-content .price {
+        /* Modal Styles */
+        .menu-modal {
+            display: none;
+            position: fixed;
+            z-index: 10000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.8);
+            overflow: auto;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .menu-modal.active {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .menu-modal-content {
+            background: var(--color-accent);
+            border-radius: 12px;
+            max-width: 600px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+            position: relative;
+            animation: slideUp 0.3s ease;
+        }
+
+        @keyframes slideUp {
+            from {
+                transform: translateY(50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .menu-modal-close {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            font-size: 28px;
+            font-weight: bold;
+            color: var(--color-gray);
+            cursor: pointer;
+            z-index: 10001;
+            width: 35px;
+            height: 35px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(255,255,255,0.9);
+            border-radius: 50%;
+            transition: all 0.3s ease;
+        }
+
+        .menu-modal-close:hover {
+            background: var(--color-red);
+            color: var(--color-white);
+            transform: rotate(90deg);
+        }
+
+        .menu-modal-image {
+            width: 100%;
+            height: 300px;
+            overflow: hidden;
+        }
+
+        .menu-modal-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .menu-modal-body {
+            padding: 30px;
+        }
+
+        .menu-modal-body h3 {
             font-family: var(--font-heading);
-            font-size: 1.2rem;
+            color: var(--color-red);
+            font-size: 2rem;
+            margin-bottom: 15px;
             font-weight: 700;
-            color: var(--color-primary);
-            margin-top: 15px;
+        }
+
+        .menu-modal-body p {
+            color: var(--color-gray);
+            line-height: 1.8;
+            font-size: 1rem;
+        }
+
+        /* Modal Responsive */
+        @media (max-width: 768px) {
+            .menu-modal-content {
+                max-width: 95%;
+                margin: 10px;
+            }
+
+            .menu-modal-image {
+                height: 250px;
+            }
+
+            .menu-modal-body {
+                padding: 20px;
+            }
+
+            .menu-modal-body h3 {
+                font-size: 1.5rem;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .menu-modal-content {
+                max-width: 100%;
+                margin: 0;
+                border-radius: 0;
+                max-height: 100vh;
+            }
+
+            .menu-modal-image {
+                height: 200px;
+            }
+
+            .menu-modal-body {
+                padding: 15px;
+            }
+
+            .menu-modal-body h3 {
+                font-size: 1.3rem;
+            }
+
+            .menu-modal-body p {
+                font-size: 0.9rem;
+            }
         }
 
         .menu-cta {
@@ -564,7 +728,7 @@
             left: -100%;
             width: 100%;
             height: 100%;
-            background-color: var(--color-red-minang);
+            background-color: var(--color-red);
             transition: left 0.3s ease;
             z-index: -1;
         }
@@ -581,8 +745,9 @@
 
         /* --- 5. KONTAK KAMI SECTION --- */
         #kontak {
-            background-color: var(--color-accent);
+            background-color: var(--color-red);
             position: relative;
+            color: var(--color-white);
         }
 
         #kontak::before {
@@ -592,7 +757,7 @@
             left: 0;
             right: 0;
             height: 5px;
-            background: linear-gradient(90deg, var(--color-primary) 0%, var(--color-red-minang) 50%, var(--color-primary) 100%);
+            background: linear-gradient(90deg, var(--color-primary) 0%, var(--color-white) 50%, var(--color-primary) 100%);
         }
 
         .kontak-wrapper {
@@ -607,7 +772,7 @@
         .kontak-map {
             border-radius: 12px;
             overflow: hidden;
-            box-shadow: 0 12px 30px rgba(0,0,0,0.2);
+            box-shadow: 0 12px 30px rgba(0,0,0,0.3);
             border: 5px solid var(--color-primary);
             position: relative;
         }
@@ -619,7 +784,7 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='%23c9a227' fill-opacity='0.1' fill-rule='evenodd'/%3E%3C/svg%3E");
+            background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='%23FFD700' fill-opacity='0.1' fill-rule='evenodd'/%3E%3C/svg%3E");
             z-index: 1;
             pointer-events: none;
         }
@@ -634,11 +799,11 @@
         }
 
         .kontak-info {
-            color: var(--color-gray);
+            color: var(--color-white);
         }
 
         .kontak-info h3 {
-            color: var(--color-red-minang);
+            color: var(--color-primary);
             font-size: 24px;
             margin-bottom: 20px;
             position: relative;
@@ -652,7 +817,7 @@
             left: 0;
             width: 60px;
             height: 3px;
-            background-color: var(--color-primary);
+            background-color: var(--color-white);
         }
 
         .kontak-info .info-item {
@@ -665,18 +830,18 @@
         .kontak-info .info-item .icon {
             width: 40px;
             height: 40px;
-            background: var(--color-red-minang);
+            background: var(--color-white);
             border-radius: 8px;
             display: flex;
             align-items: center;
             justify-content: center;
-            color: var(--color-primary);
+            color: var(--color-red);
             font-weight: 700;
             flex-shrink: 0;
         }
 
         .kontak-info p, .kontak-info a {
-            color: var(--color-gray);
+            color: var(--color-white);
             text-decoration: none;
             font-size: 1rem;
         }
@@ -692,7 +857,7 @@
             margin-right: 15px;
             margin-bottom: 15px;
             padding: 8px 15px;
-            background-color: var(--color-brown-minang);
+            background-color: var(--color-black);
             color: var(--color-white);
             border-radius: 30px;
             transition: all 0.3s ease;
@@ -706,7 +871,7 @@
 
         /* --- 6. FOOTER --- */
         footer {
-            background-color: var(--color-dark-wood);
+            background-color: var(--color-black);
             color: var(--color-light-gray);
             padding: 30px 0;
             text-align: center;
@@ -721,7 +886,7 @@
             left: 0;
             right: 0;
             height: 5px;
-            background: linear-gradient(90deg, var(--color-primary) 0%, var(--color-red-minang) 50%, var(--color-primary) 100%);
+            background: linear-gradient(90deg, var(--color-primary) 0%, var(--color-red) 50%, var(--color-primary) 100%);
         }
 
         footer p {
@@ -731,11 +896,7 @@
         }
 
         .footer-traditional-pattern {
-            height: 30px;
-            margin-bottom: 20px;
-            background-image: url("data:image/svg+xml,%3Csvg width='100' height='30' viewBox='0 0 100 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 15h20c0-8.284 6.716-15 15-15s15 6.716 15 15h20c0-8.284 6.716-15 15-15s15 6.716 15 15h20' stroke='%23c9a227' stroke-width='2' fill='none'/%3E%3C/svg%3E");
-            background-repeat: repeat-x;
-            background-size: 100px 30px;
+            display: none;
         }
 
         /* --- 7. RESPONSIVE CSS --- */
@@ -748,15 +909,22 @@
                 grid-template-columns: 1fr;
             }
 
-            .menu-unggulan-grid {
-                grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            .menu-unggulan-item {
+                flex: 0 0 220px;
+                min-width: 220px;
             }
         }
 
         @media (max-width: 768px) {
+            /* Reduce header size on mobile */
+            header {
+                padding: 10px 0;
+                border-bottom-width: 2px;
+            }
+
             header .container {
                 flex-direction: column;
-                gap: 15px;
+                gap: 10px;
                 align-items: center;
                 justify-content: center;
                 margin: 0;
@@ -765,10 +933,24 @@
                 padding: 0 20px;
             }
 
+            .site-logo {
+                height: 40px;
+            }
+
             .nav-menu ul {
                 flex-wrap: wrap;
                 justify-content: center;
-                gap: 15px;
+                gap: 10px;
+            }
+
+            .nav-menu li a {
+                font-size: 0.9rem;
+                padding: 6px;
+            }
+
+            /* Hide admin button on mobile */
+            .nav-menu .btn-admin {
+                display: none;
             }
 
             section {
@@ -776,7 +958,8 @@
             }
 
             #home {
-                padding-top: 180px;
+                padding-top: 150px;
+                min-height: 80vh;
             }
 
             .hero-title {
@@ -785,12 +968,33 @@
         }
 
         @media (max-width: 600px) {
+            /* Further reduce header size on small mobile */
+            header {
+                padding: 8px 0;
+                border-bottom-width: 2px;
+            }
+
             header .container {
                 padding: 0 12px;
+                gap: 8px;
+            }
+
+            .site-logo {
+                height: 36px;
+            }
+
+            .nav-menu ul {
+                gap: 8px;
+            }
+
+            .nav-menu li a {
+                font-size: 0.85rem;
+                padding: 5px;
             }
 
             #home {
-                padding-top: 140px;
+                padding-top: 120px;
+                min-height: 70vh;
             }
 
             .hero-title {
@@ -802,8 +1006,9 @@
                 gap: 24px;
             }
 
-            .menu-unggulan-grid {
-                grid-template-columns: 1fr;
+            .menu-unggulan-item {
+                flex: 0 0 200px;
+                min-width: 200px;
             }
 
             .kontak-wrapper {
@@ -821,7 +1026,7 @@
     <header>
         <div class="container">
             <a href="#home" class="logo">
-                <img src="{{ asset('images/logo_rm_gulai_kambing_kakek_v2.png') }}" alt="RM Gulai Kakek" class="site-logo">
+                <img src="{{ asset('images/logo_rm_gulai_kambing_kakek-removebg-preview.png') }}" alt="RM Gulai Kakek" class="site-logo">
             </a>
             <nav class="nav-menu">
                 <ul>
@@ -837,8 +1042,25 @@
 
     <main>
         <section id="home">
+            <!-- Slideshow Container -->
+            <div class="slideshow-container">
+                @php
+                    $bg1 = isset($settings) && $settings->get('bg_home_1') && $settings->get('bg_home_1')->value
+                        ? \App\Models\LandingPageSetting::getImageSrc($settings->get('bg_home_1')->value, 'images/bg_home_1.jpg')
+                        : asset('images/bg_home_1.jpg');
+                    $bg2 = isset($settings) && $settings->get('bg_home_2') && $settings->get('bg_home_2')->value
+                        ? \App\Models\LandingPageSetting::getImageSrc($settings->get('bg_home_2')->value, 'images/bg_home_2.jpg')
+                        : asset('images/bg_home_2.jpg');
+                    $bg3 = isset($settings) && $settings->get('bg_home_3') && $settings->get('bg_home_3')->value
+                        ? \App\Models\LandingPageSetting::getImageSrc($settings->get('bg_home_3')->value, 'images/bg_home_3.jpeg')
+                        : asset('images/bg_home_3.jpeg');
+                @endphp
+                <div class="slide active" style="background-image: url('{{ $bg1 }}');"></div>
+                <div class="slide" style="background-image: url('{{ $bg2 }}');"></div>
+                <div class="slide" style="background-image: url('{{ $bg3 }}');"></div>
+            </div>
+
             <div class="hero-content container">
-                <div class="rumah-gadang-icon"></div>
                 <h1 class="hero-title" data-aos="zoom-in">Rasa Legendaris dari Dapur Kakek</h1>
                 <div class="hero-sub" data-aos="fade-up" data-aos-delay="120">Est. 2024</div>
             </div>
@@ -880,58 +1102,88 @@
                         @if($menuItems && count($menuItems) > 0)
 
                             @if(isset($menuUnggulan1) && $menuUnggulan1)
-                                <div class="menu-unggulan-item" data-aos="fade-up" data-aos-delay="100">
+                                <div class="menu-unggulan-item"
+                                     data-aos="fade-up"
+                                     data-aos-delay="100"
+                                     data-menu-image="{{ $menuUnggulan1->getImageSrc('images/menu_unggulan_1.jpg') }}"
+                                     data-menu-nama="{{ $menuUnggulan1->nama }}"
+                                     data-menu-deskripsi="{{ $menuUnggulan1->deskripsi }}">
                                     <div class="menu-unggulan-image">
                                         <img src="{{ $menuUnggulan1->getImageSrc('images/menu_unggulan_1.jpg') }}" alt="{{ $menuUnggulan1->nama }}" loading="lazy">
                                     </div>
                                     <div class="menu-unggulan-content">
                                         <h3>{{ $menuUnggulan1->nama }}</h3>
-                                        <p>{{ $menuUnggulan1->deskripsi }}</p>
                                     </div>
                                 </div>
                             @endif
 
                             @if(isset($menuUnggulan2) && $menuUnggulan2)
-                                <div class="menu-unggulan-item" data-aos="fade-up" data-aos-delay="150">
+                                <div class="menu-unggulan-item"
+                                     data-aos="fade-up"
+                                     data-aos-delay="150"
+                                     data-menu-image="{{ $menuUnggulan2->getImageSrc('images/menu_unggulan_2.jpg') }}"
+                                     data-menu-nama="{{ $menuUnggulan2->nama }}"
+                                     data-menu-deskripsi="{{ $menuUnggulan2->deskripsi }}">
                                     <div class="menu-unggulan-image">
                                         <img src="{{ $menuUnggulan2->getImageSrc('images/menu_unggulan_2.jpg') }}" alt="{{ $menuUnggulan2->nama }}" loading="lazy">
                                     </div>
                                     <div class="menu-unggulan-content">
                                         <h3>{{ $menuUnggulan2->nama }}</h3>
-                                        <p>{{ $menuUnggulan2->deskripsi }}</p>
                                     </div>
                                 </div>
                             @endif
 
                             @if(isset($menuUnggulan3) && $menuUnggulan3)
-                                <div class="menu-unggulan-item" data-aos="fade-up" data-aos-delay="200">
+                                <div class="menu-unggulan-item"
+                                     data-aos="fade-up"
+                                     data-aos-delay="200"
+                                     data-menu-image="{{ $menuUnggulan3->getImageSrc('images/menu_unggulan_3.jpg') }}"
+                                     data-menu-nama="{{ $menuUnggulan3->nama }}"
+                                     data-menu-deskripsi="{{ $menuUnggulan3->deskripsi }}">
                                     <div class="menu-unggulan-image">
                                         <img src="{{ $menuUnggulan3->getImageSrc('images/menu_unggulan_3.jpg') }}" alt="{{ $menuUnggulan3->nama }}" loading="lazy">
                                     </div>
                                     <div class="menu-unggulan-content">
                                         <h3>{{ $menuUnggulan3->nama }}</h3>
-                                        <p>{{ $menuUnggulan3->deskripsi }}</p>
                                     </div>
                                 </div>
                             @endif
 
                             @if(isset($menuUnggulan4) && $menuUnggulan4)
-                                <div class="menu-unggulan-item" data-aos="fade-up" data-aos-delay="300">
+                                <div class="menu-unggulan-item"
+                                     data-aos="fade-up"
+                                     data-aos-delay="300"
+                                     data-menu-image="{{ $menuUnggulan4->getImageSrc('images/menu_unggulan_4.jpg') }}"
+                                     data-menu-nama="{{ $menuUnggulan4->nama }}"
+                                     data-menu-deskripsi="{{ $menuUnggulan4->deskripsi }}">
                                     <div class="menu-unggulan-image">
                                         <img src="{{ $menuUnggulan4->getImageSrc('images/menu_unggulan_4.jpg') }}" alt="{{ $menuUnggulan4->nama }}" loading="lazy">
                                     </div>
                                     <div class="menu-unggulan-content">
                                         <h3>{{ $menuUnggulan4->nama }}</h3>
-                                        <p>{{ $menuUnggulan4->deskripsi }}</p>
                                     </div>
                                 </div>
                             @endif
 
                         @else
-                            <div style="text-align: center; color: #fff; padding: 40px; grid-column: 1 / -1;">
+                            <div style="text-align: center; color: #fff; padding: 40px; width: 100%;">
                                 <p>Menu unggulan belum ditambahkan. Silakan akses halaman admin untuk menambahkan menu.</p>
                             </div>
                         @endif
+                    </div>
+
+                    <!-- Modal for Menu Details -->
+                    <div id="menuModal" class="menu-modal">
+                        <div class="menu-modal-content">
+                            <span class="menu-modal-close">&times;</span>
+                            <div class="menu-modal-image">
+                                <img id="modalMenuImage" src="" alt="">
+                            </div>
+                            <div class="menu-modal-body">
+                                <h3 id="modalMenuNama"></h3>
+                                <p id="modalMenuDeskripsi"></p>
+                            </div>
+                        </div>
                     </div>
 
                     <div class="menu-cta" data-aos="fade-up" data-aos-delay="250">
@@ -1029,7 +1281,6 @@
     </main>
 
     <footer>
-        <div class="footer-traditional-pattern"></div>
         <div class="container">
             <p>&copy; 2025 RM Gulai Kakek. All Rights Reserved.</p>
         </div>
@@ -1063,6 +1314,75 @@
                         }
                     }
                 });
+            });
+        });
+    </script>
+
+    <script>
+        // Slideshow functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const slides = document.querySelectorAll('.slide');
+            let currentSlide = 0;
+
+            function showSlide(index) {
+                slides.forEach(slide => slide.classList.remove('active'));
+                slides[index].classList.add('active');
+            }
+
+            function nextSlide() {
+                currentSlide = (currentSlide + 1) % slides.length;
+                showSlide(currentSlide);
+            }
+
+            // Change slide every 5 seconds
+            setInterval(nextSlide, 5000);
+        });
+    </script>
+
+    <script>
+        // Menu Modal Functionality
+        document.addEventListener('DOMContentLoaded', function () {
+            const modal = document.getElementById('menuModal');
+            const closeBtn = document.querySelector('.menu-modal-close');
+            const menuItems = document.querySelectorAll('.menu-unggulan-item');
+
+            // Open modal when menu item is clicked
+            menuItems.forEach(function(item) {
+                item.addEventListener('click', function() {
+                    const image = this.getAttribute('data-menu-image');
+                    const nama = this.getAttribute('data-menu-nama');
+                    const deskripsi = this.getAttribute('data-menu-deskripsi');
+
+                    document.getElementById('modalMenuImage').src = image;
+                    document.getElementById('modalMenuImage').alt = nama;
+                    document.getElementById('modalMenuNama').textContent = nama;
+                    document.getElementById('modalMenuDeskripsi').textContent = deskripsi;
+
+                    modal.classList.add('active');
+                    document.body.style.overflow = 'hidden'; // Prevent background scrolling
+                });
+            });
+
+            // Close modal when close button is clicked
+            closeBtn.addEventListener('click', function() {
+                modal.classList.remove('active');
+                document.body.style.overflow = ''; // Restore scrolling
+            });
+
+            // Close modal when clicking outside the modal content
+            modal.addEventListener('click', function(e) {
+                if (e.target === modal) {
+                    modal.classList.remove('active');
+                    document.body.style.overflow = ''; // Restore scrolling
+                }
+            });
+
+            // Close modal with ESC key
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape' && modal.classList.contains('active')) {
+                    modal.classList.remove('active');
+                    document.body.style.overflow = ''; // Restore scrolling
+                }
             });
         });
     </script>

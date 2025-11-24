@@ -28,7 +28,7 @@ class LandingPageController extends Controller
             'menuUnggulan4' => $menuItems->firstWhere('id', 4),
         ];
 
-        return view('landing', $data);
+        return view('landing-v1', $data);
     }
 
     /**
@@ -106,6 +106,9 @@ class LandingPageController extends Controller
             }
         }
 
+        // Refresh settings to ensure latest data
+        $settings = LandingPageSetting::all()->keyBy('key');
+        
         return back()->with('success', 'Background images berhasil di-upload.');
     }
 
