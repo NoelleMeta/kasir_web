@@ -15,7 +15,7 @@
     <style>
         /* --- VARIABLE CSS --- */
         :root {
-            --color-black: #000000;
+            --color-black: #292929;
             --color-gray: #333333;
             --color-light-gray: #f5f5f5;
             --color-white: #FFFFFF;
@@ -23,8 +23,8 @@
             --color-accent: #FFF5E6;   /* Krem muda */
 
             /* Warna tema baru */
-            --color-red: #CC0000; /* Merah */
-            --color-dark-gray: #222222; /* Abu-abu tua */
+            --color-red: #8d0303; /* Merah */
+            --color-dark-gray: #2c2828; /* Abu-abu tua */
 
             --font-heading: 'Poppins', sans-serif;
             --font-body: 'Montserrat', sans-serif;
@@ -152,7 +152,7 @@
 
         /* --- 1. HEADER (NAVBAR) --- */
         header {
-            background-color: var(--color-black);
+            background-color: #000000;
             box-shadow: 0 2px 10px rgba(0,0,0,0.3);
             padding: 15px 0;
             position: fixed;
@@ -553,7 +553,8 @@
         .menu-modal {
             display: none;
             position: fixed;
-            z-index: 10000;
+            /* [PERBAIKAN UTAMA] Z-Index sangat tinggi agar selalu di atas */
+            z-index: 99999;
             left: 0;
             top: 0;
             width: 100%;
@@ -578,8 +579,8 @@
         .menu-modal-content {
             background: var(--color-accent);
             border-radius: 12px;
-            max-width: 600px;
-            width: 100%;
+            width: 90%;
+            max-width: 450px;
             max-height: 90vh;
             overflow-y: auto;
             box-shadow: 0 20px 60px rgba(0,0,0,0.5);
@@ -625,14 +626,19 @@
 
         .menu-modal-image {
             width: 100%;
-            height: 300px;
-            overflow: hidden;
+            height: auto;
+            background-color: transparent;
+            text-align: center;
+            padding-top: 20px;
         }
 
         .menu-modal-image img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
+            width: auto;
+            max-width: 100%;
+            height: auto;
+            max-height: 350px;
+            object-fit: contain;
+            border-radius: 4px;
         }
 
         .menu-modal-body {
@@ -661,7 +667,7 @@
             }
 
             .menu-modal-image {
-                height: 250px;
+                height: auto;
             }
 
             .menu-modal-body {
@@ -682,7 +688,11 @@
             }
 
             .menu-modal-image {
-                height: 200px;
+                height: auto;
+            }
+
+            .menu-modal-image img {
+                max-height: 250px;
             }
 
             .menu-modal-body {
@@ -784,7 +794,7 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='%23FFD700' fill-opacity='0.1' fill-rule='evenodd'/%3E%3C/svg%3E");
+            background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='%23FFD700' fill-opacity='0.1' fill-rule='evenodd'/%3E%3C/svg%3E");
             z-index: 1;
             pointer-events: none;
         }
@@ -898,6 +908,8 @@
         .footer-traditional-pattern {
             display: none;
         }
+
+
 
         /* --- 7. RESPONSIVE CSS --- */
         @media (max-width: 992px) {
@@ -1042,7 +1054,6 @@
 
     <main>
         <section id="home">
-            <!-- Slideshow Container -->
             <div class="slideshow-container">
                 @php
                     $bg1 = isset($settings) && $settings->get('bg_home_1') && $settings->get('bg_home_1')->value
@@ -1172,20 +1183,6 @@
                         @endif
                     </div>
 
-                    <!-- Modal for Menu Details -->
-                    <div id="menuModal" class="menu-modal">
-                        <div class="menu-modal-content">
-                            <span class="menu-modal-close">&times;</span>
-                            <div class="menu-modal-image">
-                                <img id="modalMenuImage" src="" alt="">
-                            </div>
-                            <div class="menu-modal-body">
-                                <h3 id="modalMenuNama"></h3>
-                                <p id="modalMenuDeskripsi"></p>
-                            </div>
-                        </div>
-                    </div>
-
                     <div class="menu-cta" data-aos="fade-up" data-aos-delay="250">
                         <p style="color: var(--color-light-gray); margin-bottom: 20px;">
                             Selain menu unggulan, kami juga menyediakan beragam pilihan lezat lainnya. Silakan lihat daftar menu lengkap kami.
@@ -1279,6 +1276,19 @@
             </div>
         </section>
     </main>
+
+    <div id="menuModal" class="menu-modal">
+        <div class="menu-modal-content">
+            <span class="menu-modal-close">&times;</span>
+            <div class="menu-modal-image">
+                <img id="modalMenuImage" src="" alt="">
+            </div>
+            <div class="menu-modal-body">
+                <h3 id="modalMenuNama"></h3>
+                <p id="modalMenuDeskripsi"></p>
+            </div>
+        </div>
+    </div>
 
     <footer>
         <div class="container">

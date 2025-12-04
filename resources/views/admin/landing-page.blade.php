@@ -26,7 +26,7 @@
         <form method="POST" action="{{ route('landing-page.upload-background') }}" enctype="multipart/form-data" id="form-backgrounds">
             @csrf
             <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:16px;margin-bottom:20px;">
-                @foreach(['home_1','home_2','home_3','about','menu','kontak'] as $bgType)
+                @foreach(['home_1','home_2','home_3'] as $bgType)
                 <div style="border:1px solid #e2e8f0;border-radius:8px;padding:12px;">
                     <label style="display:block;margin-bottom:8px;color:#475569;font-weight:600;">Background {{ ucfirst(str_replace('_',' ',$bgType)) }}</label>
                     @php
