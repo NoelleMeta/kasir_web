@@ -11,14 +11,16 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('menu_unggulan', function (Blueprint $table) {
-            $table->id();
-            $table->string('nama');
-            $table->text('deskripsi');
-            $table->string('gambar')->nullable();
-            $table->integer('urutan')->default(1); // 1 = top-left, 2 = bottom-right
-            $table->timestamps();
-        });
+        if (!Schema::hasTable('menu_unggulan')) {
+            Schema::create('menu_unggulan', function (Blueprint $table) {
+                $table->id();
+                $table->string('nama');
+                $table->text('deskripsi');
+                $table->string('gambar')->nullable();
+                $table->integer('urutan')->default(1); // 1 = top-left, 2 = bottom-right
+                $table->timestamps();
+            });
+        }
     }
 
     /**

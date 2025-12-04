@@ -11,9 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('menu_unggulan', function (Blueprint $table) {
-            $table->longText('gambar')->nullable()->change();
-        });
+        if (Schema::hasTable('menu_unggulan')) {
+            Schema::table('menu_unggulan', function (Blueprint $table) {
+                $table->longText('gambar')->nullable()->change();
+            });
+        }
     }
 
     /**

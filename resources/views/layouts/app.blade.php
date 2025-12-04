@@ -197,36 +197,69 @@
         <aside class="sidebar" id="sidebar">
             <div class="brand"><span class="dot"></span> <span>POS Admin</span></div>
             <ul class="menu">
+                @php
+                    $userRole = auth()->user()->role ?? null;
+                @endphp
+
+                {{-- Dashboard - Superadmin & Kasir --}}
+                @if(in_array($userRole, ['superadmin', 'kasir']))
                 <li>
                     <a class="link {{ request()->routeIs('admin.dashboard') ? 'active' : '' }}" href="{{ route('admin.dashboard') }}">
                         <span class="icon">🏠</span>
                         <span>Dashboard</span>
                     </a>
                 </li>
+                @endif
+
+                {{-- Laporan Ringkas - Superadmin & Kasir --}}
+                @if(in_array($userRole, ['superadmin', 'kasir']))
                 <li>
                     <a class="link {{ request()->routeIs('laporan.ringkas') ? 'active' : '' }}" href="{{ route('laporan.ringkas') }}">
                         <span class="icon">📄</span>
                         <span>Laporan Ringkas</span>
                     </a>
                 </li>
+                @endif
+
+                {{-- Laporan Detail - Superadmin & Kasir --}}
+                @if(in_array($userRole, ['superadmin', 'kasir']))
                 <li>
                     <a class="link {{ request()->routeIs('laporan.detail') ? 'active' : '' }}" href="{{ route('laporan.detail') }}">
                         <span class="icon">📑</span>
                         <span>Laporan Detail</span>
                     </a>
                 </li>
+                @endif
+
+                {{-- Landing Page / Config Web - Superadmin & Sosmed --}}
+                @if(in_array($userRole, ['superadmin', 'sosmed']))
                 <li>
                     <a class="link {{ request()->routeIs('landing-page.*') ? 'active' : '' }}" href="{{ route('landing-page.admin') }}">
                         <span class="icon">🌐</span>
-                        <span>Landing Page</span>
+                        <span>Config Web</span>
                     </a>
                 </li>
+                @endif
+
+                {{-- Manajemen User - Hanya Superadmin --}}
+                @if($userRole === 'superadmin')
+                <li>
+                    <a class="link {{ request()->routeIs('admin.users.*') ? 'active' : '' }}" href="{{ route('admin.users.index') }}">
+                        <span class="icon">👥</span>
+                        <span>Manajemen User</span>
+                    </a>
+                </li>
+                @endif
+
+                {{-- Akun - Semua Role --}}
                 <li>
                     <a class="link {{ request()->routeIs('admin.account') ? 'active' : '' }}" href="{{ route('admin.account') }}">
                         <span class="icon">👤</span>
                         <span>Akun</span>
                     </a>
                 </li>
+
+                {{-- Keluar - Semua Role --}}
                 <li>
                     <form method="POST" action="{{ route('logout') }}" style="margin: 0;">
                         @csrf

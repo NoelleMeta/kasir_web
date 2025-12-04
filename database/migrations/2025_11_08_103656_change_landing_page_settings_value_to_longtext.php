@@ -11,9 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('landing_page_settings', function (Blueprint $table) {
-            $table->longText('value')->nullable()->change();
-        });
+        if (Schema::hasTable('landing_page_settings')) {
+            Schema::table('landing_page_settings', function (Blueprint $table) {
+                $table->longText('value')->nullable()->change();
+            });
+        }
     }
 
     /**

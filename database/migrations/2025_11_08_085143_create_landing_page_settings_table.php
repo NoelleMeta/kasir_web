@@ -11,14 +11,16 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('landing_page_settings', function (Blueprint $table) {
-            $table->id();
-            $table->string('key')->unique();
-            $table->text('value')->nullable();
-            $table->string('type')->default('text'); // image, text, file
-            $table->string('label')->nullable(); // untuk label di form
-            $table->timestamps();
-        });
+        if (!Schema::hasTable('landing_page_settings')) {
+            Schema::create('landing_page_settings', function (Blueprint $table) {
+                $table->id();
+                $table->string('key')->unique();
+                $table->text('value')->nullable();
+                $table->string('type')->default('text'); // image, text, file
+                $table->string('label')->nullable(); // untuk label di form
+                $table->timestamps();
+            });
+        }
     }
 
     /**
